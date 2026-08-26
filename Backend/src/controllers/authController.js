@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Backend/src/controllers/authController.js
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const pool = require('../config/db')
@@ -132,3 +133,12 @@ async function getMe(req, res) {
 }
 
 module.exports = { register, login, getMe }
+=======
+const contasController = require('./auth/contasController')
+const recuperacaoSenhaController = require('./auth/recuperacaoSenhaController')
+
+module.exports = {
+  ...contasController,
+  ...recuperacaoSenhaController,
+}
+>>>>>>> fd3eb50 (Commit Projeto):backend/src/controllers/authController.js

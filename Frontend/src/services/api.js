@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Frontend/src/services/api.js
 import axios from 'axios'
 
 const api = axios.create({
@@ -42,3 +43,41 @@ api.interceptors.response.use(
 )
 
 export default api
+=======
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status
+    const url = error.config?.url
+
+    // Não redireciona automaticamente em falhas de login/cadastro,
+    // para que a página possa exibir a mensagem de erro.
+    if (status === 401 && url && !['/auth/login', '/auth/register'].includes(url)) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  }
+)
+
+export default api
+>>>>>>> fd3eb50 (Commit Projeto):frontend/src/services/api.js
