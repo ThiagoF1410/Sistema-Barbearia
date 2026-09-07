@@ -1,0 +1,235 @@
+{
+  "geradoEm": "2026-09-03T05:08:04.512Z",
+  "resumo": {
+    "total": 25,
+    "aprovados": 25,
+    "reprovados": 0
+  },
+  "resultados": [
+    {
+      "id": "CT-UI-01",
+      "perfil": "cliente",
+      "rota": "/dashboard",
+      "largura": 1365,
+      "arquivo": "cliente--dashboard-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-02",
+      "perfil": "cliente",
+      "rota": "/agendar",
+      "largura": 1365,
+      "arquivo": "cliente--agendar-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-03",
+      "perfil": "cliente",
+      "rota": "/historico",
+      "largura": 1365,
+      "arquivo": "cliente--historico-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-04",
+      "perfil": "cliente",
+      "rota": "/perfil",
+      "largura": 1365,
+      "arquivo": "cliente--perfil-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-05",
+      "perfil": "cliente",
+      "rota": "/loja",
+      "largura": 1365,
+      "arquivo": "cliente--loja-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-06",
+      "perfil": "cliente",
+      "rota": "/sacola",
+      "largura": 1365,
+      "arquivo": "cliente--sacola-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-07",
+      "perfil": "admin",
+      "rota": "/admin",
+      "largura": 1365,
+      "arquivo": "admin--admin-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-08",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos",
+      "largura": 1365,
+      "arquivo": "admin--admin-agendamentos-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-09",
+      "perfil": "admin",
+      "rota": "/admin/agenda",
+      "largura": 1365,
+      "arquivo": "admin--admin-agenda-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-10",
+      "perfil": "admin",
+      "rota": "/admin/servicos",
+      "largura": 1365,
+      "arquivo": "admin--admin-servicos-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-11",
+      "perfil": "admin",
+      "rota": "/admin/pagamentos",
+      "largura": 1365,
+      "arquivo": "admin--admin-pagamentos-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-12",
+      "perfil": "admin",
+      "rota": "/admin/relatorios",
+      "largura": 1365,
+      "arquivo": "admin--admin-relatorios-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-13",
+      "perfil": "admin",
+      "rota": "/admin/profissionais",
+      "largura": 1365,
+      "arquivo": "admin--admin-profissionais-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-14",
+      "perfil": "admin",
+      "rota": "/admin/clientes",
+      "largura": 1365,
+      "arquivo": "admin--admin-clientes-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-15",
+      "perfil": "profissional",
+      "rota": "/profissional",
+      "largura": 1365,
+      "arquivo": "profissional--profissional-1365.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-16",
+      "perfil": "cliente",
+      "rota": "/dashboard",
+      "largura": 390,
+      "arquivo": "cliente-mobile--dashboard-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-17",
+      "perfil": "cliente",
+      "rota": "/agendar",
+      "largura": 390,
+      "arquivo": "cliente-mobile--agendar-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-18",
+      "perfil": "cliente",
+      "rota": "/historico",
+      "largura": 390,
+      "arquivo": "cliente-mobile--historico-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-19",
+      "perfil": "cliente",
+      "rota": "/perfil",
+      "largura": 390,
+      "arquivo": "cliente-mobile--perfil-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-20",
+      "perfil": "cliente",
+      "rota": "/loja",
+      "largura": 390,
+      "arquivo": "cliente-mobile--loja-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-21",
+      "perfil": "cliente",
+      "rota": "/sacola",
+      "largura": 390,
+      "arquivo": "cliente-mobile--sacola-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-22",
+      "perfil": "admin",
+      "rota": "/admin",
+      "largura": 390,
+      "arquivo": "admin-mobile--admin-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-23",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos",
+      "largura": 390,
+      "arquivo": "admin-mobile--admin-agendamentos-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-24",
+      "perfil": "admin",
+      "rota": "/admin/agenda",
+      "largura": 390,
+      "arquivo": "admin-mobile--admin-agenda-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-25",
+      "perfil": "profissional",
+      "rota": "/profissional",
+      "largura": 390,
+      "arquivo": "profissional-mobile-390.png",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

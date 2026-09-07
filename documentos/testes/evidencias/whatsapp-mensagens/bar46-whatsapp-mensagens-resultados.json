@@ -1,0 +1,47 @@
+{
+  "executadoEm": "2026-09-04T05:59:30.093Z",
+  "observacao": "O transporte foi substituido por um cliente capturador; o recebimento em outro telefone continua manual.",
+  "total": 4,
+  "aprovados": 4,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-WPP-02A",
+      "descricao": "Mensagem de reserva contem dados, prazo e link do checkout",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-WPP-03A",
+      "descricao": "Lembrete informa tres minutos e reutiliza o mesmo checkout",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-WPP-04A",
+      "descricao": "Confirmacao contem servico, data, horario e profissional",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-WPP-03B",
+      "descricao": "Fila concluida nao reenvia mensagens",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ],
+  "mensagens": [
+    {
+      "ordem": 1,
+      "mensagem": "✂️ *O Rei da Navalha*\n\nOlá, Cliente! Seu horário foi reservado temporariamente.\n\n✂️ *Serviço:* Riscos diversos\n📅 *Data:* 14/08/2028\n⏰ *Horário:* 06:00\n💈 *Profissional:* Lucas Mendes\n💵 *Valor:* R$ 10,00\n\n⌛ Conclua o pagamento até *03:09*.\n\n🔗 *Pagar agora:*\nhttps://checkout.stripe.com/c/pay/cs_test_a1WRCFrc7PpSXY4E8m7SaL378kApcUUkpiP13wM7E9V26vtmPCy6Q5fQma#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicGRmZGhqaWBTZHdsZGtxJz8nZmprcXdqaScpJ2R1bE5gfCc%2FJ3VuWnFgdnFaMDRQMzVJfFVicm9VSD1HX1VVfWtjRzZgfWtNUVxLcnxCVzI2M2hic2FrVl03NkZBXGJrVXdjbndGPE9MNm9hVUpjcGQyZ2c2SWNdX24zRF19QFZScDNWMzc1NXxPSD08ZFFSJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl\n\nApós esse prazo, o horário será liberado automaticamente."
+    },
+    {
+      "ordem": 2,
+      "mensagem": "⏳ *Seu prazo está terminando!*\n\nFaltam aproximadamente *3 minutos* para confirmar seu agendamento.\n\n🔗 *Finalize o pagamento:*\nhttps://checkout.stripe.com/c/pay/cs_test_a1WRCFrc7PpSXY4E8m7SaL378kApcUUkpiP13wM7E9V26vtmPCy6Q5fQma#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdicGRmZGhqaWBTZHdsZGtxJz8nZmprcXdqaScpJ2R1bE5gfCc%2FJ3VuWnFgdnFaMDRQMzVJfFVicm9VSD1HX1VVfWtjRzZgfWtNUVxLcnxCVzI2M2hic2FrVl03NkZBXGJrVXdjbndGPE9MNm9hVUpjcGQyZ2c2SWNdX24zRF19QFZScDNWMzc1NXxPSD08ZFFSJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl\n\nCaso o pagamento já tenha sido realizado, desconsidere esta mensagem.\n*O Rei da Navalha* ✂️"
+    },
+    {
+      "ordem": 3,
+      "mensagem": "✦ *O Rei da Navalha* ✦\n\nOlá, *Cliente*! 💈\n\n✅ *Pagamento confirmado!*\nSeu horário está reservado com sucesso.\n\n━━━━━━━━━━━━━━\n✂️ *Serviço:* Riscos diversos\n📅 *Data:* 14/08/2028\n🕒 *Horário:* 06:00\n👤 *Profissional:* Lucas Mendes\n━━━━━━━━━━━━━━\n\nObrigado pela preferência. Aguardamos você! 👑"
+    }
+  ]
+}

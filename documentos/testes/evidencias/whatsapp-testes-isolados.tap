@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: identifica somente assuntos permitidos do atendimento
+ok 1 - identifica somente assuntos permitidos do atendimento
+  ---
+  duration_ms: 2.7453
+  type: 'test'
+  ...
+# Subtest: registra notificação administrativa após receber a mensagem
+ok 2 - registra notificação administrativa após receber a mensagem
+  ---
+  duration_ms: 2.7582
+  type: 'test'
+  ...
+# Subtest: ignora mensagens que não pertencem ao fluxo do site
+ok 3 - ignora mensagens que não pertencem ao fluxo do site
+  ---
+  duration_ms: 0.4684
+  type: 'test'
+  ...
+# Subtest: Baileys encaminha apenas mensagens novas recebidas de terceiros
+ok 4 - Baileys encaminha apenas mensagens novas recebidas de terceiros
+  ---
+  duration_ms: 9.0524
+  type: 'test'
+  ...
+# Subtest: monta mensagem da BAR-38 com os dados completos do agendamento
+ok 5 - monta mensagem da BAR-38 com os dados completos do agendamento
+  ---
+  duration_ms: 2.6069
+  type: 'test'
+  ...
+# Subtest: remove controles e limita campos antes de montar a mensagem
+ok 6 - remove controles e limita campos antes de montar a mensagem
+  ---
+  duration_ms: 0.2405
+  type: 'test'
+  ...
+# Subtest: reivindica e envia uma notificação pendente uma única vez
+ok 7 - reivindica e envia uma notificação pendente uma única vez
+  ---
+  duration_ms: 27.5422
+  type: 'test'
+  ...
+# Subtest: não consulta a fila enquanto o WhatsApp estiver desconectado
+ok 8 - não consulta a fila enquanto o WhatsApp estiver desconectado
+  ---
+  duration_ms: 0.2856
+  type: 'test'
+  ...
+# Subtest: registra somente código seguro e reagenda quando o envio falha
+ok 9 - registra somente código seguro e reagenda quando o envio falha
+  ---
+  duration_ms: 1.8766
+  type: 'test'
+  ...
+# Subtest: não reenvia quando não existe notificação pendente
+ok 10 - não reenvia quando não existe notificação pendente
+  ---
+  duration_ms: 0.3447
+  type: 'test'
+  ...
+# Subtest: recupera notificações abandonadas em processamento após reinício
+ok 11 - recupera notificações abandonadas em processamento após reinício
+  ---
+  duration_ms: 0.5935
+  type: 'test'
+  ...
+# Subtest: controller do WhatsApp exige JSON vazio
+ok 12 - controller do WhatsApp exige JSON vazio
+  ---
+  duration_ms: 1.5459
+  type: 'test'
+  ...
+# Subtest: controller retorna somente confirmação e messageId no sucesso
+ok 13 - controller retorna somente confirmação e messageId no sucesso
+  ---
+  duration_ms: 1.4387
+  type: 'test'
+  ...
+# Subtest: controller informa o estado da conexão sem expor a sessão
+ok 14 - controller informa o estado da conexão sem expor a sessão
+  ---
+  duration_ms: 0.3126
+  type: 'test'
+  ...
+# Subtest: controller traduz erros tipados sem devolver detalhes internos
+ok 15 - controller traduz erros tipados sem devolver detalhes internos
+  ---
+  duration_ms: 0.9322
+  type: 'test'
+  ...
+# Subtest: middlewares recusam requisição sem token e perfil não administrativo
+ok 16 - middlewares recusam requisição sem token e perfil não administrativo
+  ---
+  duration_ms: 0.4796
+  type: 'test'
+  ...
+# Subtest: limitador específico bloqueia a sexta tentativa do mesmo administrador e IP
+ok 17 - limitador específico bloqueia a sexta tentativa do mesmo administrador e IP
+  ---
+  duration_ms: 0.4862
+  type: 'test'
+  ...
+# Subtest: normaliza telefone brasileiro para o formato internacional
+ok 18 - normaliza telefone brasileiro para o formato internacional
+  ---
+  duration_ms: 2.9758
+  type: 'test'
+  ...
+# Subtest: valida mensagem antes do envio
+ok 19 - valida mensagem antes do envio
+  ---
+  duration_ms: 0.5884
+  type: 'test'
+  ...
+# Subtest: exibe QR Code, salva credenciais e registra conexão
+ok 20 - exibe QR Code, salva credenciais e registra conexão
+  ---
+  duration_ms: 3.3166
+  type: 'test'
+  ...
+# Subtest: envia texto pelo socket conectado para o JID individual
+ok 21 - envia texto pelo socket conectado para o JID individual
+  ---
+  duration_ms: 1.0656
+  type: 'test'
+  ...
+# Subtest: endpoint interno usa destinatário e mensagem definidos no ambiente
+ok 22 - endpoint interno usa destinatário e mensagem definidos no ambiente
+  ---
+  duration_ms: 0.7757
+  type: 'test'
+  ...
+# Subtest: recusa envio quando desativado ou ainda desconectado
+ok 23 - recusa envio quando desativado ou ainda desconectado
+  ---
+  duration_ms: 0.8119
+  type: 'test'
+  ...
+# Subtest: converte falha de envio e resposta sem ID em erros tipados
+ok 24 - converte falha de envio e resposta sem ID em erros tipados
+  ---
+  duration_ms: 0.7981
+  type: 'test'
+  ...
+# Subtest: não tenta reconectar automaticamente depois de logout
+ok 25 - não tenta reconectar automaticamente depois de logout
+  ---
+  duration_ms: 0.541
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 399.1871

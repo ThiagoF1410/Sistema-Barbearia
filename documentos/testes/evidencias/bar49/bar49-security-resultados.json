@@ -1,0 +1,83 @@
+{
+  "ticket": "BAR-49",
+  "executadoEm": "2026-09-04T21:32:02-03:00",
+  "ambiente": "desenvolvimento local com Stripe em modo de teste",
+  "resumo": {
+    "total": 12,
+    "aprovados": 12,
+    "reprovados": 0
+  },
+  "resultados": [
+    {
+      "id": "SEC-HTTP-01",
+      "resultado": "APROVADO",
+      "evidencia": "Tecnologia oculta; nosniff, DENY, no-store, CSP e Permissions-Policy presentes."
+    },
+    {
+      "id": "SEC-CORS-01",
+      "resultado": "APROVADO",
+      "evidencia": "Origem não autorizada recebeu HTTP 403 e nenhum Access-Control-Allow-Origin."
+    },
+    {
+      "id": "SEC-HTTP-02",
+      "resultado": "APROVADO",
+      "evidencia": "JSON acima de 32 kB recebeu HTTP 413 com mensagem controlada."
+    },
+    {
+      "id": "SEC-AUTH-01",
+      "resultado": "APROVADO",
+      "evidencia": "Rota administrativa sem autenticação recebeu HTTP 401."
+    },
+    {
+      "id": "SEC-AUTH-02",
+      "resultado": "APROVADO",
+      "evidencia": "Cliente autenticado em rota administrativa recebeu HTTP 403."
+    },
+    {
+      "id": "SEC-AUTH-03",
+      "resultado": "APROVADO",
+      "evidencia": "Role admin forjada no JWT de um cliente recebeu HTTP 403."
+    },
+    {
+      "id": "SEC-AUTH-04",
+      "resultado": "APROVADO",
+      "evidencia": "JWT sem emissor e audiência esperados recebeu HTTP 401."
+    },
+    {
+      "id": "SEC-AUTH-05",
+      "resultado": "APROVADO",
+      "evidencia": "JWT expirado recebeu HTTP 401."
+    },
+    {
+      "id": "SEC-AUTH-06",
+      "resultado": "APROVADO",
+      "evidencia": "JWT com identificador malformado recebeu HTTP 401."
+    },
+    {
+      "id": "SEC-AUTH-07",
+      "resultado": "APROVADO",
+      "evidencia": "JWT sem versão de sessão recebeu HTTP 401."
+    },
+    {
+      "id": "SEC-BCRYPT-01",
+      "resultado": "APROVADO",
+      "evidencia": "12 hashes verificados; todos em formato bcrypt; menor custo encontrado: 10."
+    },
+    {
+      "id": "SEC-ENV-01",
+      "resultado": "APROVADO",
+      "evidencia": "JWT, duração e modo Stripe coerentes; nenhum valor secreto incluído nesta evidência."
+    }
+  ],
+  "verificacoesComplementares": {
+    "backendTestes": "75/75 aprovados",
+    "controleDePerfis": "30/30 aprovados no smoke BAR-46 reaplicado após o endurecimento",
+    "frontendLint": "aprovado",
+    "frontendBuild": "aprovado",
+    "xlsx": "workbook gerado em memória com sucesso",
+    "npmAuditBackend": "0 vulnerabilidades",
+    "npmAuditFrontend": "0 vulnerabilidades",
+    "arquivosSensiveisRastreados": "nenhum .env real ou diretório .whatsapp-session; somente arquivos .env.example",
+    "buscaDeChavesRastreadas": "nenhuma chave Stripe ou segredo de webhook com formato real encontrado fora dos arquivos de teste/exemplo"
+  }
+}

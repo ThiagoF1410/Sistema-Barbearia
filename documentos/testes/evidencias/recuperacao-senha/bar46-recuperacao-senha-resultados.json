@@ -1,0 +1,33 @@
+{
+  "executadoEm": "2026-09-04T05:46:33.761Z",
+  "observacao": "O recebimento do e-mail real exige validacao na caixa postal; token, interface, uso unico e login foram validados.",
+  "total": 4,
+  "aprovados": 4,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-AUTH-09A",
+      "descricao": "Link de recuperacao valido redefine a senha pela interface",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AUTH-09B",
+      "descricao": "Somente a nova senha autentica depois da redefinicao",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AUTH-09C",
+      "descricao": "Token de recuperacao nao pode ser reutilizado",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AUTH-09D",
+      "descricao": "Token expirado e recusado",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

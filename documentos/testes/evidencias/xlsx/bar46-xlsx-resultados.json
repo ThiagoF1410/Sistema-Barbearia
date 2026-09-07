@@ -1,0 +1,39 @@
+{
+  "resumo": {
+    "total": 5,
+    "aprovados": 5,
+    "reprovados": 0
+  },
+  "resultados": [
+    {
+      "id": "CT-ADMIN-21A",
+      "descricao": "Baixar planilha anual pela interface",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-ADMIN-21B",
+      "descricao": "Baixar planilha de um mês específico",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-ADMIN-21C",
+      "descricao": "Planilha anual possui título, cores, filtro, congelamento e moeda",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-ADMIN-21D",
+      "descricao": "Totais da planilha anual conferem com a API",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-ADMIN-21E",
+      "descricao": "Planilha mensal contém somente o mês e seus totais",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

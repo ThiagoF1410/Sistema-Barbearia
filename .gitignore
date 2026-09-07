@@ -145,3 +145,29 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Projeto: artefatos gerados e dados locais
+frontend/dist/
+backend/dist/
+backend/coverage/
+frontend/coverage/
+
+# Projeto: sessões e credenciais locais do WhatsApp (Baileys)
+backend/.whatsapp-session/
+backend/.whatsapp-session-*/
+*.whatsapp-session/
+
+# Projeto: arquivos temporários de diagnóstico e execução local
+.bar*-backend*.log
+*.local.log
+*.tmp
+*.bak
+
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

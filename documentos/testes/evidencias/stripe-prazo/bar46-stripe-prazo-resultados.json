@@ -1,0 +1,32 @@
+{
+  "executadoEm": "2026-09-04T05:48:51.241Z",
+  "total": 4,
+  "aprovados": 4,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-STRIPE-11A",
+      "descricao": "Checkout de servico com produto adicional preserva itens e total",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-10A",
+      "descricao": "Checkout agenda um unico lembrete tres minutos antes do vencimento",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-09A",
+      "descricao": "Checkout define prazo de dez minutos",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-09B",
+      "descricao": "Vencimento cancela pagamento, agendamento e pedido adicional",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

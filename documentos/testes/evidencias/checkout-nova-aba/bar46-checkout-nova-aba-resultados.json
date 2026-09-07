@@ -1,0 +1,20 @@
+{
+  "executadoEm": "2026-09-04T06:05:29.205Z",
+  "total": 2,
+  "aprovados": 2,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-STRIPE-07B",
+      "descricao": "Checkout abre em nova aba sem substituir a loja",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-07C",
+      "descricao": "Aba original permanece com status aguardando pagamento e contador",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

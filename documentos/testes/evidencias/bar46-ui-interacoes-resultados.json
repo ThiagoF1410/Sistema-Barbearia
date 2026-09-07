@@ -1,0 +1,88 @@
+{
+  "geradoEm": "2026-09-04T05:27:12.788Z",
+  "resumo": {
+    "total": 13,
+    "aprovados": 12,
+    "reprovados": 1
+  },
+  "resultados": [
+    {
+      "id": "CT-SEC-04",
+      "descricao": "Cliente é redirecionado ao tentar abrir área administrativa",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-08",
+      "descricao": "Rota inexistente retorna para página segura",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-05",
+      "descricao": "Somente a rota administrativa atual fica selecionada",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-06",
+      "descricao": "Calendário abre em primeiro plano e dentro da tela móvel",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-03",
+      "descricao": "Abas Produtos e Meus pedidos alternam corretamente no mobile",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-04A",
+      "descricao": "Sacola permite alterar quantidade e remover produto",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-04B",
+      "descricao": "Esvaziar sacola exige confirmação e remove todos os itens",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-01",
+      "descricao": "Dashboard apresenta estados vazio e preenchido",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-02",
+      "descricao": "Filtros e contadores do histórico respondem no mobile",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AUTH-10",
+      "descricao": "Logout remove a sessão e redireciona ao login",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AUTH-11A",
+      "descricao": "JWT inválido encerra a sessão e redireciona",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AUTH-11B",
+      "descricao": "JWT inválido apresenta mensagem apropriada",
+      "resultado": "REPROVADO",
+      "detalhe": "Nenhuma mensagem de sessão expirada foi apresentada."
+    },
+    {
+      "id": "CT-UI-07",
+      "descricao": "Falha de comunicação exibe mensagem formal sem detalhe técnico",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

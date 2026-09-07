@@ -1,0 +1,2459 @@
+{
+  "geradoEm": "2026-09-04T23:28:35.843Z",
+  "navegador": "Microsoft Edge",
+  "produto": "Edg/152.0.4191.62",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36 Edg/152.0.0.0",
+  "resumo": {
+    "total": 101,
+    "aprovados": 101,
+    "reprovados": 0,
+    "resolucoes": [
+      "360x800",
+      "768x1024",
+      "1366x768",
+      "1920x1080"
+    ]
+  },
+  "resultados": [
+    {
+      "id": "BAR48-EDGE-001",
+      "perfil": "publico",
+      "rota": "/inicio",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Entrar",
+          "largura": 40,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "Termos",
+          "largura": 41,
+          "altura": 16
+        },
+        {
+          "texto": "Privacidade",
+          "largura": 64,
+          "altura": 16
+        }
+      ],
+      "evidencia": "publico--inicio-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-002",
+      "perfil": "publico",
+      "rota": "/login",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao início",
+          "largura": 106,
+          "altura": 18
+        },
+        {
+          "texto": "ESQUECI MINHA SENHA",
+          "largura": 132,
+          "altura": 15
+        },
+        {
+          "texto": "CRIAR CONTA",
+          "largura": 93,
+          "altura": 22
+        }
+      ],
+      "evidencia": "publico--login-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-003",
+      "perfil": "publico",
+      "rota": "/cadastro",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Termos de Uso",
+          "largura": 95,
+          "altura": 19
+        },
+        {
+          "texto": "Política de Privacidade",
+          "largura": 144,
+          "altura": 19
+        },
+        {
+          "texto": "Entrar no Login",
+          "largura": 102,
+          "altura": 19
+        }
+      ],
+      "evidencia": "publico--cadastro-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-004",
+      "perfil": "publico",
+      "rota": "/esqueci-senha",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar",
+          "largura": 64,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--esqueci-senha-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-005",
+      "perfil": "publico",
+      "rota": "/resetar-senha",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao login",
+          "largura": 117,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--resetar-senha-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-006",
+      "perfil": "publico",
+      "rota": "/termos",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--termos-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-007",
+      "perfil": "publico",
+      "rota": "/privacidade",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--privacidade-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-008",
+      "perfil": "publico",
+      "rota": "/inicio",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Serviços",
+          "largura": 57,
+          "altura": 20
+        },
+        {
+          "texto": "Horários",
+          "largura": 55,
+          "altura": 20
+        },
+        {
+          "texto": "Entrar",
+          "largura": 40,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "Termos",
+          "largura": 41,
+          "altura": 16
+        },
+        {
+          "texto": "Privacidade",
+          "largura": 64,
+          "altura": 16
+        }
+      ],
+      "evidencia": "publico--inicio-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-009",
+      "perfil": "publico",
+      "rota": "/login",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao início",
+          "largura": 106,
+          "altura": 18
+        },
+        {
+          "texto": "ESQUECI MINHA SENHA",
+          "largura": 132,
+          "altura": 15
+        },
+        {
+          "texto": "CRIAR CONTA",
+          "largura": 93,
+          "altura": 22
+        }
+      ],
+      "evidencia": "publico--login-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-010",
+      "perfil": "publico",
+      "rota": "/cadastro",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Termos de Uso",
+          "largura": 95,
+          "altura": 19
+        },
+        {
+          "texto": "Política de Privacidade",
+          "largura": 144,
+          "altura": 19
+        },
+        {
+          "texto": "Entrar no Login",
+          "largura": 102,
+          "altura": 19
+        }
+      ],
+      "evidencia": "publico--cadastro-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-011",
+      "perfil": "publico",
+      "rota": "/esqueci-senha",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar",
+          "largura": 64,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--esqueci-senha-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-012",
+      "perfil": "publico",
+      "rota": "/resetar-senha",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao login",
+          "largura": 117,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--resetar-senha-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-013",
+      "perfil": "publico",
+      "rota": "/termos",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--termos-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-014",
+      "perfil": "publico",
+      "rota": "/privacidade",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--privacidade-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-015",
+      "perfil": "publico",
+      "rota": "/inicio",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Serviços",
+          "largura": 57,
+          "altura": 20
+        },
+        {
+          "texto": "Horários",
+          "largura": 55,
+          "altura": 20
+        },
+        {
+          "texto": "Entrar",
+          "largura": 40,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "Termos",
+          "largura": 41,
+          "altura": 16
+        },
+        {
+          "texto": "Privacidade",
+          "largura": 64,
+          "altura": 16
+        }
+      ],
+      "evidencia": "publico--inicio-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-016",
+      "perfil": "publico",
+      "rota": "/login",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao início",
+          "largura": 106,
+          "altura": 18
+        },
+        {
+          "texto": "ESQUECI MINHA SENHA",
+          "largura": 132,
+          "altura": 15
+        },
+        {
+          "texto": "CRIAR CONTA",
+          "largura": 93,
+          "altura": 22
+        }
+      ],
+      "evidencia": "publico--login-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-017",
+      "perfil": "publico",
+      "rota": "/cadastro",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Termos de Uso",
+          "largura": 95,
+          "altura": 19
+        },
+        {
+          "texto": "Política de Privacidade",
+          "largura": 144,
+          "altura": 19
+        },
+        {
+          "texto": "Entrar no Login",
+          "largura": 102,
+          "altura": 19
+        }
+      ],
+      "evidencia": "publico--cadastro-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-018",
+      "perfil": "publico",
+      "rota": "/esqueci-senha",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar",
+          "largura": 64,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--esqueci-senha-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-019",
+      "perfil": "publico",
+      "rota": "/resetar-senha",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao login",
+          "largura": 117,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--resetar-senha-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-020",
+      "perfil": "publico",
+      "rota": "/termos",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--termos-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-021",
+      "perfil": "publico",
+      "rota": "/privacidade",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--privacidade-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-022",
+      "perfil": "publico",
+      "rota": "/inicio",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Serviços",
+          "largura": 57,
+          "altura": 20
+        },
+        {
+          "texto": "Horários",
+          "largura": 55,
+          "altura": 20
+        },
+        {
+          "texto": "Entrar",
+          "largura": 40,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 65,
+          "altura": 16
+        },
+        {
+          "texto": "Termos",
+          "largura": 41,
+          "altura": 16
+        },
+        {
+          "texto": "Privacidade",
+          "largura": 64,
+          "altura": 16
+        }
+      ],
+      "evidencia": "publico--inicio-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-023",
+      "perfil": "publico",
+      "rota": "/login",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao início",
+          "largura": 106,
+          "altura": 18
+        },
+        {
+          "texto": "ESQUECI MINHA SENHA",
+          "largura": 132,
+          "altura": 15
+        },
+        {
+          "texto": "CRIAR CONTA",
+          "largura": 93,
+          "altura": 22
+        }
+      ],
+      "evidencia": "publico--login-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-024",
+      "perfil": "publico",
+      "rota": "/cadastro",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Termos de Uso",
+          "largura": 95,
+          "altura": 19
+        },
+        {
+          "texto": "Política de Privacidade",
+          "largura": 144,
+          "altura": 19
+        },
+        {
+          "texto": "Entrar no Login",
+          "largura": 102,
+          "altura": 19
+        }
+      ],
+      "evidencia": "publico--cadastro-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-025",
+      "perfil": "publico",
+      "rota": "/esqueci-senha",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar",
+          "largura": 64,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--esqueci-senha-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-026",
+      "perfil": "publico",
+      "rota": "/resetar-senha",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao login",
+          "largura": 117,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--resetar-senha-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-027",
+      "perfil": "publico",
+      "rota": "/termos",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--termos-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-028",
+      "perfil": "publico",
+      "rota": "/privacidade",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Voltar ao cadastro",
+          "largura": 143,
+          "altura": 20
+        }
+      ],
+      "evidencia": "publico--privacidade-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-029",
+      "perfil": "cliente",
+      "rota": "/dashboard",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--dashboard-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-030",
+      "perfil": "cliente",
+      "rota": "/servicos",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        }
+      ],
+      "evidencia": "cliente--servicos-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-031",
+      "perfil": "cliente",
+      "rota": "/loja",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--loja-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-032",
+      "perfil": "cliente",
+      "rota": "/sacola",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "Voltar à loja",
+          "largura": 24,
+          "altura": 24
+        }
+      ],
+      "evidencia": "cliente--sacola-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-033",
+      "perfil": "cliente",
+      "rota": "/agendar",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--agendar-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-034",
+      "perfil": "cliente",
+      "rota": "/historico",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--historico-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-035",
+      "perfil": "cliente",
+      "rota": "/perfil",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--perfil-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-036",
+      "perfil": "cliente",
+      "rota": "/checkout/sucesso",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-sucesso-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-037",
+      "perfil": "cliente",
+      "rota": "/checkout/cancelado",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-cancelado-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-038",
+      "perfil": "cliente",
+      "rota": "/dashboard",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--dashboard-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-039",
+      "perfil": "cliente",
+      "rota": "/servicos",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        }
+      ],
+      "evidencia": "cliente--servicos-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-040",
+      "perfil": "cliente",
+      "rota": "/loja",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--loja-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-041",
+      "perfil": "cliente",
+      "rota": "/sacola",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "Voltar à loja",
+          "largura": 24,
+          "altura": 24
+        }
+      ],
+      "evidencia": "cliente--sacola-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-042",
+      "perfil": "cliente",
+      "rota": "/agendar",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--agendar-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-043",
+      "perfil": "cliente",
+      "rota": "/historico",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--historico-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-044",
+      "perfil": "cliente",
+      "rota": "/perfil",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--perfil-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-045",
+      "perfil": "cliente",
+      "rota": "/checkout/sucesso",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-sucesso-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-046",
+      "perfil": "cliente",
+      "rota": "/checkout/cancelado",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-cancelado-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-047",
+      "perfil": "cliente",
+      "rota": "/dashboard",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--dashboard-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-048",
+      "perfil": "cliente",
+      "rota": "/servicos",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        }
+      ],
+      "evidencia": "cliente--servicos-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-049",
+      "perfil": "cliente",
+      "rota": "/loja",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--loja-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-050",
+      "perfil": "cliente",
+      "rota": "/sacola",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "Voltar à loja",
+          "largura": 24,
+          "altura": 24
+        }
+      ],
+      "evidencia": "cliente--sacola-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-051",
+      "perfil": "cliente",
+      "rota": "/agendar",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--agendar-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-052",
+      "perfil": "cliente",
+      "rota": "/historico",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--historico-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-053",
+      "perfil": "cliente",
+      "rota": "/perfil",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--perfil-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-054",
+      "perfil": "cliente",
+      "rota": "/checkout/sucesso",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-sucesso-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-055",
+      "perfil": "cliente",
+      "rota": "/checkout/cancelado",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-cancelado-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-056",
+      "perfil": "cliente",
+      "rota": "/dashboard",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--dashboard-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-057",
+      "perfil": "cliente",
+      "rota": "/servicos",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        },
+        {
+          "texto": "AGENDAR",
+          "largura": 61,
+          "altura": 16
+        }
+      ],
+      "evidencia": "cliente--servicos-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-058",
+      "perfil": "cliente",
+      "rota": "/loja",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--loja-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-059",
+      "perfil": "cliente",
+      "rota": "/sacola",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "O Rei da Navalha",
+          "largura": 140,
+          "altura": 28
+        },
+        {
+          "texto": "Sair",
+          "largura": 47,
+          "altura": 20
+        },
+        {
+          "texto": "Voltar à loja",
+          "largura": 24,
+          "altura": 24
+        }
+      ],
+      "evidencia": "cliente--sacola-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-060",
+      "perfil": "cliente",
+      "rota": "/agendar",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--agendar-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-061",
+      "perfil": "cliente",
+      "rota": "/historico",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--historico-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-062",
+      "perfil": "cliente",
+      "rota": "/perfil",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--perfil-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-063",
+      "perfil": "cliente",
+      "rota": "/checkout/sucesso",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-sucesso-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-064",
+      "perfil": "cliente",
+      "rota": "/checkout/cancelado",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "cliente--checkout-cancelado-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-065",
+      "perfil": "profissional",
+      "rota": "/profissional",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ver agenda completa",
+          "largura": 122,
+          "altura": 16
+        }
+      ],
+      "evidencia": "profissional--profissional-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-066",
+      "perfil": "profissional",
+      "rota": "/profissional",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ver agenda completa",
+          "largura": 122,
+          "altura": 16
+        }
+      ],
+      "evidencia": "profissional--profissional-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-067",
+      "perfil": "profissional",
+      "rota": "/profissional",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ver agenda completa",
+          "largura": 122,
+          "altura": 16
+        }
+      ],
+      "evidencia": "profissional--profissional-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-068",
+      "perfil": "profissional",
+      "rota": "/profissional",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ver agenda completa",
+          "largura": 122,
+          "altura": 16
+        }
+      ],
+      "evidencia": "profissional--profissional-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-069",
+      "perfil": "admin",
+      "rota": "/admin",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ver todos os agendamentos",
+          "largura": 212,
+          "altura": 20
+        }
+      ],
+      "evidencia": "admin--admin-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-070",
+      "perfil": "admin",
+      "rota": "/admin/servicos",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "TODOS",
+          "largura": 106,
+          "altura": 30
+        },
+        {
+          "texto": "SERVIÇOS",
+          "largura": 106,
+          "altura": 30
+        },
+        {
+          "texto": "PRODUTOS",
+          "largura": 106,
+          "altura": 30
+        }
+      ],
+      "evidencia": "admin--admin-servicos-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-071",
+      "perfil": "admin",
+      "rota": "/admin/agenda",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-agenda-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-072",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Conversar com Cliente Fluxo Agendamento BAR 46 pelo Wha",
+          "largura": 201,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        }
+      ],
+      "evidencia": "admin--admin-agendamentos-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-073",
+      "perfil": "admin",
+      "rota": "/admin/pagamentos",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-pagamentos-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-074",
+      "perfil": "admin",
+      "rota": "/admin/profissionais",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "TODOS",
+          "largura": 106,
+          "altura": 30
+        },
+        {
+          "texto": "ATIVOS",
+          "largura": 106,
+          "altura": 30
+        },
+        {
+          "texto": "INATIVOS",
+          "largura": 106,
+          "altura": 30
+        }
+      ],
+      "evidencia": "admin--admin-profissionais-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-075",
+      "perfil": "admin",
+      "rota": "/admin/clientes",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "TODOS",
+          "largura": 157,
+          "altura": 28
+        },
+        {
+          "texto": "COM AGENDA",
+          "largura": 157,
+          "altura": 28
+        },
+        {
+          "texto": "SEM AGENDA",
+          "largura": 157,
+          "altura": 28
+        },
+        {
+          "texto": "RECORRENTES",
+          "largura": 157,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-clientes-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-076",
+      "perfil": "admin",
+      "rota": "/admin/relatorios",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ano anterior",
+          "largura": 20,
+          "altura": 40
+        },
+        {
+          "texto": "Próximo ano",
+          "largura": 20,
+          "altura": 40
+        }
+      ],
+      "evidencia": "admin--admin-relatorios-mobile-360x800.png"
+    },
+    {
+      "id": "BAR48-EDGE-077",
+      "perfil": "admin",
+      "rota": "/admin",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Ver todos os agendamentos",
+          "largura": 212,
+          "altura": 20
+        }
+      ],
+      "evidencia": "admin--admin-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-078",
+      "perfil": "admin",
+      "rota": "/admin/servicos",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-servicos-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-079",
+      "perfil": "admin",
+      "rota": "/admin/agenda",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-agenda-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-080",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Conversar com Cliente Fluxo Agendamento BAR 46 pelo Wha",
+          "largura": 201,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        }
+      ],
+      "evidencia": "admin--admin-agendamentos-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-081",
+      "perfil": "admin",
+      "rota": "/admin/pagamentos",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-pagamentos-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-082",
+      "perfil": "admin",
+      "rota": "/admin/profissionais",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-profissionais-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-083",
+      "perfil": "admin",
+      "rota": "/admin/clientes",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "TODOS",
+          "largura": 175,
+          "altura": 28
+        },
+        {
+          "texto": "COM AGENDA",
+          "largura": 175,
+          "altura": 28
+        },
+        {
+          "texto": "SEM AGENDA",
+          "largura": 175,
+          "altura": 28
+        },
+        {
+          "texto": "RECORRENTES",
+          "largura": 175,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-clientes-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-084",
+      "perfil": "admin",
+      "rota": "/admin/relatorios",
+      "resolucao": "768x1024",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [],
+      "evidencia": "admin--admin-relatorios-tablet-768x1024.png"
+    },
+    {
+      "id": "BAR48-EDGE-085",
+      "perfil": "admin",
+      "rota": "/admin",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        },
+        {
+          "texto": "Ver todos os agendamentos",
+          "largura": 212,
+          "altura": 20
+        }
+      ],
+      "evidencia": "admin--admin-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-086",
+      "perfil": "admin",
+      "rota": "/admin/servicos",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-servicos-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-087",
+      "perfil": "admin",
+      "rota": "/admin/agenda",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-agenda-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-088",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        },
+        {
+          "texto": "Conversar com Cliente Fluxo Agendamento BAR 46 pelo Wha",
+          "largura": 201,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        }
+      ],
+      "evidencia": "admin--admin-agendamentos-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-089",
+      "perfil": "admin",
+      "rota": "/admin/pagamentos",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-pagamentos-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-090",
+      "perfil": "admin",
+      "rota": "/admin/profissionais",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-profissionais-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-091",
+      "perfil": "admin",
+      "rota": "/admin/clientes",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        },
+        {
+          "texto": "TODOS",
+          "largura": 86,
+          "altura": 28
+        },
+        {
+          "texto": "COM AGENDA",
+          "largura": 86,
+          "altura": 28
+        },
+        {
+          "texto": "SEM AGENDA",
+          "largura": 86,
+          "altura": 28
+        },
+        {
+          "texto": "RECORRENTES",
+          "largura": 86,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-clientes-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-092",
+      "perfil": "admin",
+      "rota": "/admin/relatorios",
+      "resolucao": "1366x768",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-relatorios-notebook-1366x768.png"
+    },
+    {
+      "id": "BAR48-EDGE-093",
+      "perfil": "admin",
+      "rota": "/admin",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        },
+        {
+          "texto": "Ver todos os agendamentos",
+          "largura": 212,
+          "altura": 20
+        }
+      ],
+      "evidencia": "admin--admin-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-094",
+      "perfil": "admin",
+      "rota": "/admin/servicos",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-servicos-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-095",
+      "perfil": "admin",
+      "rota": "/admin/agenda",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-agenda-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-096",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        },
+        {
+          "texto": "Conversar com Cliente Fluxo Agendamento BAR 46 pelo Wha",
+          "largura": 201,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Thiago Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        },
+        {
+          "texto": "Conversar com Matheus Francisco pelo WhatsApp",
+          "largura": 200,
+          "altura": 20
+        },
+        {
+          "texto": "Ver detalhes",
+          "largura": 96,
+          "altura": 16
+        }
+      ],
+      "evidencia": "admin--admin-agendamentos-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-097",
+      "perfil": "admin",
+      "rota": "/admin/pagamentos",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-pagamentos-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-098",
+      "perfil": "admin",
+      "rota": "/admin/profissionais",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-profissionais-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-099",
+      "perfil": "admin",
+      "rota": "/admin/clientes",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        },
+        {
+          "texto": "TODOS",
+          "largura": 86,
+          "altura": 28
+        },
+        {
+          "texto": "COM AGENDA",
+          "largura": 86,
+          "altura": 28
+        },
+        {
+          "texto": "SEM AGENDA",
+          "largura": 86,
+          "altura": 28
+        },
+        {
+          "texto": "RECORRENTES",
+          "largura": 86,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-clientes-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-100",
+      "perfil": "admin",
+      "rota": "/admin/relatorios",
+      "resolucao": "1920x1080",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "controlesForaDaTela": [],
+      "observacaoAlvosMenores32px": [
+        {
+          "texto": "Recolher menu",
+          "largura": 28,
+          "altura": 28
+        }
+      ],
+      "evidencia": "admin--admin-relatorios-desktop-1920x1080.png"
+    },
+    {
+      "id": "BAR48-EDGE-101",
+      "perfil": "admin",
+      "rota": "/admin/agendamentos (menu aberto)",
+      "resolucao": "360x800",
+      "resultado": "APROVADO",
+      "problemas": [],
+      "diagnostico": {
+        "existe": true,
+        "aberto": true,
+        "largura": 288,
+        "bodyOverflow": false
+      },
+      "evidencia": "admin-menu-aberto-mobile-360x800.png"
+    }
+  ]
+}

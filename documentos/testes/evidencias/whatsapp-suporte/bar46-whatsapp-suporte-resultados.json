@@ -1,0 +1,26 @@
+{
+  "executadoEm": "2026-09-04T05:42:02.826Z",
+  "total": 3,
+  "aprovados": 3,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-WPP-05A",
+      "descricao": "Suporte flutuante exibe os seis assuntos no mobile",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-WPP-05B",
+      "descricao": "Assunto abre WhatsApp com protocolo, identificacao e campos orientados",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-WPP-06A",
+      "descricao": "Mensagem recebida pelo Baileys gera uma notificacao para cada administrador ativo",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

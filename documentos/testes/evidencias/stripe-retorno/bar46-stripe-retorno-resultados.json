@@ -1,0 +1,39 @@
+{
+  "executadoEm": "2026-09-04T05:56:26.574Z",
+  "observacao": "O evento assinado usa a sessao Stripe real, com payment_status de teste controlado. O preenchimento do cartao hospedado ainda requer validacao manual.",
+  "total": 5,
+  "aprovados": 5,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-STRIPE-08A",
+      "descricao": "Checkout usa rota local valida de sucesso e cancelamento",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-06A",
+      "descricao": "Webhook assinado confirma o pagamento e registra o PaymentIntent",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-07A",
+      "descricao": "Tela aberta atualiza o status automaticamente sem recarregar",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-08B",
+      "descricao": "Pagina de retorno exibe aprovacao e navegacao funcional",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-STRIPE-06B",
+      "descricao": "Webhook repetido e idempotente",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

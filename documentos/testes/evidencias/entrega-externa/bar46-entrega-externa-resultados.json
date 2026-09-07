@@ -1,0 +1,32 @@
+{
+  "executadoEm": "2026-09-04T06:50:11.266Z",
+  "confirmacaoHumanaEm": "2026-09-04",
+  "confirmacaoHumana": "O usuário confirmou o recebimento das três mensagens no WhatsApp e do e-mail.",
+  "aviso": "Destinatários e segredos foram omitidos. O link do e-mail é apenas uma evidência de entrega e não deve ser utilizado.",
+  "resultados": [
+    {
+      "id": "CT-WPP-02",
+      "canal": "WhatsApp",
+      "estado": "APROVADO",
+      "detalhe": "messageId registrado e recebimento confirmado pelo usuário."
+    },
+    {
+      "id": "CT-WPP-03",
+      "canal": "WhatsApp",
+      "estado": "APROVADO",
+      "detalhe": "messageId registrado e recebimento confirmado pelo usuário."
+    },
+    {
+      "id": "CT-WPP-04",
+      "canal": "WhatsApp",
+      "estado": "APROVADO",
+      "detalhe": "messageId registrado e recebimento confirmado pelo usuário."
+    },
+    {
+      "id": "CT-AUTH-09",
+      "canal": "E-mail",
+      "estado": "APROVADO",
+      "detalhe": "SMTP aceitou a mensagem e o recebimento foi confirmado pelo usuário."
+    }
+  ]
+}

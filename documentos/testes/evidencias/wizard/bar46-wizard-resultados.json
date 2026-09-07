@@ -1,0 +1,50 @@
+{
+  "executadoEm": "2026-09-04T05:45:09.393Z",
+  "total": 7,
+  "aprovados": 7,
+  "reprovados": 0,
+  "resultados": [
+    {
+      "id": "CT-AGEND-16A",
+      "descricao": "Wizard seleciona servico e avanca para profissional",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AGEND-16B",
+      "descricao": "Wizard seleciona profissional e avanca para data",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AGEND-16C",
+      "descricao": "Wizard seleciona dia disponivel e carrega horarios",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AGEND-16D",
+      "descricao": "Wizard seleciona horario e apresenta revisao",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AGEND-16E",
+      "descricao": "Revisao mantem escolhas e permite pagamento em dinheiro",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-AGEND-16F",
+      "descricao": "Confirmacao cria agendamento e pagamento em dinheiro coerentes",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "CT-UI-09",
+      "descricao": "Duplo clique na confirmacao nao duplica o agendamento",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

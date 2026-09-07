@@ -1,0 +1,46 @@
+{
+  "executadoEm": "2026-09-04T07:12:38.671Z",
+  "resumo": {
+    "total": 6,
+    "aprovados": 6,
+    "reprovados": 0
+  },
+  "resultados": [
+    {
+      "id": "BUG-001",
+      "descricao": "Rota alternativa de cadastro aplica o mesmo limite de dez tentativas",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "BUG-002",
+      "descricao": ".env.example existe sem valores secretos e documenta as integrações",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "BUG-003",
+      "descricao": "README documenta as migrations 019 a 026",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "BUG-005",
+      "descricao": "JWT inválido encerra a sessão e apresenta aviso formal",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "BUG-005B",
+      "descricao": "Aviso de sessão expirada é exibido uma única vez",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    },
+    {
+      "id": "BUG-004",
+      "descricao": "Título programaticamente focado não exibe moldura e controle interativo mantém foco visível",
+      "resultado": "APROVADO",
+      "detalhe": ""
+    }
+  ]
+}

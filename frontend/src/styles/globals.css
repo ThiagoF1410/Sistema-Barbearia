@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #f2ca50;
+  --color-primary-container: #d4af37;
+  --color-primary-hover: #d4af37;
+  --color-on-primary: #3c2f00;
+  --color-background: #131313;
+  --color-on-background: #e5e2e1;
+  --color-surface: #131313;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container: #201f1f;
+  --color-surface-container-high: #2a2a2a;
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #d0c5af;
+  --color-outline: #99907c;
+  --color-outline-variant: #4d4635;
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+  --font-headline: 'Newsreader', serif;
+  --font-label: 'Manrope', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+}
+
+/* Tema visual de O Rei da Navalha */
+:root {
+  --color-primary:                  #f2ca50;
+  --color-primary-container:        #d4af37;
+  --color-on-primary:               #3c2f00;
+  --color-background:               #131313;
+  --color-surface:                  #131313;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low:    #1c1b1b;
+  --color-surface-container:        #201f1f;
+  --color-surface-container-high:   #2a2a2a;
+  --color-on-surface:               #e5e2e1;
+  --color-on-surface-variant:       #d0c5af;
+  --color-outline:                  #99907c;
+  --color-outline-variant:          #4d4635;
+  --color-error:                    #ffb4ab;
+  --color-error-container:          #93000a;
+  --color-on-error-container:       #ffdad6;
+}
+
+/* Base global */
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Newsreader', serif;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+}
+
+/* Utilitários visuais da marca */
+.glass-panel {
+  /*
+   * O desfoque aplicado em cada cartao obrigava o navegador a repintar o
+   * conteudo que passa por tras deles durante toda a rolagem. Um fundo quase
+   * opaco preserva a aparencia de vidro sem o custo de composicao por frame.
+   */
+  background: rgba(28, 27, 27, 0.97);
+}
+
+/* Barras fixas com backdrop-filter causavam engasgos principalmente em telas
+   integradas e celulares. A transparencia continua sutil, mas sem blur. */
+.backdrop-blur-xl {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* `transition-all` pode animar propriedades de layout acidentalmente. */
+.transition-all {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform !important;
+}
+
+/* Listas extensas so sao pintadas quando se aproximam da area visivel. */
+.render-efficient {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: auto 260px;
+}
+
+.render-list > article,
+.render-list > section {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: auto 260px;
+}
+
+@media (max-width: 767px) {
+  /* Sombras extensas consomem muita area de pintura em GPUs integradas. */
+  .glass-panel {
+    background: rgb(28, 27, 27);
+  }
+
+  .glass-panel:hover {
+    box-shadow: none !important;
+  }
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+}
+
+.focus-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background-color: var(--color-primary);
+  transition: width 0.5s ease;
+}
+
+.group:focus-within .focus-line {
+  width: 100%;
+}
+
+.label-heritage {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-heritage {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 40%, transparent);
+  border-radius: 0.5rem;
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+  padding: 1rem;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.input-heritage::placeholder {
+  color: color-mix(in srgb, var(--color-outline) 60%, transparent);
+}
+
+.input-heritage:focus {
+  border-color: var(--color-primary);
+  background: var(--color-surface-container-high);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.input-heritage-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: var(--color-primary);
+  transition: width 0.5s ease;
+}
+
+.group:focus-within .input-heritage-line {
+  width: 100%;
+}
+
+:where(a, button, input, select, textarea, summary, [contenteditable="true"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 3px;
+}
+
+.brand-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem 0.75rem 0.75rem 0;
+}
+
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--color-primary), transparent);
+  opacity: 0.65;
+}
+
+.brand-card::after {
+  content: '';
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  right: -1rem;
+  top: -1rem;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  transform: rotate(45deg);
+}
+
+.brand-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-primary);
+}
+
+.brand-divider::before,
+.brand-divider::after {
+  content: '';
+  width: 2.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.brand-divider::after {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
