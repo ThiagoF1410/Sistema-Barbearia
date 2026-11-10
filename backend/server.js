@@ -1,3 +1,4 @@
+const { registrarErro } = require('./src/utils/logger')
 require('dotenv').config()
 
 const express = require('express')
@@ -43,7 +44,7 @@ const allowedOrigins = [
 ]
 
 function origemLocalDeDesenvolvimento(origin) {
-  if (ambiente.isProduction || !origin) return false
+  if (ambiente.isProduction || !ambiente.allowPrivateNetworkOrigins || !origin) return false
   try {
     const url = new URL(origin)
     if (url.protocol !== 'http:') return false
@@ -91,7 +92,7 @@ app.get('/', (req, res) => {
 })
 
 app.use((err, req, res, next) => {
-  console.error('Erro não tratado:', err.message)
+  registrarErro('Erro não tratado:', err)
   if (err.type === 'entity.too.large') {
     return res.status(413).json({ message: 'O conteúdo enviado excede o limite permitido.' })
   }
@@ -146,14 +147,14 @@ if (require.main === module) {
         if (encerrando) return
         encerrando = true
         encerrarServidor(servidor, sinal)
-          .catch((err) => console.error('Falha ao encerrar o servidor:', err.message))
+          .catch((err) => registrarErro('Falha ao encerrar o servidor:', err))
           .finally(() => { process.exitCode = 0 })
       }
       process.once('SIGINT', () => finalizar('SIGINT'))
       process.once('SIGTERM', () => finalizar('SIGTERM'))
     })
     .catch((err) => {
-      console.error('Não foi possível iniciar o servidor:', err.message)
+      registrarErro('Não foi possível iniciar o servidor:', err)
       process.exitCode = 1
     })
 }

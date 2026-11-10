@@ -1,8 +1,12 @@
+const { registrarErro } = require('../../utils/logger')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const pool = require('../../config/db')
 const { sendPasswordResetEmail } = require('../../services/emailService')
-const { normalizarEmail, emailValido, senhaValida } = require('../../utils/authUtils')
+const {
+  normalizarEmail, emailValido, senhaValida, SENHA_REQUISITOS_MENSAGEM,
+} = require('../../utils/authUtils')
+const { revogarSessoesUsuario } = require('../../services/sessaoAutenticacaoService')
 
 async function forgotPassword(req, res) {
   const { email } = req.body || {}
@@ -51,7 +55,7 @@ async function forgotPassword(req, res) {
       try {
         await sendPasswordResetEmail(emailNormalizado, token)
       } catch (sendErr) {
-        console.error('Erro ao enviar e-mail de recuperação:', sendErr.message)
+        registrarErro('Erro ao enviar e-mail de recuperação:', sendErr)
         await pool.query(
           'UPDATE public.password_reset_tokens SET used = TRUE WHERE token_hash = $1',
           [tokenHash]
@@ -63,7 +67,7 @@ async function forgotPassword(req, res) {
       message: 'Se o e-mail existir, enviaremos um link de recuperação.',
     })
   } catch (err) {
-    console.error('Erro em forgotPassword:', err)
+    registrarErro('Erro em forgotPassword:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -76,10 +80,9 @@ async function resetPassword(req, res) {
   }
 
   if (!senhaValida(password)) {
-    return res.status(400).json({ message: 'A senha deve ter entre 8 e 72 caracteres, com letra maiúscula, minúscula, número e caractere especial.' })
+    return res.status(400).json({ message: SENHA_REQUISITOS_MENSAGEM })
   }
 
-  const hash = await bcrypt.hash(password, 10)
   const client = await pool.connect()
   try {
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex')
@@ -97,19 +100,22 @@ async function resetPassword(req, res) {
       return res.status(400).json({ message: 'Token inválido ou expirado.' })
     }
 
+    const hash = await bcrypt.hash(password, 10)
+
     await client.query(
       `UPDATE public.usuario
        SET senha = $1, token_version = token_version + 1
        WHERE idusuario = $2`,
       [hash, result.rows[0].usuario_id]
     )
+    await revogarSessoesUsuario(client, result.rows[0].usuario_id)
 
     await client.query('COMMIT')
 
     return res.status(200).json({ message: 'Senha redefinida com sucesso.' })
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro em resetPassword:', err)
+    registrarErro('Erro em resetPassword:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()

@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [mostrarSenha, setMostrarSenha] = useState(false)
   const [avisoSessao] = useState(() => {
     const motivo = new URLSearchParams(window.location.search).get('motivo')
     const aviso = motivo === 'sessao-expirada'
@@ -172,7 +173,7 @@ export default function LoginPage() {
                     aria-invalid={Boolean(errors.password)}
                     aria-describedby={errors.password ? 'password-error' : undefined}
                     name="password"
-                    type="password"
+                    type={mostrarSenha ? 'text' : 'password'}
                     autoComplete="current-password"
                     placeholder="••••••••"
                     value={form.password}
@@ -180,11 +181,20 @@ export default function LoginPage() {
                     required
                     className={`
                       w-full bg-surface-container-lowest border-none
-                      focus:ring-1 text-on-surface pl-12 pr-4 py-4 rounded-xl
+                      focus:ring-1 text-on-surface pl-12 pr-14 py-4 rounded-xl
                       transition-all placeholder:text-outline/40
                       ${errors.password ? 'ring-1 ring-error/50' : 'focus:ring-primary/40'}
                     `}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setMostrarSenha((valorAtual) => !valorAtual)}
+                    aria-label={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
+                    aria-pressed={mostrarSenha}
+                    className="absolute right-2 top-1/2 z-10 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-lg text-white/55 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+                  >
+                    <BrandIcon name={mostrarSenha ? 'eyeOff' : 'eye'} size={20} />
+                  </button>
                   <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-primary transition-all duration-500 group-focus-within:w-full" />
                 </div>
                 {errors.password && (

@@ -7,14 +7,14 @@ test('valida e normaliza os dados de um profissional', () => {
     nome: '  Lucas Barbeiro  ',
     email: '  LUCAS@EXEMPLO.COM  ',
     especialidade: '  Corte e barba  ',
-    password: 'Senha@123',
+    password: 'CactoVerde27',
   }, { exigirSenha: true })
 
   assert.deepEqual(resultado, {
     nome: 'Lucas Barbeiro',
     email: 'lucas@exemplo.com',
     especialidade: 'Corte e barba',
-    password: 'Senha@123',
+    password: 'CactoVerde27',
   })
 })
 

@@ -1,3 +1,4 @@
+const { registrarErro } = require('../../utils/logger')
 const pool = require('../../config/db')
 const {
   dataIsoValida,
@@ -64,7 +65,7 @@ async function listarFeriados(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar feriados:', err)
+    registrarErro('Erro ao listar feriados:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -121,7 +122,7 @@ async function importarFeriados(req, res) {
 
     return listarFeriados({ ...req, query: { ano } }, res)
   } catch (err) {
-    console.error('Erro ao importar feriados:', err)
+    registrarErro('Erro ao importar feriados:', err)
     if (err.origemImportacao === 'banco') {
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
@@ -190,7 +191,7 @@ async function atualizarFeriado(req, res) {
     return res.status(200).json(result.rows[0])
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro ao atualizar feriado:', err)
+    registrarErro('Erro ao atualizar feriado:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()

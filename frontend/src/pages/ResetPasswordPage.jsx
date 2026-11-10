@@ -28,7 +28,7 @@ export default function ResetPasswordPage() {
     }
 
     if (!analisarSenha(password).valida) {
-      setError('Atenda a todos os requisitos de segurança da nova senha.')
+      setError('Use de 12 a 72 caracteres, sem espaços ou acentos, e atenda pelo menos 3 dos 4 grupos.')
       return
     }
 
@@ -65,6 +65,7 @@ export default function ResetPasswordPage() {
             <BrandIcon name="check" size={48} className="text-primary mx-auto" />
             <p className="text-on-surface-variant">Senha redefinida com sucesso!</p>
             <button
+              type="button"
               onClick={() => navigate('/login')}
               className="inline-block mt-4 px-6 py-2 bg-primary text-on-primary rounded-full text-sm font-label font-bold uppercase tracking-widest hover:bg-primary-hover transition-colors"
             >
@@ -91,6 +92,7 @@ export default function ResetPasswordPage() {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  minLength="12"
                   maxLength="72"
                   aria-describedby="reset-password-strength"
                   className="input-heritage peer pr-12"
@@ -116,6 +118,7 @@ export default function ResetPasswordPage() {
                   autoComplete="new-password"
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
+                  minLength="12"
                   maxLength="72"
                   className="input-heritage peer pr-12"
                   placeholder="Repita a nova senha"

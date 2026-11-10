@@ -102,6 +102,14 @@ select:focus {
   contain-intrinsic-size: auto 260px;
 }
 
+/* O histórico pode crescer bastante. Cards fora da área visível não precisam
+   ser pintados durante a rolagem do modal. */
+.history-dialog ol > li {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: auto 180px;
+}
+
 @media (max-width: 767px) {
   /* Sombras extensas consomem muita area de pintura em GPUs integradas. */
   .glass-panel {

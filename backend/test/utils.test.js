@@ -9,7 +9,12 @@ const {
   minutosParaHora,
 } = require('../src/utils/agendaUtils')
 const { emailValido, normalizarEmail } = require('../src/utils/authUtils')
-const { criarLimitador } = require('../src/middlewares/rateLimitMiddleware')
+const {
+  criarLimitador,
+  hashChave,
+  identidadeRequisicao,
+  limitarRenovacaoSessao,
+} = require('../src/middlewares/rateLimitMiddleware')
 
 test('valida datas ISO reais, inclusive ano bissexto', () => {
   assert.equal(dataIsoValida('2028-02-29'), true)
@@ -87,4 +92,26 @@ test('limitador retorna 429 depois do limite configurado', () => {
 
   assert.equal(proximos, 2)
   assert.deepEqual(respostas, [{ codigo: 429, corpo: { message: 'Limite atingido.' } }])
+})
+
+test('anonimiza a chave compartilhada e normaliza a identidade', () => {
+  assert.match(hashChave('cliente@exemplo.com'), /^[a-f0-9]{64}$/)
+  assert.equal(identidadeRequisicao({ body: { email: ' Cliente@Exemplo.COM ' } }), 'email:cliente@exemplo.com')
+  assert.equal(identidadeRequisicao({ body: { telefone: '(18) 99999-0000' } }), 'telefone:18999990000')
+})
+
+test('renovação de sessão possui limite separado e compatível com recarregamentos', async () => {
+  const req = { ip: '127.0.0.77', baseUrl: '/api/auth', path: '/refresh' }
+  const res = {
+    set() {},
+    status() { return this },
+    json() { return this },
+  }
+  let proximos = 0
+
+  for (let tentativa = 0; tentativa < 12; tentativa += 1) {
+    await limitarRenovacaoSessao(req, res, () => { proximos += 1 })
+  }
+
+  assert.equal(proximos, 12)
 })

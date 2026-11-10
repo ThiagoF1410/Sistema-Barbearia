@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import useFeedbackFocus from '../../hooks/useFeedbackFocus'
 import {
   listarAgenda,
   listarHorariosFuncionamento,
@@ -28,6 +29,7 @@ export default function AgendaAdminPage() {
   const [datas, setDatas] = useState([])
   const [novaData, setNovaData] = useState('')
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [sucesso, setSucesso] = useState('')
   const [horarios, setHorarios] = useState([])
   const [salvandoHorarios, setSalvandoHorarios] = useState(false)
@@ -191,7 +193,7 @@ export default function AgendaAdminPage() {
 
         <section aria-label="Resumo da agenda" className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">{indicadores.map((item) => <div key={item.rotulo} className="glass-panel rounded-2xl border border-white/10 p-4 sm:p-5"><div className="flex items-start justify-between gap-3"><div className="w-10 h-10 rounded-xl border border-primary/20 bg-primary/10 text-primary flex items-center justify-center"><BrandIcon name={item.icon} size={21} /></div><span className="font-headline text-2xl text-primary">{carregandoAgenda ? '—' : item.valor}</span></div><p className="text-xs font-bold mt-4">{item.rotulo}</p><p className="text-[10px] text-on-surface-variant mt-1">{item.detalhe}</p></div>)}</section>
 
-        {erro && <div role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex items-center gap-3"><BrandIcon name="alert" size={20} className="shrink-0" /><span>{erro}</span></div>}
+        {erro && <div ref={erroRef} role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex items-center gap-3"><BrandIcon name="alert" size={20} className="shrink-0" /><span>{erro}</span></div>}
         {sucesso && <div role="status" className="rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-200 flex items-center gap-3"><BrandIcon name="check" size={20} className="shrink-0" /><span>{sucesso}</span></div>}
 
         <NavegacaoAgenda secao={secao} aoMudar={mudarSecao} />

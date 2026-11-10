@@ -1,3 +1,4 @@
+const { registrarErro } = require('../utils/logger')
 const pool = require('../config/db')
 const { dataIsoValida } = require('../utils/agendaUtils')
 const { normalizarPaginacao, montarPaginacao } = require('../utils/paginationUtils')
@@ -136,7 +137,7 @@ function criarAdminFinanceiroController(db = pool) {
 
       return res.status(200).json({ resumo, pagamentos: result.rows })
     } catch (err) {
-      console.error('Erro ao listar pagamentos para o administrador:', err)
+      registrarErro('Erro ao listar pagamentos para o administrador:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
   }
@@ -190,7 +191,7 @@ function criarAdminFinanceiroController(db = pool) {
 
       return res.status(200).json({ ano: Number(ano), totais, meses: result.rows })
     } catch (err) {
-      console.error('Erro ao gerar relatório mensal:', err)
+      registrarErro('Erro ao gerar relatório mensal:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
   }

@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import { getMe, updateMe } from '../services/authService'
 import BrandIcon from '../components/ui/BrandIcon'
 import logoImg from '../assets/Logo1.avif'
+import PreferenciaLembretes from '../components/PreferenciaLembretes'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 
 const FORM_VAZIO = { nome: '', email: '', telefone: '' }
 
@@ -62,6 +64,7 @@ export default function PerfilPage() {
   const [salvando, setSalvando] = useState(false)
   const [erros, setErros] = useState({})
   const [erroGeral, setErroGeral] = useState('')
+  const erroGeralRef = useFeedbackFocus(erroGeral)
   const [sucesso, setSucesso] = useState('')
   const [tentativa, setTentativa] = useState(0)
 
@@ -167,7 +170,7 @@ export default function PerfilPage() {
         </section>
 
         {sucesso && <div role="status" aria-live="polite" className="rounded-2xl border border-emerald-400/25 bg-emerald-500/10 p-4 text-emerald-200 flex items-start gap-3"><BrandIcon name="check" size={22} className="shrink-0" /><div><p className="text-sm font-bold">Perfil atualizado</p><p className="text-xs mt-1 opacity-85">{sucesso}</p></div></div>}
-        {erroGeral && <div role="alert" className="rounded-2xl border border-error/25 bg-error/10 p-4 text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span className="text-sm">{erroGeral}</span>{!perfil && <button type="button" onClick={tentarNovamente} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-error/10">Tentar novamente</button>}</div>}
+        {erroGeral && <div ref={erroGeralRef} role="alert" className="rounded-2xl border border-error/25 bg-error/10 p-4 text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span className="text-sm">{erroGeral}</span>{!perfil && <button type="button" onClick={tentarNovamente} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-error/10">Tentar novamente</button>}</div>}
 
         {carregando ? <SkeletonPerfil /> : perfil && <div className="space-y-5">
           <section className="glass-panel relative overflow-hidden rounded-3xl border border-primary/20 p-5 sm:p-7">
@@ -193,6 +196,7 @@ export default function PerfilPage() {
             <aside className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.035] p-4 md:col-span-2"><BrandIcon name="shield" size={20} className="mt-0.5 shrink-0 text-primary" /><div><p className="text-xs font-bold text-on-surface">Privacidade dos seus dados</p><p className="mt-1 text-xs leading-relaxed text-on-surface-variant">Estas informações são utilizadas somente para sua identificação, acesso à conta e comunicações relacionadas aos atendimentos.</p></div></aside>
           </div>}
         </div>}
+        <PreferenciaLembretes />
       </main>
     </div>
   )

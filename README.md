@@ -107,8 +107,13 @@ Não execute `000_schema_base.sql` retroativamente em um banco que já possui da
 12. `025_prazo_pagamento_online.sql`
 13. `026_central_notificacoes.sql`
 14. `027_indices_paginacao_relatorios.sql`
+15. `028_ampliar_catalogo_barbearia.sql`
+16. `029_notificacoes_whatsapp_pedidos.sql`
+17. `030_lembretes_atendimento.sql`
+18. `031_sessoes_autenticacao.sql`
+19. `032_rate_limit_compartilhado.sql`
 
-As migrações 016 e o endurecimento atual do JWT invalidam sessões antigas de maneira intencional. Depois da atualização, entre novamente no sistema.
+As migrações 031 e 032 são necessárias antes de iniciar esta versão. A 031 cria as sessões renováveis e a 032 compartilha os limites de tentativas entre instâncias. Depois da atualização, entre novamente no sistema.
 
 ## Configuração do ambiente
 
@@ -124,7 +129,8 @@ Nunca substitua o `.env.example` pelo `.env` definitivo e nunca envie o `.env` a
 | `DB_IDLE_TIMEOUT_MS`, `DB_CONNECTION_TIMEOUT_MS` | Tempos de ociosidade e abertura de conexão do PostgreSQL |
 | `DB_HOST` a `DB_SSL` | Alternativa à URL única para PostgreSQL local |
 | `JWT_SECRET` | Segredo aleatório com no mínimo 32 caracteres |
-| `JWT_EXPIRES_IN` | Validade entre 5 minutos e 30 dias, como `7d` |
+| `JWT_ACCESS_EXPIRES_IN` | Validade curta do token de acesso, entre 5 minutos e 1 hora (padrão: `15m`) |
+| `CORS_ALLOW_PRIVATE_NETWORK` | Libera origens de rede local somente no desenvolvimento; mantenha `false` fora do teste em celular |
 | `EMAIL_USER`, `EMAIL_PASS` | Credenciais SMTP |
 | `SMTP_HOST`, `SMTP_PORT` | Servidor SMTP |
 | `STRIPE_MODE` | `test` ou `live` |

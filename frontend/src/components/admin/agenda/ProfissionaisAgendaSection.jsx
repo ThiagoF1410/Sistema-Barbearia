@@ -27,6 +27,7 @@ export default function ProfissionaisAgendaSection({ aoErro, aoSucesso }) {
   const [solicitacoesPendentes, setSolicitacoesPendentes] = useState([])
   const [respostasSolicitacoes, setRespostasSolicitacoes] = useState({})
   const [solicitacaoParaAnalisar, setSolicitacaoParaAnalisar] = useState(null)
+  const [ausenciaParaRemover, setAusenciaParaRemover] = useState(null)
   const [ausencia, setAusencia] = useState(AUSENCIA_INICIAL)
   const [carregando, setCarregando] = useState(true)
   const [salvando, setSalvando] = useState(false)
@@ -154,9 +155,14 @@ export default function ProfissionaisAgendaSection({ aoErro, aoSucesso }) {
     }
   }
 
-  async function removerAusencia(id) {
-    if (!window.confirm('Remover esta ausência da escala?')) return
-    const idDaOperacao = profissionalId
+  function solicitarRemocaoAusencia(item) {
+    setAusenciaParaRemover({ ...item, profissionalId })
+  }
+
+  async function confirmarRemocaoAusencia() {
+    if (!ausenciaParaRemover) return
+    const id = ausenciaParaRemover.iddisponibilidade
+    const idDaOperacao = ausenciaParaRemover.profissionalId
     aoErro('')
     aoSucesso('')
     setRemovendoId(id)
@@ -166,6 +172,7 @@ export default function ProfissionaisAgendaSection({ aoErro, aoSucesso }) {
         setAusencias((atuais) => atuais.filter((item) => item.iddisponibilidade !== id))
         aoSucesso('Ausência removida.')
       }
+      if (montadoRef.current) setAusenciaParaRemover(null)
     } catch (err) {
       if (montadoRef.current) aoErro(err.response?.data?.message || 'Não foi possível remover a ausência. Tente novamente.')
     } finally {
@@ -234,6 +241,19 @@ export default function ProfissionaisAgendaSection({ aoErro, aoSucesso }) {
         {solicitacaoParaAnalisar && <div className="rounded-2xl border border-white/10 bg-black/15 p-4 text-sm"><div className="flex items-center justify-between gap-3"><strong>{solicitacaoParaAnalisar.item.profissional}</strong><span className="rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-primary">{solicitacaoParaAnalisar.item.tipo}</span></div><p className="mt-2 text-on-surface-variant">{dataLocal(solicitacaoParaAnalisar.item.datainicio)?.toLocaleDateString('pt-BR')} até {dataLocal(solicitacaoParaAnalisar.item.datafim)?.toLocaleDateString('pt-BR')}</p>{respostasSolicitacoes[solicitacaoParaAnalisar.item.idsolicitacao] && <p className="mt-3 border-t border-white/10 pt-3 text-xs text-on-surface-variant">{respostasSolicitacoes[solicitacaoParaAnalisar.item.idsolicitacao]}</p>}</div>}
       </ConfirmDialog>
 
+      <ConfirmDialog
+        aberto={Boolean(ausenciaParaRemover)}
+        titulo="Remover ausência da escala?"
+        descricao={ausenciaParaRemover
+          ? `O período de ${dataLocal(ausenciaParaRemover.datainicio)?.toLocaleDateString('pt-BR')} até ${dataLocal(ausenciaParaRemover.datafim)?.toLocaleDateString('pt-BR')} voltará a seguir o expediente do profissional.`
+          : ''}
+        rotuloConfirmar="Remover ausência"
+        rotuloProcessando="Removendo..."
+        processando={removendoId !== null}
+        aoConfirmar={confirmarRemocaoAusencia}
+        aoFechar={() => { if (removendoId === null) setAusenciaParaRemover(null) }}
+      />
+
       <section className="glass-panel rounded-2xl border border-outline-variant/10 p-4 sm:p-6">
         <label htmlFor="profissional-escala" className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">
           Profissional
@@ -252,7 +272,8 @@ export default function ProfissionaisAgendaSection({ aoErro, aoSucesso }) {
           <HorariosFuncionamentoSection horarios={horarios} salvando={salvando} aoAlterar={alterarHorario}
             aoSalvar={salvarHorarios} comoPainel={false} titulo="Expediente individual"
             descricao="Estes horários substituem o funcionamento global somente para o profissional selecionado."
-            rotuloSalvar="Salvar escala" />
+            rotuloSalvar="Salvar escala" rotuloAtivo="Trabalha"
+            rotuloInativo={'N\u00e3o trabalha'} rotuloResumo="dias de trabalho" />
 
           <section className="glass-panel rounded-2xl border border-outline-variant/10 p-4 sm:p-6 space-y-5">
             <div>
@@ -289,7 +310,7 @@ export default function ProfissionaisAgendaSection({ aoErro, aoSucesso }) {
                   const fim = dataLocal(item.datafim)?.toLocaleDateString('pt-BR')
                   return <li key={item.iddisponibilidade} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-white/10 bg-surface/70 p-4">
                     <div><strong className="text-sm text-primary">{item.tipo}</strong><p className="text-sm mt-1">{inicio} até {fim}</p>{item.descricao && <p className="text-xs text-on-surface-variant mt-1">{item.descricao}</p>}</div>
-                    <button type="button" onClick={() => removerAusencia(item.iddisponibilidade)}
+                    <button type="button" onClick={() => solicitarRemocaoAusencia(item)}
                       disabled={operando} aria-label={`Remover ausência de ${inicio} até ${fim}`}
                       className="self-start sm:self-center rounded-full border border-error/25 p-2 text-error hover:bg-error/10"><BrandIcon name="trash" size={18} /></button>
                   </li>

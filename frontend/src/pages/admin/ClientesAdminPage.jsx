@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import AdminLayout from '../../components/admin/AdminLayout'
 import BrandIcon from '../../components/ui/BrandIcon'
 import Pagination from '../../components/ui/Pagination'
+import useFeedbackFocus from '../../hooks/useFeedbackFocus'
 import {
   atualizarClienteAdmin,
   listarAgendamentosClienteAdmin,
@@ -83,10 +84,10 @@ function ModalHistorico({ cliente, itens, carregando, erro, aoFechar }) {
     CANCELADO: 'border-error/25 bg-error/10 text-error',
   }
 
-  return <div className="fixed inset-0 z-[70] flex items-end justify-center bg-black/80 backdrop-blur-sm sm:items-center sm:p-5" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) aoFechar() }}>
-    <section role="dialog" aria-modal="true" aria-labelledby="historico-cliente-titulo" className="flex max-h-[94vh] w-full flex-col rounded-t-3xl border border-white/10 bg-[#151515] shadow-2xl sm:max-w-3xl sm:rounded-3xl">
+  return <div className="fixed inset-0 z-[70] flex items-end justify-center bg-black/90 sm:items-center sm:p-5" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) aoFechar() }}>
+    <section role="dialog" aria-modal="true" aria-labelledby="historico-cliente-titulo" className="history-dialog flex max-h-[94vh] w-full flex-col rounded-t-3xl border border-white/10 bg-[#151515] shadow-2xl sm:max-w-3xl sm:rounded-3xl">
       <header className="flex shrink-0 items-start justify-between gap-4 border-b border-white/[0.07] p-5 sm:px-7"><div><p className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary">Histórico individual</p><h2 id="historico-cliente-titulo" className="mt-1 font-headline text-2xl">{cliente.nome}</h2><p className="mt-1 text-xs text-on-surface-variant">{itens.length} {itens.length === 1 ? 'agendamento registrado' : 'agendamentos registrados'}</p></div><button type="button" onClick={aoFechar} className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-white/60 hover:border-primary/35 hover:text-primary" aria-label="Fechar"><BrandIcon name="close" size={20} /></button></header>
-      <div className="overflow-y-auto p-5 sm:p-7">
+      <div className="touch-pan-y overflow-y-auto overscroll-contain p-5 [scrollbar-gutter:stable] sm:p-7">
         {carregando ? <div className="space-y-3" role="status"><div className="h-28 animate-pulse rounded-2xl bg-white/[0.04]" /><div className="h-28 animate-pulse rounded-2xl bg-white/[0.04]" /></div> : erro ? <div role="alert" className="rounded-xl border border-error/25 bg-error/10 p-4 text-sm text-error">{erro}</div> : itens.length === 0 ? <div className="py-12 text-center"><BrandIcon name="history" size={36} className="mx-auto text-primary" /><h3 className="mt-4 font-headline text-xl">Nenhum agendamento</h3><p className="mt-2 text-sm text-on-surface-variant">Este cliente ainda não possui histórico de atendimentos.</p></div> : <ol className="space-y-3">{itens.map((item) => <li key={item.idagendamento} className="rounded-2xl border border-white/10 bg-black/15 p-4 sm:p-5"><div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><h3 className="font-headline text-lg">{item.servico}</h3><p className="mt-1 text-xs text-on-surface-variant">{dataHora(`${item.data} ${item.horario}`)} • {item.duracao} min</p><p className="mt-1 text-xs text-on-surface-variant">Profissional: {item.profissional}</p></div><span className={`self-start rounded-full border px-3 py-1 text-[8px] font-bold uppercase tracking-wider ${classesStatus[item.statusagendamento] || 'border-white/10 text-white/60'}`}>{item.statusagendamento}</span></div><div className="mt-4 flex items-center justify-between border-t border-white/[0.06] pt-3"><span className="text-[10px] text-on-surface-variant">Pagamento: {item.statuspagamento || 'Não iniciado'}</span><strong className="font-headline text-lg text-primary">{moeda(item.preco)}</strong></div></li>)}</ol>}
       </div>
     </section>
@@ -105,6 +106,7 @@ export default function ClientesAdminPage() {
   const [erroHistorico, setErroHistorico] = useState('')
   const [salvando, setSalvando] = useState(false)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [sucesso, setSucesso] = useState('')
   const [paginacao, setPaginacao] = useState(null)
   const [resumoServidor, setResumoServidor] = useState(null)
@@ -181,7 +183,7 @@ export default function ClientesAdminPage() {
 
       <section aria-label="Resumo dos clientes" className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">{indicadores.map((item) => <article key={item.rotulo} className="glass-panel rounded-2xl border border-white/10 p-4 sm:p-5"><div className="flex items-start justify-between gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name={item.icon} size={21} /></div><span className="font-headline text-2xl text-primary">{carregando ? '—' : item.valor}</span></div><p className="mt-4 text-xs font-bold">{item.rotulo}</p><p className="mt-1 text-[10px] text-on-surface-variant">{item.detalhe}</p></article>)}</section>
 
-      {erro && <div role="alert" className="flex items-start gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error"><BrandIcon name="alert" size={20} className="mt-0.5 shrink-0" />{erro}</div>}
+      {erro && <div ref={erroRef} role="alert" className="flex items-start gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error"><BrandIcon name="alert" size={20} className="mt-0.5 shrink-0" />{erro}</div>}
       {sucesso && <div role="status" className="flex items-center gap-3 rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-200"><BrandIcon name="check" size={20} />{sucesso}</div>}
 
       <section className="space-y-5" aria-labelledby="lista-clientes-titulo">

@@ -1,8 +1,13 @@
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'
+let accessToken = null
+let renovacaoEmAndamento = null
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: API_BASE_URL,
   timeout: 15000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,8 +27,22 @@ const MENSAGEM_CONEXAO = 'Não foi possível conectar ao servidor. Verifique sua
 const MENSAGEM_TIMEOUT = 'A solicitação demorou mais que o esperado. Verifique sua conexão e tente novamente.'
 const MENSAGEM_INTERNA = 'Não foi possível concluir a operação no momento. Tente novamente mais tarde.'
 const PADRAO_TECNICO = /(request failed|network error|econn|aggregateerror|status code|timeout of|sql|syntax error|column .*does not exist|relation .*does not exist|internal server error)/i
+const ROTAS_SEM_RENOVACAO = ['/auth/login', '/auth/register', '/auth/refresh', '/auth/logout']
+
 export const AVISO_SESSAO_KEY = 'auth-session-notice'
 export const AVISO_SESSAO_EXPIRADA = 'Sua sessão expirou. Entre novamente para continuar.'
+
+export function setAccessToken(token) {
+  accessToken = typeof token === 'string' && token ? token : null
+}
+
+export function clearAccessToken() {
+  accessToken = null
+}
+
+export function getAccessToken() {
+  return accessToken
+}
 
 export function mensagemPublicaDoErro(error) {
   const status = error?.response?.status
@@ -42,22 +61,66 @@ export function mensagemPublicaDoErro(error) {
   return MENSAGENS_HTTP[status] || MENSAGEM_INTERNA
 }
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+function notificarSessaoRenovada(dados) {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('auth:session-renewed', { detail: dados }))
   }
+}
+
+async function renovarAccessToken() {
+  if (!renovacaoEmAndamento) {
+    renovacaoEmAndamento = axios.post(`${API_BASE_URL}/auth/refresh`, null, {
+      timeout: 15000,
+      withCredentials: true,
+      headers: { 'Content-Type': 'application/json' },
+    }).then((response) => {
+      setAccessToken(response.data?.token)
+      notificarSessaoRenovada(response.data)
+      return response.data?.token
+    }).finally(() => {
+      renovacaoEmAndamento = null
+    })
+  }
+  return renovacaoEmAndamento
+}
+
+function encerrarSessaoLocal() {
+  clearAccessToken()
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  sessionStorage.removeItem('auth-session')
+  sessionStorage.setItem(AVISO_SESSAO_KEY, AVISO_SESSAO_EXPIRADA)
+}
+
+api.interceptors.request.use((config) => {
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
   return config
 })
 
-
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     const status = error.response?.status
     const url = error.config?.url
-    const mensagem = mensagemPublicaDoErro(error)
+    const podeRenovar = status === 401
+      && url
+      && !ROTAS_SEM_RENOVACAO.includes(url)
+      && !error.config?._tentouRenovar
 
+    if (podeRenovar) {
+      try {
+        error.config._tentouRenovar = true
+        const token = await renovarAccessToken()
+        if (token) {
+          error.config.headers.Authorization = `Bearer ${token}`
+          return api(error.config)
+        }
+      } catch {
+        // A falha é tratada abaixo como sessão encerrada.
+      }
+    }
+
+    const mensagem = mensagemPublicaDoErro(error)
     error.message = mensagem
     if (error.response) {
       const dados = error.response.data && typeof error.response.data === 'object' ? error.response.data : {}
@@ -66,12 +129,8 @@ api.interceptors.response.use(
       error.response = { status: 0, data: { message: mensagem } }
     }
 
-    // Não redireciona automaticamente em falhas de login/cadastro,
-    // para que a página possa exibir a mensagem de erro.
-    if (status === 401 && url && !['/auth/login', '/auth/register'].includes(url)) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      sessionStorage.setItem(AVISO_SESSAO_KEY, AVISO_SESSAO_EXPIRADA)
+    if (status === 401 && url && !ROTAS_SEM_RENOVACAO.includes(url)) {
+      encerrarSessaoLocal()
       window.location.replace('/login?motivo=sessao-expirada')
     }
     return Promise.reject(error)

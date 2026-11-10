@@ -1,3 +1,4 @@
+const { registrarErro } = require('../../utils/logger')
 const pool = require('../../config/db')
 const { dataIsoValida, idValido } = require('../../utils/agendaUtils')
 
@@ -14,7 +15,7 @@ async function listar(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar agenda:', err)
+    registrarErro('Erro ao listar agenda:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -31,7 +32,7 @@ async function listarDisponiveis(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar datas disponíveis:', err)
+    registrarErro('Erro ao listar datas disponíveis:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -69,7 +70,7 @@ async function criar(req, res) {
     if (err.code === '23505') {
       return res.status(409).json({ message: 'Esta data já existe na agenda.' })
     }
-    console.error('Erro ao criar data na agenda:', err)
+    registrarErro('Erro ao criar data na agenda:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -128,7 +129,7 @@ async function alterarDisponibilidade(req, res) {
     return res.status(200).json(result.rows[0])
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro ao alterar disponibilidade:', err)
+    registrarErro('Erro ao alterar disponibilidade:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -177,7 +178,7 @@ async function deletar(req, res) {
     if (err.code === '23503') {
       return res.status(409).json({ message: 'Execute a migração 008 para remover a data preservando o histórico cancelado.' })
     }
-    console.error('Erro ao deletar data:', err)
+    registrarErro('Erro ao deletar data:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()

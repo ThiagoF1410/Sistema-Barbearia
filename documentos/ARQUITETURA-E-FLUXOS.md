@@ -107,10 +107,14 @@ O retorno visual do navegador melhora a experiência, mas o webhook e a reconcil
 - Segredos ficam no backend e em variáveis de ambiente.
 - O webhook recebe corpo bruto antes do parser JSON.
 - A API limita requisições sensíveis, tamanho do corpo e origens CORS.
+- O token de acesso permanece apenas na memória do navegador e expira em 15 minutos.
+- A renovação usa cookie `HttpOnly`, `Secure` em produção e `SameSite=Lax`, com rotação do segredo a cada uso.
+- As sessões administrativas e profissionais expiram por inatividade e por duração máxima; clientes podem permanecer conectados por até sete dias.
+- Em produção, o rate limit usa contadores compartilhados no PostgreSQL e chaves anonimizadas por SHA-256.
 
 ## Limitações conhecidas e evoluções
 
 - O Baileys depende de uma sessão persistente do WhatsApp Web e não é uma API oficial.
-- O rate limit atual é mantido em memória; múltiplas instâncias exigem armazenamento compartilhado.
-- A autenticação pode futuramente migrar do `localStorage` para cookie `HttpOnly` acompanhado de proteção CSRF.
-- A rota visual `/admin/config` permanece como espaço reservado e não integra o escopo funcional atual.
+- O rate limit usa memória apenas em desenvolvimento e testes; a produção depende da migration 032 no PostgreSQL.
+- O cookie de renovação pressupõe frontend e API no mesmo site. Uma hospedagem futura em sites diferentes exige rever `SameSite` e incluir proteção CSRF específica.
+- A rota legada `/admin/config` redireciona para o painel administrativo e não integra o escopo funcional atual.

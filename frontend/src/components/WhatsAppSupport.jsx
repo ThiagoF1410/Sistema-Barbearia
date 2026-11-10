@@ -2,79 +2,67 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { consultarContatoWhatsApp } from '../services/whatsappService'
+import { criarMensagemAtendimento, criarUrlAtendimento } from '../utils/whatsappSupportMessage'
 import BrandIcon from './ui/BrandIcon'
 
 const ASSUNTOS = [
   {
     codigo: 'REEMBOLSO',
+    marcador: 'Reembolso',
     titulo: 'Solicitar reembolso',
     descricao: 'Atendimento para pagamentos já realizados.',
-    orientacao: 'Gostaria de solicitar a análise de um reembolso.',
-    campos: ['Número do pedido ou agendamento:', 'Motivo da solicitação:'],
+    orientacao: 'Gostaria de solicitar a análise de um reembolso referente a um pagamento realizado.',
+    campos: ['Número do pedido ou agendamento', 'Valor pago', 'Motivo da solicitação'],
     icone: 'money',
   },
   {
     codigo: 'ALTERAR_AGENDAMENTO',
+    marcador: 'Reagendamento',
     titulo: 'Alterar data ou horário',
     descricao: 'Consulte a possibilidade de remarcar seu atendimento.',
     orientacao: 'Gostaria de verificar a possibilidade de remarcar meu atendimento.',
-    campos: ['Data e horário atuais:', 'Nova data ou horário desejado:'],
+    campos: ['Data e horário atuais', 'Profissional agendado', 'Nova data ou horário desejado'],
     icone: 'calendar',
   },
   {
     codigo: 'CANCELAR_AGENDAMENTO',
+    marcador: 'Cancelamento',
     titulo: 'Cancelar agendamento',
     descricao: 'Solicite ajuda para cancelar uma reserva.',
     orientacao: 'Gostaria de solicitar o cancelamento do meu agendamento.',
-    campos: ['Data e horário do agendamento:', 'Motivo do cancelamento:'],
+    campos: ['Data e horário do agendamento', 'Profissional agendado', 'Motivo do cancelamento'],
     icone: 'close',
   },
   {
     codigo: 'DUVIDA_PAGAMENTO',
+    marcador: 'Pagamento',
     titulo: 'Dúvidas sobre pagamento',
     descricao: 'Receba ajuda com cobranças e confirmações.',
     orientacao: 'Preciso de ajuda com um pagamento.',
-    campos: ['Número do pedido ou agendamento:', 'Descreva a dúvida ou dificuldade:'],
+    campos: ['Número do pedido ou agendamento', 'Forma de pagamento', 'Dúvida ou dificuldade encontrada'],
     icone: 'card',
   },
   {
     codigo: 'DUVIDA_PEDIDO',
+    marcador: 'Pedido',
     titulo: 'Dúvidas sobre pedido',
     descricao: 'Fale sobre produtos, retirada ou situação do pedido.',
     orientacao: 'Gostaria de receber informações sobre meu pedido.',
-    campos: ['Número do pedido:', 'Descreva sua dúvida:'],
+    campos: ['Número do pedido', 'Produto relacionado', 'Dúvida sobre o pedido ou retirada'],
     icone: 'bag',
   },
   {
     codigo: 'OUTRO',
+    marcador: 'Outro assunto',
     titulo: 'Outro assunto',
     descricao: 'Converse diretamente com nossa equipe.',
     orientacao: 'Gostaria de falar com a equipe sobre outro assunto.',
-    campos: ['Descreva como podemos ajudar:'],
+    campos: ['Como a equipe pode ajudar'],
     icone: 'message',
   },
 ]
 
 const ROTAS_CLIENTE = /^\/(dashboard|agendar|historico|perfil|loja|sacola|servicos|checkout)(\/|$)/
-
-function criarMensagem(assunto, nome) {
-  const primeiroNome = String(nome || '').trim().split(/\s+/)[0] || 'cliente'
-  return [
-    'Olá, equipe O Rei da Navalha! 👋💈',
-    '',
-    `Meu nome é *${primeiroNome}* e preciso de atendimento.`,
-    '',
-    `📌 *Assunto:* ${assunto.titulo}`,
-    `🎫 *Protocolo:* ORN-${assunto.codigo}`,
-    '',
-    assunto.orientacao,
-    '',
-    '📝 *Informações para o atendimento:*',
-    ...assunto.campos.map((campo) => `• ${campo}`),
-    '',
-    'Agradeço pela atenção! 😊',
-  ].join('\n')
-}
 
 export default function WhatsAppSupport() {
   const { user, isAuthenticated } = useAuth()
@@ -123,8 +111,8 @@ export default function WhatsAppSupport() {
 
   function abrirWhatsApp(assunto) {
     if (!contato?.url) return
-    const mensagem = criarMensagem(assunto, user?.nome || user?.name)
-    window.open(`${contato.url}?text=${encodeURIComponent(mensagem)}`, '_blank', 'noopener,noreferrer')
+    const mensagem = criarMensagemAtendimento(assunto, user?.nome || user?.name)
+    window.open(criarUrlAtendimento(contato.telefone, mensagem), '_blank', 'noopener,noreferrer')
     setAberto(false)
   }
 

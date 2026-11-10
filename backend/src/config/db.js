@@ -1,3 +1,4 @@
+const { registrarErro } = require('../utils/logger')
 const { Pool } = require('pg')
 
 function configuracaoPorUrl(connectionString) {
@@ -28,7 +29,7 @@ const pool = process.env.DATABASE_URL
     })
 
 pool.on('error', (err) => {
-  console.error('Erro inesperado no pool de conexão:', err.message)
+  registrarErro('Erro inesperado no pool de conexão:', err)
 })
 
 async function verificarConexao() {

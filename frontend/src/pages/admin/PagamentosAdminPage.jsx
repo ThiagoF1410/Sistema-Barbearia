@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import AdminLayout from '../../components/admin/AdminLayout'
 import BrandIcon from '../../components/ui/BrandIcon'
 import BrandedDatePicker from '../../components/ui/BrandedDatePicker'
+import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import Pagination from '../../components/ui/Pagination'
 import { confirmarPagamentoDinheiro, listarPagamentosAdmin } from '../../services/pagamentosService'
+import useFeedbackFocus from '../../hooks/useFeedbackFocus'
 
 const STATUS = {
   PENDENTE: { texto: 'Pendente', classe: 'border-amber-400/30 bg-amber-500/10 text-amber-200' },
@@ -50,7 +52,9 @@ export default function PagamentosAdminPage() {
   const [paginacao, setPaginacao] = useState(null)
   const [carregando, setCarregando] = useState(true)
   const [confirmandoId, setConfirmandoId] = useState(null)
+  const [confirmacaoPagamento, setConfirmacaoPagamento] = useState(null)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [sucesso, setSucesso] = useState('')
   const consultaRef = useRef(0)
 
@@ -113,7 +117,6 @@ export default function PagamentosAdminPage() {
   }
 
   async function confirmarDinheiro(item) {
-    if (!window.confirm(`Confirmar o recebimento de ${moeda(item.valor)} em dinheiro?`)) return
     setErro('')
     setSucesso('')
     setConfirmandoId(item.idpagamento)
@@ -125,6 +128,7 @@ export default function PagamentosAdminPage() {
       setErro(err.response?.data?.message || 'Não foi possível confirmar o recebimento em dinheiro.')
     } finally {
       setConfirmandoId(null)
+      setConfirmacaoPagamento(null)
     }
   }
 
@@ -162,7 +166,7 @@ export default function PagamentosAdminPage() {
           {cards.map((card) => <article key={card.rotulo} className="brand-card glass-panel border border-white/10 p-4 sm:p-5 min-w-0"><div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${card.fundo} ${card.borda} ${card.cor}`}><BrandIcon name={card.icone} size={22} /></div><p className={`font-headline text-xl sm:text-2xl mt-3 break-words ${card.cor}`}>{carregando ? '—' : card.valor}</p><p className="text-[9px] sm:text-xs uppercase sm:normal-case tracking-wider sm:tracking-normal text-on-surface-variant mt-1">{card.rotulo}</p></article>)}
         </section>
 
-        {erro && <div role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={() => carregar({ busca: busca || undefined, status: status || undefined, inicio: inicio || undefined, fim: fim || undefined }, paginacao?.pagina || 1)} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider">Tentar novamente</button></div>}
+        {erro && <div ref={erroRef} role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={() => carregar({ busca: busca || undefined, status: status || undefined, inicio: inicio || undefined, fim: fim || undefined }, paginacao?.pagina || 1)} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider">Tentar novamente</button></div>}
         {sucesso && <div role="status" className="rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-200">{sucesso}</div>}
         <section aria-labelledby="pagamentos-titulo">
           <div className="flex items-end justify-between gap-4 mb-5"><div><p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Transações</p><h2 id="pagamentos-titulo" className="font-headline text-2xl mt-2">Resultados</h2></div><span className="text-xs text-on-surface-variant">{pagamentos.length} {pagamentos.length === 1 ? 'registro' : 'registros'}</span></div>
@@ -170,11 +174,61 @@ export default function PagamentosAdminPage() {
             const situacao = STATUS[item.statuspagamento] || { texto: item.statuspagamento, classe: 'border-white/15 text-on-surface-variant' }
             const compraAvulsa = !item.idagendamento
             const cancelado = ['CANCELADO', 'FALHOU'].includes(String(item.statuspagamento).toUpperCase())
-            return <article key={item.idpagamento} className={`glass-panel rounded-2xl border p-4 sm:p-5 transition-colors ${cancelado ? 'border-red-400/15' : 'border-white/10 hover:border-primary/20'}`}><div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,1fr)_auto] lg:items-center"><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${compraAvulsa ? 'border-primary/20 bg-primary/10 text-primary' : 'border-white/10 bg-white/5 text-white/70'}`}><BrandIcon name={compraAvulsa ? 'bag' : 'calendar'} size={19} /></span><div className="min-w-0"><p className="text-[9px] uppercase tracking-[0.16em] text-on-surface-variant">{compraAvulsa ? 'Compra na loja' : 'Atendimento'}</p><h3 className="font-headline text-lg sm:text-xl truncate">{item.servico}</h3></div></div><div className="mt-4 pl-0 sm:pl-11"><p className="text-sm font-semibold">{item.cliente}</p><p className="text-xs text-on-surface-variant mt-1 break-all">{item.cliente_email}</p></div></div><dl className="grid grid-cols-2 gap-x-5 gap-y-4 text-sm"><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">{compraAvulsa ? 'Data da compra' : 'Atendimento'}</dt><dd className="mt-1">{dataBr(item.data)}{item.horario ? ` às ${item.horario}` : ''}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">{compraAvulsa ? 'Entrega' : 'Profissional'}</dt><dd className="mt-1">{compraAvulsa ? 'Retirada na barbearia' : item.profissional}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Método</dt><dd className="mt-1 uppercase">{item.metodo || 'Não informado'}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Referência</dt><dd className="mt-1">{compraAvulsa ? `Pedido #${item.idpedido}` : item.statusagendamento}</dd></div></dl><div className="flex lg:flex-col items-center lg:items-end justify-between gap-3 border-t border-white/[0.07] pt-4 lg:border-0 lg:pt-0"><div className="lg:text-right"><p className="font-headline text-2xl text-primary">{moeda(item.valor)}</p><p className="text-[10px] text-on-surface-variant mt-1">Pagamento #{item.idpagamento}</p></div><div className="flex flex-col items-end gap-2"><span className={`rounded-full border px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider whitespace-nowrap ${situacao.classe}`}>{situacao.texto}</span>{item.metodo === 'DINHEIRO' && item.statuspagamento === 'PENDENTE' && <button type="button" onClick={() => confirmarDinheiro(item)} disabled={confirmandoId !== null || carregando} className="rounded-full bg-primary px-4 py-2 text-[9px] font-bold uppercase tracking-wider text-on-primary disabled:opacity-50">{confirmandoId === item.idpagamento ? 'Confirmando...' : 'Confirmar recebimento'}</button>}</div></div></div></article>
+            return <article key={item.idpagamento} className={`glass-panel rounded-2xl border p-4 sm:p-5 transition-colors ${cancelado ? 'border-red-400/15' : 'border-white/10 hover:border-primary/20'}`}><div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,1fr)_auto] lg:items-center"><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${compraAvulsa ? 'border-primary/20 bg-primary/10 text-primary' : 'border-white/10 bg-white/5 text-white/70'}`}><BrandIcon name={compraAvulsa ? 'bag' : 'calendar'} size={19} /></span><div className="min-w-0"><p className="text-[9px] uppercase tracking-[0.16em] text-on-surface-variant">{compraAvulsa ? 'Compra na loja' : 'Atendimento'}</p><h3 className="font-headline text-lg sm:text-xl truncate">{item.servico}</h3></div></div><div className="mt-4 pl-0 sm:pl-11"><p className="text-sm font-semibold">{item.cliente}</p><p className="text-xs text-on-surface-variant mt-1 break-all">{item.cliente_email}</p></div></div><dl className="grid grid-cols-2 gap-x-5 gap-y-4 text-sm"><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">{compraAvulsa ? 'Data da compra' : 'Atendimento'}</dt><dd className="mt-1">{dataBr(item.data)}{item.horario ? ` às ${item.horario}` : ''}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">{compraAvulsa ? 'Entrega' : 'Profissional'}</dt><dd className="mt-1">{compraAvulsa ? 'Retirada na barbearia' : item.profissional}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Método</dt><dd className="mt-1 uppercase">{item.metodo || 'Não informado'}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Referência</dt><dd className="mt-1">{compraAvulsa ? `Pedido #${item.idpedido}` : item.statusagendamento}</dd></div></dl><div className="flex lg:flex-col items-center lg:items-end justify-between gap-3 border-t border-white/[0.07] pt-4 lg:border-0 lg:pt-0"><div className="lg:text-right"><p className="font-headline text-2xl text-primary">{moeda(item.valor)}</p><p className="text-[10px] text-on-surface-variant mt-1">Pagamento #{item.idpagamento}</p></div><div className="flex flex-col items-end gap-2"><span className={`rounded-full border px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider whitespace-nowrap ${situacao.classe}`}>{situacao.texto}</span>{item.metodo === 'DINHEIRO' && item.statuspagamento === 'PENDENTE' && <button type="button" onClick={() => setConfirmacaoPagamento(item)} disabled={confirmandoId !== null || carregando} className="rounded-full bg-primary px-4 py-2 text-[9px] font-bold uppercase tracking-wider text-on-primary disabled:opacity-50">{confirmandoId === item.idpagamento ? 'Confirmando...' : 'Confirmar recebimento'}</button>}</div></div></div></article>
           })}</div>}
           {!carregando && <Pagination dados={paginacao} onChange={(pagina) => carregar({ busca: busca || undefined, status: status || undefined, inicio: inicio || undefined, fim: fim || undefined }, pagina)} />}
         </section>
       </main>
+
+      <ConfirmDialog
+        aberto={Boolean(confirmacaoPagamento)}
+        titulo="Confirmar recebimento em dinheiro?"
+        descricao="Confira os dados antes de registrar o pagamento. Esta confirmação incluirá o valor no faturamento da barbearia."
+        rotuloConfirmar="Confirmar recebimento"
+        rotuloProcessando="Confirmando..."
+        processando={confirmandoId !== null}
+        variante="principal"
+        aoFechar={() => { if (confirmandoId === null) setConfirmacaoPagamento(null) }}
+        aoConfirmar={() => confirmarDinheiro(confirmacaoPagamento)}
+      >
+        {confirmacaoPagamento && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/[0.08] p-4">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 text-primary">
+                <BrandIcon name="money" size={23} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Valor a confirmar</p>
+                <p className="mt-1 font-headline text-2xl text-primary">{moeda(confirmacaoPagamento.valor)}</p>
+              </div>
+            </div>
+
+            <dl className="grid gap-4 rounded-2xl border border-white/[0.08] bg-black/20 p-4 sm:grid-cols-2">
+              <div>
+                <dt className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Cliente</dt>
+                <dd className="mt-1 text-sm font-semibold text-on-surface">{confirmacaoPagamento.cliente}</dd>
+              </div>
+              <div>
+                <dt className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Referência</dt>
+                <dd className="mt-1 text-sm font-semibold text-on-surface">{confirmacaoPagamento.idagendamento ? confirmacaoPagamento.servico : `Pedido #${confirmacaoPagamento.idpedido}`}</dd>
+              </div>
+              <div>
+                <dt className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Data</dt>
+                <dd className="mt-1 text-sm text-on-surface">{dataBr(confirmacaoPagamento.data)}{confirmacaoPagamento.horario ? ` às ${confirmacaoPagamento.horario}` : ''}</dd>
+              </div>
+              <div>
+                <dt className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Método</dt>
+                <dd className="mt-1 text-sm font-semibold uppercase text-on-surface">Dinheiro</dd>
+              </div>
+            </dl>
+
+            <p className="flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/[0.08] px-3 py-2.5 text-xs leading-relaxed text-amber-100">
+              <BrandIcon name="alert" size={16} className="mt-0.5 shrink-0" />
+              Confirme somente depois de receber o valor do cliente.
+            </p>
+          </div>
+        )}
+      </ConfirmDialog>
     </AdminLayout>
   )
 }

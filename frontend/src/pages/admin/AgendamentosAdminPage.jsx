@@ -4,7 +4,9 @@ import { listarProfissionais } from '../../services/profissionaisService'
 import AdminLayout from '../../components/admin/AdminLayout'
 import BrandIcon from '../../components/ui/BrandIcon'
 import BrandedDatePicker from '../../components/ui/BrandedDatePicker'
+import ConfirmDialog from '../../components/ui/ConfirmDialog'
 import Pagination from '../../components/ui/Pagination'
+import useFeedbackFocus from '../../hooks/useFeedbackFocus'
 
 const FILTROS_INICIAIS = {
   busca: '', dataInicio: '', dataFim: '', profissionalId: '', status: '', statusPagamento: '',
@@ -89,10 +91,12 @@ export default function AgendamentosAdminPage() {
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
   const [atualizandoId, setAtualizandoId] = useState(null)
+  const [confirmacaoConclusao, setConfirmacaoConclusao] = useState(null)
   const [detalheId, setDetalheId] = useState(null)
   const [paginacao, setPaginacao] = useState(null)
   const [resumoServidor, setResumoServidor] = useState(null)
   const consultaRef = useRef(0)
+  const erroRef = useFeedbackFocus(erro)
 
   useEffect(() => {
     listarProfissionais().then(setProfissionais).catch((err) => setErro(err.response?.data?.message || 'Não foi possível carregar os profissionais. Tente novamente.'))
@@ -154,7 +158,6 @@ export default function AgendamentosAdminPage() {
   }
 
   async function concluirAtendimento(id) {
-    if (!window.confirm('Confirma a conclusão deste atendimento?')) return
     setErro('')
     setAtualizandoId(id)
     try {
@@ -164,6 +167,7 @@ export default function AgendamentosAdminPage() {
       setErro(err.response?.data?.message || 'Não foi possível concluir o atendimento. Tente novamente.')
     } finally {
       setAtualizandoId(null)
+      setConfirmacaoConclusao(null)
     }
   }
 
@@ -218,7 +222,7 @@ export default function AgendamentosAdminPage() {
 
         <section aria-label="Resumo dos resultados" className="grid grid-cols-2 lg:grid-cols-5 gap-3">{cardsResumo.map((card) => <div key={card.label} className="glass-panel rounded-2xl border border-white/10 p-4 min-w-0"><p className={`font-headline text-xl sm:text-2xl break-words ${card.cor}`}>{carregando ? '—' : card.valor}</p><p className="text-[9px] uppercase tracking-wider text-on-surface-variant mt-1">{card.label}</p></div>)}</section>
 
-        {erro && <div role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={() => carregar()} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider">Tentar novamente</button></div>}
+        {erro && <div ref={erroRef} role="alert" tabIndex={-1} className="scroll-mt-24 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3 outline-none focus-visible:ring-2 focus-visible:ring-error/60"><span>{erro}</span><button type="button" onClick={() => carregar()} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider">Tentar novamente</button></div>}
 
         <section aria-labelledby="resultados-titulo">
           <div className="flex items-end justify-between gap-4 mb-5"><div><p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Listagem</p><h2 id="resultados-titulo" className="font-headline text-2xl mt-2">Resultados</h2></div><span className="text-xs text-on-surface-variant">{agendamentos.length} {agendamentos.length === 1 ? 'registro' : 'registros'}</span></div>
@@ -231,6 +235,8 @@ export default function AgendamentosAdminPage() {
               : PAGAMENTO[pagamentoCodigo]
             const whatsapp = dadosWhatsapp(item.cliente_telefone)
             const aberto = detalheId === item.idagendamento
+            const podeConcluir = item.pode_concluir === true
+            const horarioLiberacao = formatarHorarioFinal(item.horario, item.duracao)
             return <article key={item.idagendamento} className={`glass-panel rounded-2xl border p-4 sm:p-5 transition-colors ${aberto ? 'border-primary/35' : 'border-white/10 hover:border-primary/20'} ${statusCodigo === 'CANCELADO' ? 'opacity-70' : ''}`}>
               <div className="grid gap-5 lg:grid-cols-[110px_minmax(0,1.2fr)_minmax(220px,.8fr)_auto] lg:items-center">
                 <div><p className="font-headline text-2xl text-primary">{item.horario}</p><p className="text-xs text-on-surface-variant mt-1">até {formatarHorarioFinal(item.horario, item.duracao)}</p><p className="text-[10px] text-on-surface-variant mt-1">{item.duracao} minutos</p></div>
@@ -239,7 +245,7 @@ export default function AgendamentosAdminPage() {
                 <div className="flex flex-wrap lg:flex-col lg:items-end gap-2"><Badge configuracao={STATUS[statusCodigo]} fallback={statusCodigo} /><Badge configuracao={pagamentoConfiguracao} fallback={pagamentoCodigo} /></div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-3"><button type="button" onClick={() => setDetalheId(aberto ? null : item.idagendamento)} aria-expanded={aberto} className="self-start inline-flex items-center gap-2 text-xs font-bold text-on-surface-variant hover:text-primary">{aberto ? 'Ocultar detalhes' : 'Ver detalhes'}<BrandIcon name={aberto ? 'back' : 'next'} size={15} className={aberto ? 'rotate-90' : ''} /></button>{statusCodigo === 'AGENDADO' && <button type="button" onClick={() => concluirAtendimento(item.idagendamento)} disabled={atualizandoId !== null} title={item.pode_concluir ? 'Marcar atendimento como concluído' : 'O sistema verificará se o atendimento já terminou'} className="rounded-full border border-primary/35 px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-primary hover:bg-primary/10 disabled:opacity-50">{atualizandoId === item.idagendamento ? 'Salvando...' : 'Concluir atendimento'}</button>}</div>
+              <div className="mt-4 pt-4 border-t border-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-3"><button type="button" onClick={() => setDetalheId(aberto ? null : item.idagendamento)} aria-expanded={aberto} className="self-start inline-flex items-center gap-2 text-xs font-bold text-on-surface-variant hover:text-primary">{aberto ? 'Ocultar detalhes' : 'Ver detalhes'}<BrandIcon name={aberto ? 'back' : 'next'} size={15} className={aberto ? 'rotate-90' : ''} /></button>{statusCodigo === 'AGENDADO' && <div className="flex flex-col items-start gap-1 sm:items-end"><button type="button" onClick={() => setConfirmacaoConclusao(item)} disabled={atualizandoId !== null || !podeConcluir} title={podeConcluir ? 'Marcar atendimento como concluído' : `Disponível após ${formatarDataCurta(item.data)} às ${horarioLiberacao}`} className="rounded-full border border-primary/35 px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider text-primary hover:bg-primary/10 disabled:cursor-not-allowed disabled:border-white/10 disabled:text-on-surface-variant disabled:opacity-60">{atualizandoId === item.idagendamento ? 'Salvando...' : podeConcluir ? 'Concluir atendimento' : `Disponível após ${horarioLiberacao}`}</button>{!podeConcluir && <span className="text-[10px] text-on-surface-variant">A conclusão será liberada após o término.</span>}</div>}</div>
 
               {aberto && <dl className="mt-4 grid gap-4 rounded-xl border border-white/[0.07] bg-black/15 p-4 sm:grid-cols-2 lg:grid-cols-4"><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Código</dt><dd className="text-sm mt-1">#{item.idagendamento}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Data</dt><dd className="text-sm mt-1">{formatarDataCurta(item.data)}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">Especialidade</dt><dd className="text-sm mt-1">{item.especialidade || 'Não informada'}</dd></div><div><dt className="text-[9px] uppercase tracking-wider text-on-surface-variant">E-mail secundário</dt><dd className="text-sm mt-1 break-all">{item.cliente_email || 'Não informado'}</dd></div></dl>}
             </article>
@@ -248,6 +254,41 @@ export default function AgendamentosAdminPage() {
           {!carregando && <Pagination dados={paginacao} disabled={atualizandoId !== null} onChange={(pagina) => carregar(filtrosAplicados, pagina)} />}
         </section>
       </main>
+
+      <ConfirmDialog
+        aberto={Boolean(confirmacaoConclusao)}
+        titulo={confirmacaoConclusao ? `Concluir atendimento de ${confirmacaoConclusao.cliente}?` : 'Concluir atendimento?'}
+        descricao="Esta ação registra que o serviço foi realizado e atualiza os relatórios da barbearia. Confira os dados antes de continuar."
+        rotuloConfirmar="Confirmar atendimento"
+        rotuloProcessando="Confirmando..."
+        processando={atualizandoId !== null}
+        variante="principal"
+        aoFechar={() => { if (atualizandoId === null) setConfirmacaoConclusao(null) }}
+        aoConfirmar={() => concluirAtendimento(confirmacaoConclusao.idagendamento)}
+      >
+        {confirmacaoConclusao && (
+          <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Serviço</p>
+                <p className="mt-1 text-sm font-semibold text-on-surface">{confirmacaoConclusao.servico}</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Profissional</p>
+                <p className="mt-1 text-sm font-semibold text-on-surface">{confirmacaoConclusao.profissional}</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Data</p>
+                <p className="mt-1 text-sm font-semibold text-on-surface">{formatarDataCurta(confirmacaoConclusao.data)}</p>
+              </div>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Horário</p>
+                <p className="mt-1 text-sm font-semibold text-primary">{confirmacaoConclusao.horario} às {formatarHorarioFinal(confirmacaoConclusao.horario, confirmacaoConclusao.duracao)}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </ConfirmDialog>
     </AdminLayout>
   )
 }

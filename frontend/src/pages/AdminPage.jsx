@@ -6,6 +6,7 @@ import BrandIcon from '../components/ui/BrandIcon'
 import BrandedDatePicker from '../components/ui/BrandedDatePicker'
 import logoImg from '../assets/Logo1.avif'
 import NotificationBell from '../components/NotificationBell'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 
 const navegacao = [
   { grupo: 'Visão geral', itens: [{ icon: 'home', label: 'Painel', to: '/admin' }] },
@@ -132,6 +133,7 @@ export default function AdminPage() {
   const [dashboard, setDashboard] = useState(null)
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [menuAberto, setMenuAberto] = useState(false)
   const [sidebarRecolhida, setSidebarRecolhida] = useState(() => localStorage.getItem('admin-sidebar') === 'recolhida')
 
@@ -205,7 +207,7 @@ export default function AdminPage() {
             <p className="text-on-surface-variant text-sm mt-2">Acompanhe a operação da barbearia e acesse rapidamente cada área.</p>
           </section>
 
-          {erro && <div role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={recarregar} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider">Tentar novamente</button></div>}
+          {erro && <div ref={erroRef} role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={recarregar} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider">Tentar novamente</button></div>}
 
           <section aria-label="Resumo administrativo" className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
             {cards.map((card) => <Link key={card.label} to={card.to} className="brand-card glass-panel p-4 sm:p-5 border border-outline-variant/10 min-h-36 group hover:border-primary/35 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 transition-all">

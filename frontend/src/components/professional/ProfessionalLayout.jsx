@@ -24,11 +24,15 @@ export default function ProfessionalLayout({ children, aba, aoSelecionar, perfil
 
   useEffect(() => {
     if (!menuAberto) return undefined
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const fecharNoDesktop = () => { if (desktop.matches) setMenuAberto(false) }
+    desktop.addEventListener('change', fecharNoDesktop)
     const overflowAnterior = document.body.style.overflow
     const fecharComEscape = (event) => { if (event.key === 'Escape') setMenuAberto(false) }
     document.addEventListener('keydown', fecharComEscape)
     document.body.style.overflow = 'hidden'
     return () => {
+      desktop.removeEventListener('change', fecharNoDesktop)
       document.removeEventListener('keydown', fecharComEscape)
       document.body.style.overflow = overflowAnterior
     }
@@ -58,14 +62,14 @@ export default function ProfessionalLayout({ children, aba, aoSelecionar, perfil
       <div className="flex h-20 items-center justify-between gap-3 border-b border-white/[0.07] px-4">
         <button type="button" onClick={() => selecionar('visao')} className="flex min-w-0 items-center gap-3 text-left">
           <img src={logoImg} alt="" width="44" height="44" decoding="async" className="h-11 w-11 shrink-0 object-contain" />
-          <div className={`${recolhida ? 'lg:hidden' : ''} min-w-0`}><p className="truncate font-headline text-lg">O Rei da Navalha</p><p className="mt-1 text-[8px] font-bold uppercase tracking-[0.22em] text-primary">Área do profissional</p></div>
+          <div className={`${recolhida ? 'lg:hidden' : ''} min-w-0`}><p className="truncate font-headline text-lg">O Rei da Navalha</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.22em] text-primary">Área do profissional</p></div>
         </button>
         <button type="button" onClick={() => setMenuAberto(false)} className="rounded-xl p-2 text-white/70 hover:bg-white/5 hover:text-primary lg:hidden" aria-label="Fechar menu"><BrandIcon name="close" size={21} /></button>
       </div>
 
       <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-5">
         {NAVEGACAO.map((secao) => <div key={secao.grupo}>
-          <p className={`mb-2 px-3 text-[8px] font-bold uppercase tracking-[0.2em] text-white/35 ${recolhida ? 'lg:sr-only' : ''}`}>{secao.grupo}</p>
+          <p className={`mb-2 px-3 text-xs font-bold uppercase tracking-[0.2em] text-white/35 ${recolhida ? 'lg:sr-only' : ''}`}>{secao.grupo}</p>
           <div className="space-y-1">{secao.itens.map((item) => {
             const ativo = aba === item.id
             return <button key={item.id} type="button" onClick={() => selecionar(item.id)} title={recolhida ? item.label : undefined} aria-current={ativo ? 'page' : undefined} className={`flex min-h-11 w-full items-center gap-3 rounded-xl px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 ${ativo ? 'border border-primary/20 bg-primary/10 text-primary' : 'text-white/65 hover:bg-white/[0.05] hover:text-white'} ${recolhida ? 'lg:justify-center' : ''}`}><BrandIcon name={item.icon} size={21} className="shrink-0" /><span className={recolhida ? 'lg:sr-only' : ''}>{item.label}</span></button>
@@ -75,7 +79,7 @@ export default function ProfessionalLayout({ children, aba, aoSelecionar, perfil
 
       <div className="border-t border-white/[0.07] p-3">
         <div className={`rounded-2xl bg-white/[0.035] p-3 ${recolhida ? 'lg:flex lg:justify-center' : ''}`}>
-          <div className={`flex min-w-0 items-center gap-3 ${recolhida ? 'lg:justify-center' : ''}`}><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="professional" size={19} /></div><div className={`${recolhida ? 'lg:sr-only' : ''} min-w-0`}><p className="truncate text-xs font-semibold">{nome}</p><p className="mt-0.5 truncate text-[9px] text-on-surface-variant">{especialidade}</p></div></div>
+          <div className={`flex min-w-0 items-center gap-3 ${recolhida ? 'lg:justify-center' : ''}`}><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="professional" size={19} /></div><div className={`${recolhida ? 'lg:sr-only' : ''} min-w-0`}><p className="truncate text-xs font-semibold">{nome}</p><p className="mt-0.5 truncate text-xs text-on-surface-variant">{especialidade}</p></div></div>
           <button type="button" onClick={sair} title={recolhida ? 'Sair' : undefined} className={`mt-3 flex min-h-9 w-full items-center gap-2 rounded-xl px-2 text-xs text-white/55 hover:bg-error/10 hover:text-error ${recolhida ? 'lg:mt-0 lg:w-auto lg:justify-center' : ''}`}><BrandIcon name="logout" size={17} /><span className={recolhida ? 'lg:sr-only' : ''}>Sair</span></button>
         </div>
       </div>
@@ -86,8 +90,8 @@ export default function ProfessionalLayout({ children, aba, aoSelecionar, perfil
     <div className={`min-h-screen transition-[padding] duration-300 ${recolhida ? 'lg:pl-20' : 'lg:pl-64'}`}>
       <header className="sticky top-0 z-30 h-16 border-b border-primary/15 bg-black/85 backdrop-blur-xl">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-          <div className="flex min-w-0 items-center gap-3"><button type="button" onClick={() => setMenuAberto(true)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 text-white/80 hover:border-primary/40 hover:text-primary lg:hidden" aria-label="Abrir menu profissional" aria-expanded={menuAberto}><BrandIcon name="menu" size={22} /></button><div className="min-w-0"><p className="truncate font-headline text-lg">{titulo}</p><p className="hidden truncate text-[9px] uppercase tracking-wider text-on-surface-variant sm:block">{subtitulo}</p></div></div>
-          <div className="flex items-center gap-2"><NotificationBell /><span className="hidden text-xs text-white/60 md:inline">{nome}</span><span className="hidden rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-primary sm:inline">Profissional</span></div>
+          <div className="flex min-w-0 items-center gap-3"><button type="button" onClick={() => setMenuAberto(true)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 text-white/80 hover:border-primary/40 hover:text-primary lg:hidden" aria-label="Abrir menu profissional" aria-expanded={menuAberto}><BrandIcon name="menu" size={22} /></button><div className="min-w-0"><p className="truncate font-headline text-lg">{titulo}</p><p className="hidden truncate text-xs uppercase tracking-wider text-on-surface-variant sm:block">{subtitulo}</p></div></div>
+          <div className="flex items-center gap-2"><NotificationBell /><span className="hidden text-xs text-white/60 md:inline">{nome}</span><span className="hidden rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-primary sm:inline">Profissional</span></div>
         </div>
       </header>
       {children}

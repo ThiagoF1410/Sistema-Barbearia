@@ -1,3 +1,4 @@
+const { registrarErro } = require('../utils/logger')
 const pool = require('../config/db')
 const { idValido } = require('../utils/agendaUtils')
 
@@ -25,7 +26,7 @@ async function listar(req, res) {
       naoLidas: totalResult.rows[0]?.total || 0,
     })
   } catch (err) {
-    console.error('Erro ao listar notificações:', err)
+    registrarErro('Erro ao listar notificações:', err)
     return res.status(500).json({ message: 'Não foi possível carregar as notificações agora.' })
   }
 }
@@ -48,7 +49,7 @@ async function marcarComoLida(req, res) {
     }
     return res.status(200).json(result.rows[0])
   } catch (err) {
-    console.error('Erro ao atualizar notificação:', err)
+    registrarErro('Erro ao atualizar notificação:', err)
     return res.status(500).json({ message: 'Não foi possível atualizar a notificação.' })
   }
 }
@@ -64,7 +65,7 @@ async function marcarTodasComoLidas(req, res) {
     )
     return res.status(200).json({ atualizadas: result.rowCount })
   } catch (err) {
-    console.error('Erro ao atualizar notificações:', err)
+    registrarErro('Erro ao atualizar notificações:', err)
     return res.status(500).json({ message: 'Não foi possível atualizar as notificações.' })
   }
 }

@@ -1,0 +1,305 @@
+{
+  "date": "2026-09-08T05:46:34.940Z",
+  "report": [
+    {
+      "role": "admin",
+      "route": "/admin",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2876,
+      "metrics": {
+        "route": "/admin",
+        "fcp": 168,
+        "longTasks": [],
+        "resources": 13,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.338888888885787
+      },
+      "calendar": {
+        "openMs": 32.39999999990687
+      }
+    },
+    {
+      "role": "admin",
+      "route": "/admin/agendamentos",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2816,
+      "metrics": {
+        "route": "/admin/agendamentos",
+        "fcp": 164,
+        "longTasks": [],
+        "resources": 17,
+        "rows": 12
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.46111111110904
+      },
+      "calendar": {
+        "openMs": 31.700000000186265
+      }
+    },
+    {
+      "role": "admin",
+      "route": "/admin/clientes",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2552,
+      "metrics": {
+        "route": "/admin/clientes",
+        "fcp": 160,
+        "longTasks": [],
+        "resources": 13,
+        "rows": 12
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.62333333333333
+      },
+      "calendar": null
+    },
+    {
+      "role": "admin",
+      "route": "/admin",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 4228,
+      "metrics": {
+        "route": "/admin",
+        "fcp": 1260,
+        "longTasks": [],
+        "resources": 13,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 83.29999999999973,
+        "framesOver50": 1,
+        "meanFrameMs": 17.056666666662526
+      },
+      "calendar": {
+        "openMs": 63.200000000186265
+      }
+    },
+    {
+      "role": "admin",
+      "route": "/admin/agendamentos",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 4233,
+      "metrics": {
+        "route": "/admin/agendamentos",
+        "fcp": 1236,
+        "longTasks": [],
+        "resources": 17,
+        "rows": 12
+      },
+      "scroll": {
+        "maxFrameMs": 116.69999999999982,
+        "framesOver50": 1,
+        "meanFrameMs": 17.47888888888785
+      },
+      "calendar": {
+        "openMs": 63.700000000186265
+      }
+    },
+    {
+      "role": "admin",
+      "route": "/admin/clientes",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 3951,
+      "metrics": {
+        "route": "/admin/clientes",
+        "fcp": 1248,
+        "longTasks": [],
+        "resources": 13,
+        "rows": 12
+      },
+      "scroll": {
+        "maxFrameMs": 83.29999999999973,
+        "framesOver50": 1,
+        "meanFrameMs": 17.34222222221808
+      },
+      "calendar": null
+    },
+    {
+      "role": "cliente",
+      "route": "/dashboard",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2590,
+      "metrics": {
+        "route": "/dashboard",
+        "fcp": 124,
+        "longTasks": [],
+        "resources": 13,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.65222222222222
+      },
+      "calendar": {
+        "openMs": 32.5
+      }
+    },
+    {
+      "role": "cliente",
+      "route": "/loja",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2565,
+      "metrics": {
+        "route": "/loja",
+        "fcp": 124,
+        "longTasks": [],
+        "resources": 15,
+        "rows": 13
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.461111111114214
+      },
+      "calendar": {
+        "openMs": 29.100000000093132
+      }
+    },
+    {
+      "role": "cliente",
+      "route": "/agendar",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2818,
+      "metrics": {
+        "route": "/agendar",
+        "fcp": 120,
+        "longTasks": [],
+        "resources": 18,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.43000000000207
+      },
+      "calendar": {
+        "openMs": 30.700000000186265
+      }
+    },
+    {
+      "role": "cliente",
+      "route": "/dashboard",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 3889,
+      "metrics": {
+        "route": "/dashboard",
+        "fcp": 1052,
+        "longTasks": [],
+        "resources": 13,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 66.70000000000027,
+        "framesOver50": 1,
+        "meanFrameMs": 17.050000000001035
+      },
+      "calendar": {
+        "openMs": 47.3000000002794
+      }
+    },
+    {
+      "role": "cliente",
+      "route": "/loja",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 4082,
+      "metrics": {
+        "route": "/loja",
+        "fcp": 1064,
+        "longTasks": [],
+        "resources": 15,
+        "rows": 13
+      },
+      "scroll": {
+        "maxFrameMs": 50,
+        "framesOver50": 0,
+        "meanFrameMs": 16.812222222218082
+      },
+      "calendar": {
+        "openMs": 47.39999999990687
+      }
+    },
+    {
+      "role": "cliente",
+      "route": "/agendar",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 4133,
+      "metrics": {
+        "route": "/agendar",
+        "fcp": 1080,
+        "longTasks": [],
+        "resources": 18,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 50,
+        "framesOver50": 0,
+        "meanFrameMs": 16.78444444444134
+      },
+      "calendar": {
+        "openMs": 62.59999999962747
+      }
+    },
+    {
+      "role": "profissional",
+      "route": "/profissional",
+      "condition": "normal",
+      "ready": true,
+      "readyCheckMs": 2779,
+      "metrics": {
+        "route": "/profissional",
+        "fcp": 160,
+        "longTasks": [],
+        "resources": 21,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 16.800000000000182,
+        "framesOver50": 0,
+        "meanFrameMs": 16.340000000003105
+      },
+      "calendar": null
+    },
+    {
+      "role": "profissional",
+      "route": "/profissional",
+      "condition": "cpu4-network1600kbps-150ms",
+      "ready": true,
+      "readyCheckMs": 4093,
+      "metrics": {
+        "route": "/profissional",
+        "fcp": 1272,
+        "longTasks": [],
+        "resources": 21,
+        "rows": 0
+      },
+      "scroll": {
+        "maxFrameMs": 50,
+        "framesOver50": 0,
+        "meanFrameMs": 16.722222222224293
+      },
+      "calendar": null
+    }
+  ]
+}

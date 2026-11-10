@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { atualizarServico, criarServico, deletarServico, listarServicos } from '../../services/servicosService'
 import AdminLayout from '../../components/admin/AdminLayout'
 import BrandIcon from '../../components/ui/BrandIcon'
+import ConfirmDialog from '../../components/ui/ConfirmDialog'
+import useFeedbackFocus from '../../hooks/useFeedbackFocus'
 
 function formularioVazio(tipo = 'servico') {
   return { nome: '', tipo, duracao: tipo === 'produto' ? 1 : 30, preco: '', descricao: '' }
@@ -20,8 +22,11 @@ export default function ServicosAdminPage() {
   const [form, setForm] = useState(() => formularioVazio())
   const [editandoId, setEditandoId] = useState(null)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [sucesso, setSucesso] = useState('')
   const [salvando, setSalvando] = useState(false)
+  const [itemParaRemover, setItemParaRemover] = useState(null)
+  const [removendo, setRemovendo] = useState(false)
   const [carregando, setCarregando] = useState(true)
   const [busca, setBusca] = useState('')
   const [filtroTipo, setFiltroTipo] = useState('servico')
@@ -114,18 +119,27 @@ export default function ServicosAdminPage() {
     }
   }
 
-  async function remover(item) {
+  function solicitarRemocao(item) {
+    setItemParaRemover(item)
+  }
+
+  async function confirmarRemocao() {
+    if (!itemParaRemover) return
+    const item = itemParaRemover
     const categoria = item.tipo === 'produto' ? 'produto' : 'serviço'
-    if (!window.confirm(`Confirma a remoção do ${categoria} “${item.nome}”?`)) return
     setErro('')
     setSucesso('')
+    setRemovendo(true)
     try {
       await deletarServico(item.idservico)
       setSucesso(`${categoria === 'produto' ? 'Produto' : 'Serviço'} removido com sucesso.`)
       if (editandoId === item.idservico) cancelarEdicao()
+      setItemParaRemover(null)
       await carregar()
     } catch (err) {
       setErro(err.response?.data?.message || `Não foi possível remover o ${categoria}. Tente novamente.`)
+    } finally {
+      setRemovendo(false)
     }
   }
 
@@ -174,7 +188,7 @@ export default function ServicosAdminPage() {
           })}
         </nav>
 
-        {erro && <div role="alert" className="flex items-center gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error"><BrandIcon name="alert" size={20} className="shrink-0" />{erro}</div>}
+        {erro && <div ref={erroRef} role="alert" className="flex items-center gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error"><BrandIcon name="alert" size={20} className="shrink-0" />{erro}</div>}
         {sucesso && <div role="status" className="flex items-center gap-3 rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-200"><BrandIcon name="check" size={20} className="shrink-0" />{sucesso}</div>}
 
         <section ref={formularioRef} className={`glass-panel scroll-mt-24 rounded-3xl border p-4 sm:p-6 ${editandoId ? 'border-primary/35' : 'border-white/10'}`}>
@@ -194,10 +208,22 @@ export default function ServicosAdminPage() {
 
           {carregando ? <SkeletonCatalogo /> : catalogoFiltrado.length === 0 ? <div className="glass-panel rounded-2xl border border-white/10 p-10 text-center"><div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name={abaProduto ? 'bottle' : 'razor'} size={34} /></div><h3 className="mt-5 font-headline text-xl">Nenhum {nomeCategoriaSingular} encontrado</h3><p className="mt-2 text-sm text-on-surface-variant">Altere a pesquisa ou cadastre um novo {nomeCategoriaSingular}.</p><button type="button" onClick={focarFormulario} className="mt-5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-on-primary">Cadastrar {nomeCategoriaSingular}</button></div> : <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{catalogoFiltrado.map((item) => {
             const produto = item.tipo === 'produto'
-            return <article key={item.idservico} className="group glass-panel flex min-h-56 flex-col rounded-2xl border border-white/10 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-xl hover:shadow-black/20"><div className="flex items-start justify-between gap-4"><div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${produto ? 'border-amber-400/20 bg-amber-500/10 text-amber-200' : 'border-primary/20 bg-primary/10 text-primary'}`}><BrandIcon name={produto ? 'bottle' : 'razor'} size={24} /></div><span className={`rounded-full border px-3 py-1 text-[9px] font-bold uppercase tracking-wider ${produto ? 'border-amber-400/20 bg-amber-500/10 text-amber-200' : 'border-primary/20 bg-primary/10 text-primary'}`}>{produto ? 'Produto' : 'Serviço'}</span></div><h3 className="mt-4 font-headline text-xl">{item.nome}</h3><p className="mt-2 line-clamp-2 min-h-10 text-xs leading-relaxed text-on-surface-variant">{item.descricao || 'Nenhuma descrição informada.'}</p><div className="mt-4 flex items-end justify-between gap-3"><div>{!produto && <p className="text-[10px] text-on-surface-variant">{item.duracao} minutos</p>}<p className="mt-1 font-headline text-xl text-primary">{moeda(item.preco)}</p></div><div className="flex gap-2"><button type="button" onClick={() => iniciarEdicao(item)} className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-on-surface-variant hover:border-primary/35 hover:bg-primary/10 hover:text-primary" title="Editar" aria-label={`Editar ${item.nome}`}><BrandIcon name="edit" size={18} /></button><button type="button" onClick={() => remover(item)} className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-on-surface-variant hover:border-error/35 hover:bg-error/10 hover:text-error" title="Remover" aria-label={`Remover ${item.nome}`}><BrandIcon name="trash" size={18} /></button></div></div></article>
+            return <article key={item.idservico} className="group glass-panel flex min-h-56 flex-col rounded-2xl border border-white/10 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-xl hover:shadow-black/20"><div className="flex items-start justify-between gap-4"><div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${produto ? 'border-amber-400/20 bg-amber-500/10 text-amber-200' : 'border-primary/20 bg-primary/10 text-primary'}`}><BrandIcon name={produto ? 'bottle' : 'razor'} size={24} /></div><span className={`rounded-full border px-3 py-1 text-[9px] font-bold uppercase tracking-wider ${produto ? 'border-amber-400/20 bg-amber-500/10 text-amber-200' : 'border-primary/20 bg-primary/10 text-primary'}`}>{produto ? 'Produto' : 'Serviço'}</span></div><h3 className="mt-4 font-headline text-xl">{item.nome}</h3><p className="mt-2 line-clamp-2 min-h-10 text-xs leading-relaxed text-on-surface-variant">{item.descricao || 'Nenhuma descrição informada.'}</p><div className="mt-4 flex items-end justify-between gap-3"><div>{!produto && <p className="text-[10px] text-on-surface-variant">{item.duracao} minutos</p>}<p className="mt-1 font-headline text-xl text-primary">{moeda(item.preco)}</p></div><div className="flex gap-2"><button type="button" onClick={() => iniciarEdicao(item)} className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-on-surface-variant hover:border-primary/35 hover:bg-primary/10 hover:text-primary" title="Editar" aria-label={`Editar ${item.nome}`}><BrandIcon name="edit" size={18} /></button><button type="button" onClick={() => solicitarRemocao(item)} disabled={removendo} className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-on-surface-variant hover:border-error/35 hover:bg-error/10 hover:text-error disabled:opacity-50" title="Remover" aria-label={`Remover ${item.nome}`}><BrandIcon name="trash" size={18} /></button></div></div></article>
           })}</div>}
         </section>
       </main>
+      <ConfirmDialog
+        aberto={Boolean(itemParaRemover)}
+        titulo={`Remover ${itemParaRemover?.tipo === 'produto' ? 'produto' : 'serviço'}?`}
+        descricao={itemParaRemover
+          ? `O item “${itemParaRemover.nome}” será removido do catálogo. Esta ação não poderá ser desfeita.`
+          : ''}
+        rotuloConfirmar="Remover item"
+        rotuloProcessando="Removendo..."
+        processando={removendo}
+        aoConfirmar={confirmarRemocao}
+        aoFechar={() => { if (!removendo) setItemParaRemover(null) }}
+      />
     </AdminLayout>
   )
 }

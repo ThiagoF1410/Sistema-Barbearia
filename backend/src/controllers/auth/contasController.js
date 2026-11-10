@@ -1,6 +1,13 @@
+const { registrarErro } = require('../../utils/logger')
 const bcrypt = require('bcryptjs')
 const pool = require('../../config/db')
-const { resolveRole, signToken, normalizarEmail, emailValido, senhaValida } = require('../../utils/authUtils')
+const {
+  resolveRole, normalizarEmail, emailValido, senhaValida, SENHA_REQUISITOS_MENSAGEM,
+} = require('../../utils/authUtils')
+const {
+  criarSessao,
+  concluirCriacaoSessao,
+} = require('../../services/sessaoAutenticacaoService')
 
 async function register(req, res) {
   const { nome, email, telefone, password } = req.body || {}
@@ -21,7 +28,7 @@ async function register(req, res) {
   }
 
   if (!senhaValida(password)) {
-    return res.status(400).json({ message: 'A senha deve ter entre 8 e 72 caracteres, com letra maiúscula, minúscula, número e caractere especial.' })
+    return res.status(400).json({ message: SENHA_REQUISITOS_MENSAGEM })
   }
 
   const client = await pool.connect()
@@ -53,30 +60,15 @@ async function register(req, res) {
       [usuario.idusuario, telefoneNormalizado]
     )
 
+    const sessao = await criarSessao(client, usuario, 'cliente')
     await client.query('COMMIT')
-
-    const token = signToken({
-      id:    usuario.idusuario,
-      email: usuario.email,
-      role:  'cliente',
-      tokenVersion: usuario.token_version,
-    })
-
-    return res.status(201).json({
-      token,
-      user: {
-        id:    usuario.idusuario,
-        name:  usuario.nome,
-        email: usuario.email,
-        role:  'cliente',
-      },
-    })
+    return res.status(201).json(concluirCriacaoSessao(sessao, res))
   } catch (err) {
     await client.query('ROLLBACK')
     if (err.code === '23505') {
       return res.status(409).json({ message: 'E-mail já cadastrado.' })
     }
-    console.error('Erro no registro:', err)
+    registrarErro('Erro no registro:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -122,24 +114,10 @@ async function login(req, res) {
       return res.status(403).json({ message: 'Não foi possível identificar um perfil autorizado para esta conta.' })
     }
 
-    const token = signToken({
-      id:    usuario.idusuario,
-      email: usuario.email,
-      role,
-      tokenVersion: usuario.token_version,
-    })
-
-    return res.status(200).json({
-      token,
-      user: {
-        id:    usuario.idusuario,
-        name:  usuario.nome,
-        email: usuario.email,
-        role,
-      },
-    })
+    const sessao = await criarSessao(client, usuario, role)
+    return res.status(200).json(concluirCriacaoSessao(sessao, res))
   } catch (err) {
-    console.error('Erro no login:', err)
+    registrarErro('Erro no login:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -184,7 +162,7 @@ async function getMe(req, res) {
     if (result.rows.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' })
     return res.status(200).json(result.rows[0])
   } catch (err) {
-    console.error('Erro no getMe:', err)
+    registrarErro('Erro no getMe:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -270,7 +248,7 @@ async function updateMe(req, res) {
   } catch (err) {
     if (transacaoAtiva) await client.query('ROLLBACK')
     if (err.code === '23505') return res.status(409).json({ message: 'E-mail já cadastrado.' })
-    console.error('Erro ao atualizar perfil:', err)
+    registrarErro('Erro ao atualizar perfil:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -293,7 +271,7 @@ async function listarUsuarios(req, res) {
     `)
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar usuários:', err)
+    registrarErro('Erro ao listar usuários:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }

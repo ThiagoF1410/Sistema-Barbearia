@@ -1,3 +1,4 @@
+const { registrarErro } = require('../../utils/logger')
 const pool = require('../../config/db')
 const { HORA, atendimentoCabeNoExpediente } = require('../../utils/agendaUtils')
 
@@ -16,7 +17,7 @@ async function listarHorarios(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar horários de funcionamento:', err)
+    registrarErro('Erro ao listar horários de funcionamento:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -135,7 +136,7 @@ async function salvarHorarios(req, res) {
     return listarHorarios(req, res)
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro ao salvar horários de funcionamento:', err)
+    registrarErro('Erro ao salvar horários de funcionamento:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()

@@ -20,14 +20,14 @@ function urlValida(valor, nome) {
   }
 }
 
-function validarDuracaoJwt(valor) {
+function validarDuracaoJwt(valor, nome = 'JWT_EXPIRES_IN', maximoSegundos = 30 * 86400) {
   const correspondencia = /^(\d+)([smhd])$/.exec(valor)
-  if (!correspondencia) throw new Error('JWT_EXPIRES_IN deve usar um valor como 30m, 12h ou 7d.')
+  if (!correspondencia) throw new Error(nome + ' deve usar um valor como 15m, 12h ou 7d.')
   const quantidade = Number(correspondencia[1])
   const fatores = { s: 1, m: 60, h: 3600, d: 86400 }
   const segundos = quantidade * fatores[correspondencia[2]]
-  if (!Number.isSafeInteger(segundos) || segundos < 300 || segundos > 30 * 86400) {
-    throw new Error('JWT_EXPIRES_IN deve estar entre 5 minutos e 30 dias.')
+  if (!Number.isSafeInteger(segundos) || segundos < 300 || segundos > maximoSegundos) {
+    throw new Error(nome + ' deve estar entre 5 minutos e ' + (maximoSegundos / 3600) + ' horas.')
   }
 }
 
@@ -43,7 +43,7 @@ function validarAmbiente() {
   if (nodeEnv === 'production' && PADRAO_SEGREDO.test(process.env.JWT_SECRET)) {
     throw new Error('JWT_SECRET de produção não pode usar um valor de exemplo.')
   }
-  validarDuracaoJwt(process.env.JWT_EXPIRES_IN || '7d')
+  validarDuracaoJwt(process.env.JWT_ACCESS_EXPIRES_IN || '15m', 'JWT_ACCESS_EXPIRES_IN', 3600)
 
   if (!process.env.DATABASE_URL && !(process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASSWORD)) {
     throw new Error('Configure DATABASE_URL ou todas as variáveis DB_HOST, DB_NAME, DB_USER e DB_PASSWORD.')
@@ -95,6 +95,8 @@ function validarAmbiente() {
 
   const whatsappEnabled = booleanoEnv('WHATSAPP_ENABLED')
   const whatsappTestEndpointEnabled = booleanoEnv('WHATSAPP_TEST_ENDPOINT_ENABLED')
+  const allowPrivateNetworkOrigins = nodeEnv !== 'production'
+    && booleanoEnv('CORS_ALLOW_PRIVATE_NETWORK')
   if (whatsappTestEndpointEnabled && !whatsappEnabled) {
     throw new Error('WHATSAPP_ENABLED deve ser true para habilitar o endpoint de teste.')
   }
@@ -132,6 +134,7 @@ function validarAmbiente() {
     nodeEnv,
     isProduction: nodeEnv === 'production',
     frontendUrl: frontend.origin,
+    allowPrivateNetworkOrigins,
     stripeMode,
     whatsappEnabled,
   }

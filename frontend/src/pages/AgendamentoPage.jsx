@@ -5,15 +5,17 @@ import { obterCalendario, obterHorariosDisponiveis } from '../services/agendaSer
 import { listarServicos } from '../services/servicosService'
 import { listarProfissionais } from '../services/profissionaisService'
 import { criarAgendamento } from '../services/agendamentosService'
-import { consultarCheckout, criarCheckout, registrarPagamentoDinheiro } from '../services/pagamentosService'
+import { criarCheckout, registrarPagamentoDinheiro } from '../services/pagamentosService'
 import BrandIcon from '../components/ui/BrandIcon'
 import PagamentoCountdown from '../components/PagamentoCountdown'
 import { EtapaProfissional, EtapaServico, NavegacaoEtapas, ResumoEscolhas } from '../components/agendamento/EtapasAgendamento'
+import { CalendarioAgendamento, HorariosAgendamento } from '../components/agendamento/DisponibilidadeAgendamento'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 import { ETAPAS } from '../components/agendamento/etapas'
 import logoImg from '../assets/Logo1.avif'
 import { abrirCheckoutEmNovaAba, fecharAbaPagamento, prepararAbaPagamento } from '../utils/checkoutWindow'
+import useCheckoutPolling from '../hooks/useCheckoutPolling'
 
-const semana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
 const DESCRICAO_ETAPA = [
   'Selecione o atendimento que deseja realizar.',
   'Escolha quem cuidará do seu atendimento.',
@@ -31,6 +33,7 @@ export default function AgendamentoPage() {
   const [dias, setDias] = useState([])
   const [selecionado, setSelecionado] = useState(null)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [carregando, setCarregando] = useState(true)
   const [servicos, setServicos] = useState([])
   const [produtos, setProdutos] = useState([])
@@ -52,43 +55,17 @@ export default function AgendamentoPage() {
   const tituloEtapaRef = useRef(null)
   const consultaHorariosRef = useRef(0)
   const consultaCalendarioRef = useRef(0)
-  useEffect(() => {
-    const sessionId = checkoutPendente?.sessionId
-    if (!sessionId || statusPagamento !== 'PENDENTE') return undefined
-
-    let ativo = true
-    let temporizador
-    const consultar = async () => {
-      if (document.visibilityState !== 'visible') {
-        temporizador = window.setTimeout(consultar, 3000)
-        return
-      }
-      try {
-        const resultado = await consultarCheckout(sessionId)
-        if (!ativo) return
-        const status = String(resultado.statuspagamento || '').toUpperCase()
-        if (status === 'CONFIRMADO') {
-          setStatusPagamento('CONFIRMADO')
-          return
-        }
-        if (['CANCELADO', 'FALHOU'].includes(status)) {
-          setStatusPagamento(status)
-          setErroPagamento(status === 'CANCELADO'
-            ? 'O prazo do pagamento foi encerrado.'
-            : 'O pagamento não foi aprovado. Tente novamente.')
-          return
-        }
-      } catch {
-        // Falhas temporárias não interrompem o acompanhamento.
-      }
-      temporizador = window.setTimeout(consultar, 3000)
-    }
-    consultar()
-    return () => {
-      ativo = false
-      window.clearTimeout(temporizador)
-    }
-  }, [checkoutPendente?.sessionId, statusPagamento])
+  useCheckoutPolling({
+    sessionId: checkoutPendente?.sessionId,
+    status: statusPagamento,
+    aoConfirmar: () => setStatusPagamento('CONFIRMADO'),
+    aoEncerrar: (status) => {
+      setStatusPagamento(status)
+      setErroPagamento(status === 'CANCELADO'
+        ? 'O prazo do pagamento foi encerrado.'
+        : 'O pagamento não foi aprovado. Tente novamente.')
+    },
+  })
 
   useEffect(() => {
     tituloEtapaRef.current?.focus()
@@ -350,7 +327,7 @@ export default function AgendamentoPage() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Link to="/dashboard" className="hidden min-h-10 items-center rounded-full px-3 text-sm text-white/75 hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 sm:inline-flex">Painel</Link>
             <span className="hidden max-w-40 truncate text-sm text-white/65 md:block">{user?.nome || user?.name}</span>
-            <button onClick={() => { logout(); window.location.href = '/login' }} className="flex min-h-10 items-center gap-1.5 rounded-full px-3 text-sm text-white/75 hover:bg-error/10 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/60 transition-colors">
+            <button type="button" onClick={() => { logout(); window.location.href = '/login' }} className="flex min-h-10 items-center gap-1.5 rounded-full px-3 text-sm text-white/75 hover:bg-error/10 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/60 transition-colors">
               <BrandIcon name="logout" size={18} /><span className="hidden sm:inline">Sair</span>
             </button>
           </div>
@@ -385,101 +362,29 @@ export default function AgendamentoPage() {
 
         {etapa === 1 && <EtapaProfissional profissionais={profissionais} selecionado={profissionalSelecionado} servicoSelecionado={servicoSelecionado} aoSelecionar={escolherProfissional} />}
 
-        {erro && <div role="alert" className="mb-5 rounded-xl border border-error/25 bg-error/10 px-4 py-3 text-sm text-error">{erro}</div>}
+        {erro && <div ref={erroRef} role="alert" className="mb-5 rounded-xl border border-error/25 bg-error/10 px-4 py-3 text-sm text-error">{erro}</div>}
 
         <div className="grid gap-6">
-          <section hidden={etapa !== 2} aria-busy={carregando} className="glass-panel rounded-3xl border border-primary/15 p-4 sm:p-7">
-            <div className="mb-6 flex items-center justify-between gap-3 border-b border-white/[0.07] pb-5">
-              <button onClick={() => mudarMes(-1)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 hover:border-primary/50 hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70" aria-label="Mês anterior">
-                <BrandIcon name="back" />
-              </button>
-              <div className="text-center"><p className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary">Escolha uma data</p><h3 className="mt-1 font-headline text-xl capitalize sm:text-2xl">{tituloMes}</h3></div>
-              <button onClick={() => mudarMes(1)} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 hover:border-primary/50 hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70" aria-label="Próximo mês">
-                <BrandIcon name="next" />
-              </button>
-            </div>
+          <CalendarioAgendamento
+            visivel={etapa === 2}
+            carregando={carregando}
+            carregandoHorarios={carregandoHorarios}
+            dias={dias}
+            espacosIniciais={espacosIniciais}
+            selecionado={selecionado}
+            tituloMes={tituloMes}
+            aoMudarMes={mudarMes}
+            aoEscolherData={escolherData}
+          />
 
-            <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-2">
-              {semana.map((dia) => <div key={dia} className="text-center text-[10px] sm:text-xs uppercase tracking-wider text-white/40 py-2">{dia}</div>)}
-            </div>
-
-            {carregando ? (
-              <div role="status" className="h-72 flex items-center justify-center text-on-surface-variant"><span className="w-4 h-4 rounded-full border-2 border-primary/25 border-t-primary animate-spin mr-2" aria-hidden="true" />Carregando</div>
-            ) : (
-              <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
-                {Array.from({ length: espacosIniciais }).map((_, index) => <div key={`vazio-${index}`} />)}
-                {dias.map((dia) => {
-                  const ativo = selecionado?.data === dia.data
-                  const dataPorExtenso = new Date(`${dia.data}T12:00:00`).toLocaleDateString('pt-BR', {
-                    weekday: 'long', day: '2-digit', month: 'long', year: 'numeric',
-                  })
-                  const rotuloData = `${dataPorExtenso}. ${dia.disponivel ? 'Disponível' : 'Indisponível'}${dia.feriado ? `. Feriado: ${dia.feriado.nome}` : ''}${dia.motivo ? `. ${dia.motivo}` : ''}`
-                  return (
-                    <button
-                      key={dia.data}
-                      type="button"
-                      disabled={!dia.disponivel || carregandoHorarios}
-                      onClick={() => escolherData(dia)}
-                      title={dia.feriado ? `${dia.feriado.nome} — ${dia.motivo}` : dia.motivo}
-                      aria-label={rotuloData}
-                      className={`relative min-h-16 sm:min-h-20 rounded-xl border p-1.5 sm:p-2 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 ${
-                        dia.disponivel
-                          ? `bg-emerald-500/15 border-emerald-400/35 text-emerald-300 hover:bg-emerald-500/25 hover:border-emerald-300 ${ativo ? 'ring-2 ring-primary border-primary' : ''}`
-                          : 'bg-red-500/12 border-red-400/25 text-red-300/70 cursor-not-allowed'
-                      }`}
-                    >
-                      <span className="text-sm sm:text-base font-bold">{Number(dia.data.slice(-2))}</span>
-                      {dia.feriado && <BrandIcon name="holiday" size={16} className="absolute top-1.5 right-1.5" label={dia.feriado.nome} />}
-                      <span className="hidden sm:block text-[9px] leading-tight mt-2 line-clamp-2 opacity-75">{dia.feriado?.nome || dia.motivo}</span>
-                    </button>
-                  )
-                })}
-              </div>
-            )}
-
-            <div className="flex flex-wrap gap-4 mt-6 pt-5 border-t border-white/5 text-xs text-on-surface-variant">
-              <span className="flex items-center gap-2"><i className="w-3 h-3 rounded-full bg-emerald-500" />Disponível</span>
-              <span className="flex items-center gap-2"><i className="w-3 h-3 rounded-full bg-red-500" />Indisponível</span>
-              <span className="flex items-center gap-2"><BrandIcon name="holiday" size={18} className="text-primary" />Feriado</span>
-            </div>
-          </section>
-
-          <aside hidden={etapa !== 3} className="glass-panel h-fit w-full rounded-3xl border border-primary/15 p-5 sm:p-7">
-            <div className="flex items-center gap-3 border-b border-white/[0.07] pb-5"><span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="clock" size={23} /></span><div><p className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary">Horários disponíveis</p><h3 className="mt-1 font-headline text-xl sm:text-2xl">Escolha o melhor momento</h3></div></div>
-            {selecionado ? (
-              <div className="mt-5 space-y-4">
-                <p className="text-lg capitalize text-on-surface">{new Date(`${selecionado.data}T12:00:00`).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</p>
-                {selecionado.feriado && <div className="rounded-xl bg-primary/10 border border-primary/20 p-3"><p className="text-xs uppercase tracking-wider text-primary">Feriado</p><p className="text-sm mt-1">{selecionado.feriado.nome}</p></div>}
-                {carregandoHorarios ? (
-                  <div className="flex items-center text-sm text-on-surface-variant"><span className="w-4 h-4 rounded-full border-2 border-primary/25 border-t-primary animate-spin mr-2" aria-hidden="true" />Calculando horários</div>
-                ) : resultadoHorarios?.horarios?.length ? (
-                  <>
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-                      {resultadoHorarios.horarios.map((horario) => {
-                        const ativo = horarioSelecionado?.inicio === horario.inicio
-                        return (
-                          <button
-                            key={horario.inicio}
-                            type="button"
-                            onClick={() => escolherHorario(horario)}
-                            aria-pressed={ativo}
-                            className={`min-h-13 rounded-xl border px-3 py-2 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 ${ativo ? 'border-primary bg-primary text-on-primary shadow-lg shadow-primary/10' : 'border-emerald-400/30 bg-emerald-500/10 text-emerald-300 hover:border-emerald-300 hover:bg-emerald-500/15'}`}
-                          >
-                            {horario.inicio}
-                            <span className="block text-[9px] opacity-70">até {horario.fim}</span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                    <p className="text-[10px] text-on-surface-variant">Os horários são consecutivos conforme a duração do serviço.</p>
-                    {horarioSelecionado && <div className="rounded-xl border border-primary/20 bg-primary/10 p-3 text-sm"><strong>Selecionado:</strong> {horarioSelecionado.inicio}–{horarioSelecionado.fim}</div>}
-                  </>
-                ) : (
-                  <p className="text-xs text-on-surface-variant">{resultadoHorarios?.motivo || 'Calculando disponibilidade...'}</p>
-                )}
-              </div>
-            ) : <p className="text-sm text-on-surface-variant mt-4">Primeiro escolha um serviço, um profissional e um dia verde.</p>}
-          </aside>
+          <HorariosAgendamento
+            visivel={etapa === 3}
+            selecionado={selecionado}
+            carregando={carregandoHorarios}
+            resultado={resultadoHorarios}
+            horarioSelecionado={horarioSelecionado}
+            aoEscolherHorario={escolherHorario}
+          />
         </div>
 
         {etapa === 4 && (

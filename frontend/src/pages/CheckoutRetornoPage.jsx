@@ -5,6 +5,7 @@ import { consultarCheckout, criarCheckout } from '../services/pagamentosService'
 import { reabrirCheckoutPedido } from '../services/pedidosService'
 import { CHAVE_CARRINHO } from '../hooks/useCarrinho'
 import { abrirCheckoutEmNovaAba, fecharAbaPagamento, prepararAbaPagamento } from '../utils/checkoutWindow'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 
 const MAX_CONSULTAS = 6
 const INTERVALO_CONSULTA_MS = 2500
@@ -79,6 +80,7 @@ export default function CheckoutRetornoPage({ tipo }) {
   const [erro, setErro] = useState(
     !retornoCancelado && !sessionId ? 'A URL não contém uma sessão de pagamento válida.' : ''
   )
+  const erroRef = useFeedbackFocus(erro)
 
   useEffect(() => {
     if (retornoCancelado || !sessionId) return undefined
@@ -249,7 +251,7 @@ export default function CheckoutRetornoPage({ tipo }) {
         )}
 
         {erro && (
-          <div role="alert" className="mt-5 rounded-2xl border border-error/40 bg-error/10 p-4 text-sm text-error">
+          <div ref={erroRef} role="alert" className="mt-5 rounded-2xl border border-error/40 bg-error/10 p-4 text-sm text-error">
             {erro}
           </div>
         )}

@@ -1,3 +1,4 @@
+const { registrarErro } = require('../../utils/logger')
 const pool = require('../../config/db')
 const { dataIsoValida, idValido } = require('../../utils/agendaUtils')
 
@@ -50,7 +51,7 @@ async function listarMinhasSolicitacoes(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar solicitações de ausência:', err)
+    registrarErro('Erro ao listar solicitações de ausência:', err)
     return res.status(500).json({ message: 'Não foi possível carregar as solicitações.' })
   }
 }
@@ -122,7 +123,7 @@ async function criarMinhaSolicitacao(req, res) {
     return res.status(201).json(result.rows[0])
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro ao criar solicitação de ausência:', err)
+    registrarErro('Erro ao criar solicitação de ausência:', err)
     return res.status(500).json({ message: 'Não foi possível enviar a solicitação.' })
   } finally {
     client.release()
@@ -151,7 +152,7 @@ async function cancelarMinhaSolicitacao(req, res) {
     }
     return res.status(200).json(result.rows[0])
   } catch (err) {
-    console.error('Erro ao cancelar solicitação de ausência:', err)
+    registrarErro('Erro ao cancelar solicitação de ausência:', err)
     return res.status(500).json({ message: 'Não foi possível cancelar a solicitação.' })
   }
 }
@@ -186,7 +187,7 @@ async function listarSolicitacoesAdmin(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar solicitações para administração:', err)
+    registrarErro('Erro ao listar solicitações para administração:', err)
     return res.status(500).json({ message: 'Não foi possível carregar as solicitações.' })
   }
 }
@@ -295,7 +296,7 @@ async function analisarSolicitacao(req, res) {
     return res.status(200).json({ ...atualizada.rows[0], disponibilidade })
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro ao analisar solicitação de ausência:', err)
+    registrarErro('Erro ao analisar solicitação de ausência:', err)
     return res.status(500).json({ message: 'Não foi possível analisar a solicitação.' })
   } finally {
     client.release()

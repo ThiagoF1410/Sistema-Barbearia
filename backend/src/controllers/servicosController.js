@@ -1,3 +1,4 @@
+const { registrarErro } = require('../utils/logger')
 const pool = require('../config/db')
 const { idValido } = require('../utils/agendaUtils')
 
@@ -19,7 +20,7 @@ async function listar(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar serviços:', err)
+    registrarErro('Erro ao listar serviços:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -36,7 +37,7 @@ async function buscarPorId(req, res) {
       return res.status(404).json({ message: 'Serviço não encontrado.' })
     return res.status(200).json(result.rows[0])
   } catch (err) {
-    console.error('Erro ao buscar serviço:', err)
+    registrarErro('Erro ao buscar serviço:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -58,7 +59,7 @@ async function criar(req, res) {
     )
     return res.status(201).json(result.rows[0])
   } catch (err) {
-    console.error('Erro ao criar serviço:', err)
+    registrarErro('Erro ao criar serviço:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -86,7 +87,7 @@ async function atualizar(req, res) {
       return res.status(404).json({ message: 'Serviço não encontrado.' })
     return res.status(200).json(result.rows[0])
   } catch (err) {
-    console.error('Erro ao atualizar serviço:', err)
+    registrarErro('Erro ao atualizar serviço:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -107,7 +108,7 @@ async function deletar(req, res) {
     if (err.code === '23503') {
       return res.status(409).json({ message: 'Este serviço possui registros vinculados e não pode ser removido.' })
     }
-    console.error('Erro ao deletar serviço:', err)
+    registrarErro('Erro ao deletar serviço:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }

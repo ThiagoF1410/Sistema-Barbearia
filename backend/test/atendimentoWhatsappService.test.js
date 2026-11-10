@@ -11,6 +11,8 @@ const loggerSilencioso = { info() {}, warn() {} }
 test('identifica somente assuntos permitidos do atendimento', () => {
   assert.equal(identificarAssunto('[ATENDIMENTO:REEMBOLSO]').codigo, 'REEMBOLSO')
   assert.equal(identificarAssunto('Protocolo: ORN-DUVIDA_PEDIDO').codigo, 'DUVIDA_PEDIDO')
+  assert.equal(identificarAssunto('🏷️ *Tipo de atendimento:* Reagendamento').codigo, 'ALTERAR_AGENDAMENTO')
+  assert.equal(identificarAssunto('🏷️ *Tipo de atendimento:* Outro assunto').codigo, 'OUTRO')
   assert.equal(identificarAssunto('texto comum'), null)
   assert.equal(identificarAssunto('[ATENDIMENTO:ADMIN]'), null)
 })

@@ -1,6 +1,9 @@
+const { registrarErro } = require('../utils/logger')
 const bcrypt = require('bcryptjs')
 const pool = require('../config/db')
-const { emailValido, normalizarEmail, senhaValida } = require('../utils/authUtils')
+const {
+  emailValido, normalizarEmail, senhaValida, SENHA_REQUISITOS_MENSAGEM,
+} = require('../utils/authUtils')
 const { idValido } = require('../utils/agendaUtils')
 
 function validarProfissional(dados, { exigirSenha = false } = {}) {
@@ -13,7 +16,7 @@ function validarProfissional(dados, { exigirSenha = false } = {}) {
   if (!emailValido(email) || email.length > 150) return { erro: 'Informe um e-mail válido.' }
   if (especialidade.length < 2 || especialidade.length > 100) return { erro: 'Informe uma especialidade entre 2 e 100 caracteres.' }
   if ((exigirSenha || password) && !senhaValida(password)) {
-    return { erro: 'A senha deve ter entre 8 e 72 caracteres, com letra maiúscula, minúscula, número e caractere especial.' }
+    return { erro: SENHA_REQUISITOS_MENSAGEM }
   }
   return { nome, email, especialidade, password }
 }
@@ -29,7 +32,7 @@ async function listar(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar profissionais:', err)
+    registrarErro('Erro ao listar profissionais:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -56,7 +59,7 @@ async function obterMeuPerfil(req, res) {
     }
     return res.status(200).json(result.rows[0])
   } catch (err) {
-    console.error('Erro ao carregar o perfil profissional:', err)
+    registrarErro('Erro ao carregar o perfil profissional:', err)
     return res.status(500).json({ message: 'Não foi possível carregar o perfil profissional.' })
   }
 }
@@ -84,7 +87,7 @@ async function listarGestao(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar gestão de profissionais:', err)
+    registrarErro('Erro ao listar gestão de profissionais:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   }
 }
@@ -130,7 +133,7 @@ async function criar(req, res) {
   } catch (err) {
     await client.query('ROLLBACK')
     if (err.code === '23505') return res.status(409).json({ message: 'E-mail já cadastrado.' })
-    console.error('Erro ao cadastrar profissional:', err)
+    registrarErro('Erro ao cadastrar profissional:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -191,7 +194,7 @@ async function atualizar(req, res) {
   } catch (err) {
     await client.query('ROLLBACK')
     if (err.code === '23505') return res.status(409).json({ message: 'E-mail já cadastrado.' })
-    console.error('Erro ao atualizar profissional:', err)
+    registrarErro('Erro ao atualizar profissional:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()
@@ -249,7 +252,7 @@ async function alterarStatus(req, res) {
     return res.status(200).json(atualizado.rows[0])
   } catch (err) {
     await client.query('ROLLBACK')
-    console.error('Erro ao alterar situação do profissional:', err)
+    registrarErro('Erro ao alterar situação do profissional:', err)
     return res.status(500).json({ message: 'Erro interno no servidor.' })
   } finally {
     client.release()

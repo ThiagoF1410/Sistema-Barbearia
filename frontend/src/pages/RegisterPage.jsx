@@ -56,8 +56,15 @@ export default function RegisterPage() {
     if (!rawTelefone) e.telefone = 'Informe seu telefone.'
     else if (rawTelefone.length < 10) e.telefone = 'Telefone inválido.'
 
-    if (!form.password) e.password = 'Crie uma senha.'
-    else if (!analisarSenha(form.password).valida) e.password = 'Atenda a todos os requisitos de segurança.'
+    if (!form.password) {
+      e.password = 'Crie uma senha.'
+    } else {
+      const analiseSenha = analisarSenha(form.password)
+      if (!analiseSenha.valida) {
+        e.password = analiseSenha.errosCaracteres[0]
+          || 'Use de 12 a 72 caracteres e atenda pelo menos 3 dos 4 grupos.'
+      }
+    }
 
     if (!form.confirm_password) e.confirm_password = 'Confirme sua senha.'
     else if (form.password !== form.confirm_password) e.confirm_password = 'As senhas não coincidem.'
@@ -205,6 +212,7 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   error={errors.password}
                   autoComplete="new-password"
+                  minLength={12}
                   maxLength={72}
                   showPasswordToggle
                   describedBy="register-password-strength"

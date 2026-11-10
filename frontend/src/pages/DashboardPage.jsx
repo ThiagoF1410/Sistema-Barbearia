@@ -7,6 +7,7 @@ import BrandIcon from '../components/ui/BrandIcon'
 import PagamentoCountdown from '../components/PagamentoCountdown'
 import logoImg from '../assets/Logo1.avif'
 import { abrirCheckoutEmNovaAba, fecharAbaPagamento, prepararAbaPagamento } from '../utils/checkoutWindow'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 
 const quickActions = [
   { icon: 'calendar', label: 'Agendar horário', to: '/agendar', desc: 'Escolha serviço, profissional, data e horário.', tag: 'Atendimento' },
@@ -65,6 +66,7 @@ export default function DashboardPage() {
   const [agendamentos, setAgendamentos] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [pagandoId, setPagandoId] = useState(null)
   const [cancelando, setCancelando] = useState(null)
   const [agendamentoParaCancelar, setAgendamentoParaCancelar] = useState(null)
@@ -277,7 +279,7 @@ export default function DashboardPage() {
             <div className="flex items-start gap-3"><BrandIcon name="check" size={25} className="shrink-0" /><div><p className="text-sm font-bold">Cancelamento confirmado</p><p className="text-xs mt-1 opacity-85">{sucesso}</p></div></div>
             <div className="flex items-center gap-3 pl-9 sm:pl-0"><Link to="/historico" className="text-xs font-bold underline underline-offset-4">Ver histórico</Link><button type="button" onClick={() => setSucesso('')} className="text-xs opacity-70 hover:opacity-100" aria-label="Fechar mensagem">Fechar</button></div>
           </div>}
-          {erro && <p role="alert" className="rounded-xl border border-error/25 bg-error/10 px-4 py-3 text-sm text-error">{erro}</p>}
+          {erro && <p ref={erroRef} role="alert" className="rounded-xl border border-error/25 bg-error/10 px-4 py-3 text-sm text-error">{erro}</p>}
           {carregando ? (
             <div className="grid gap-4" role="status" aria-label="Carregando próximos agendamentos">
               {[1, 2].map((item) => <div key={item} className="glass-panel rounded-2xl border border-white/10 p-5 sm:p-6 animate-pulse">

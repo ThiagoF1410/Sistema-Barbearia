@@ -156,6 +156,14 @@ frontend/coverage/
 backend/.whatsapp-session/
 backend/.whatsapp-session-*/
 *.whatsapp-session/
+**/.whatsapp-session*/
+
+# Chaves privadas e pacotes locais que podem carregar credenciais
+*.pem
+*.key
+*.p12
+*.pfx
+*.zip
 
 # Projeto: arquivos temporários de diagnóstico e execução local
 .bar*-backend*.log

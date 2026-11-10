@@ -27,7 +27,7 @@ const ambienteProducao = {
   NODE_ENV: 'production',
   DATABASE_URL: 'postgresql://usuario:senha@db.example.com:5432/barbearia',
   JWT_SECRET: 'segredo-aleatorio-com-mais-de-trinta-e-dois-caracteres',
-  JWT_EXPIRES_IN: '7d',
+  JWT_ACCESS_EXPIRES_IN: '15m',
   FRONTEND_URL: 'https://barbearia.example.com',
   STRIPE_MODE: 'live',
   STRIPE_SECRET_KEY: 'sk_live_exemplo_apenas_para_validacao_123',
@@ -39,12 +39,17 @@ const ambienteProducao = {
 }
 
 test('aplica os limites seguros de entrada do bcrypt', () => {
-  assert.equal(senhaValida('1234567'), false)
-  assert.equal(senhaValida('Senha@123'), true)
-  assert.equal(senhaValida('senha-segura'), false)
-  assert.equal(senhaValida('SENHA@123'), false)
-  assert.equal(senhaValida('SenhaForte'), false)
-  assert.equal(senhaValida('Senha123'), false)
+  assert.equal(senhaValida('CactoVerde27'), true)
+  assert.equal(senhaValida('ABCDEFGHIJ12!'), true)
+  assert.equal(senhaValida('cactoverde27'), false)
+  assert.equal(senhaValida('Password123!'), false)
+  assert.equal(senhaValida('Cacto Verde27!'), false)
+  assert.equal(senhaValida('CáctoVerde27!'), false)
+  assert.equal(senhaValida('CactoVerde27🔐'), false)
+  assert.equal(senhaValida('NavalhaSegura27!'), true)
+  assert.equal(senhaValida('ThiagoSeguro27!'), true)
+  assert.equal(senhaValida('ClientePch27!'), true)
+  assert.equal(senhaValida('Curta27!'), false)
   assert.equal(senhaValida('a'.repeat(73)), false)
   assert.equal(senhaValida('🔐'.repeat(19)), false)
 })
@@ -52,7 +57,7 @@ test('aplica os limites seguros de entrada do bcrypt', () => {
 test('JWT usa HS256, emissor, audiência e expiração', () => {
   comAmbiente({
     JWT_SECRET: ambienteProducao.JWT_SECRET,
-    JWT_EXPIRES_IN: '15m',
+    JWT_ACCESS_EXPIRES_IN: '15m',
   }, () => {
     const token = signToken({ id: 10, tokenVersion: 2, role: 'cliente' })
     const cabecalho = jwt.decode(token, { complete: true }).header
@@ -86,8 +91,8 @@ test('rejeita segredo de exemplo e duração JWT fora da política', () => {
   comAmbiente({ ...ambienteProducao, JWT_SECRET: 'troque-esta-chave-por-uma-segura-com-32-caracteres' }, () => {
     assert.throws(() => validarAmbiente(), /valor de exemplo/)
   })
-  comAmbiente({ ...ambienteProducao, JWT_EXPIRES_IN: '90d' }, () => {
-    assert.throws(() => validarAmbiente(), /entre 5 minutos e 30 dias/)
+  comAmbiente({ ...ambienteProducao, JWT_ACCESS_EXPIRES_IN: '90d' }, () => {
+    assert.throws(() => validarAmbiente(), /JWT_ACCESS_EXPIRES_IN/)
   })
 })
 
@@ -97,6 +102,23 @@ test('rejeita produção sem HTTPS ou sem segredo do webhook', () => {
   })
   comAmbiente({ ...ambienteProducao, STRIPE_WEBHOOK_SECRET: '' }, () => {
     assert.throws(() => validarAmbiente(), /STRIPE_WEBHOOK_SECRET/)
+  })
+})
+
+test('rede privada exige liberação explícita e nunca é habilitada em produção', () => {
+  comAmbiente({ ...ambienteProducao, CORS_ALLOW_PRIVATE_NETWORK: 'true' }, () => {
+    assert.equal(validarAmbiente().allowPrivateNetworkOrigins, false)
+  })
+
+  comAmbiente({
+    ...ambienteProducao,
+    NODE_ENV: 'development',
+    FRONTEND_URL: 'http://localhost:5173',
+    STRIPE_MODE: 'test',
+    STRIPE_SECRET_KEY: 'sk_test_exemplo_apenas_para_validacao_123',
+    CORS_ALLOW_PRIVATE_NETWORK: 'true',
+  }, () => {
+    assert.equal(validarAmbiente().allowPrivateNetworkOrigins, true)
   })
 })
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 import { carregarDashboardProfissional } from '../services/agendamentosService'
 import { obterMeuPerfilProfissional } from '../services/profissionaisService'
 import {
@@ -15,10 +16,13 @@ import BrandIcon from '../components/ui/BrandIcon'
 import BrandedDatePicker from '../components/ui/BrandedDatePicker'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import ProfessionalLayout from '../components/professional/ProfessionalLayout'
-import NotificationBell from '../components/NotificationBell'
+import {
+  FormularioSolicitacaoProfissional,
+  SecaoAusenciasProfissional,
+  SecaoSolicitacoesProfissional,
+} from '../components/professional/SolicitacoesProfissional'
 
 const ABAS_VALIDAS = ['visao', 'agenda', 'escala', 'solicitacoes']
-const ABAS = []
 
 const DIAS = {
   0: 'Domingo',
@@ -42,13 +46,6 @@ const PAGAMENTO = {
   CANCELADO: { texto: 'Pagamento cancelado', classe: 'border-red-400/30 bg-red-500/10 text-red-200' },
   FALHOU: { texto: 'Pagamento não confirmado', classe: 'border-red-400/30 bg-red-500/10 text-red-200' },
   NAO_INICIADO: { texto: 'Pagamento não iniciado', classe: 'border-white/10 bg-white/5 text-on-surface-variant' },
-}
-
-const STATUS_SOLICITACAO = {
-  PENDENTE: 'border-amber-400/30 bg-amber-500/10 text-amber-200',
-  APROVADA: 'border-emerald-400/30 bg-emerald-500/10 text-emerald-200',
-  RECUSADA: 'border-red-400/30 bg-red-500/10 text-red-200',
-  CANCELADA: 'border-white/15 bg-white/5 text-on-surface-variant',
 }
 
 const SOLICITACAO_INICIAL = { tipo: 'FOLGA', datainicio: '', datafim: '', motivo: '' }
@@ -153,8 +150,7 @@ function LinhaTempo({ itens }) {
 }
 
 export default function ProfessionalPage() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user } = useAuth()
   const [parametros] = useSearchParams()
   const hoje = dataLocalAtual()
   const abaInicial = ABAS_VALIDAS.includes(parametros.get('aba')) ? parametros.get('aba') : 'visao'
@@ -174,6 +170,7 @@ export default function ProfessionalPage() {
   const [salvando, setSalvando] = useState(false)
   const [removendoId, setRemovendoId] = useState(null)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [sucesso, setSucesso] = useState('')
 
   useEffect(() => {
@@ -301,30 +298,8 @@ export default function ProfessionalPage() {
     }
   }
 
-  function sair() {
-    logout()
-    navigate('/login')
-  }
-
   return <ProfessionalLayout aba={aba} aoSelecionar={trocarAba} perfil={perfil} titulo={aba === 'agenda' ? 'Minha agenda' : aba === 'escala' ? 'Minha escala' : aba === 'solicitacoes' ? 'Solicitações' : 'Visão geral'} subtitulo={aba === 'agenda' ? 'Agenda individual' : aba === 'escala' ? 'Expediente e indisponibilidades' : aba === 'solicitacoes' ? 'Folgas e férias para aprovação' : 'Central de atendimentos'}>
     <div className="min-h-screen bg-background text-on-surface">
-    <header className="hidden">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="razor" size={22} /></div>
-          <div className="min-w-0"><p className="truncate font-headline text-lg">O Rei da Navalha</p><p className="text-[8px] font-bold uppercase tracking-[0.18em] text-primary">Área do profissional</p></div>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <NotificationBell />
-          <div className="hidden text-right md:block"><p className="text-xs font-semibold">{nomeProfissional}</p><p className="text-[9px] text-on-surface-variant">{perfil?.especialidade || 'Profissional'}</p></div>
-          <button type="button" onClick={sair} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 px-3 text-xs text-on-surface-variant hover:border-error/30 hover:text-error" aria-label="Sair da área profissional"><BrandIcon name="logout" size={17} /><span className="hidden sm:inline">Sair</span></button>
-        </div>
-      </div>
-      <nav aria-label="Navegação da área profissional" className="mx-auto max-w-7xl overflow-x-auto px-4 sm:px-6">
-        <div className="flex min-w-max gap-1 pb-2">{ABAS.map((item) => <button key={item.id} type="button" onClick={() => trocarAba(item.id)} aria-current={aba === item.id ? 'page' : undefined} className={`inline-flex min-h-10 items-center gap-2 rounded-full px-4 text-xs font-bold transition-colors ${aba === item.id ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-white/5 hover:text-on-surface'}`}><BrandIcon name={item.icon} size={17} />{item.label}</button>)}</div>
-      </nav>
-    </header>
-
     <main className="mx-auto max-w-7xl space-y-7 px-4 py-7 sm:px-6 sm:py-9">
       <section className="glass-panel overflow-hidden rounded-3xl border border-primary/15 p-5 sm:p-7">
         <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
@@ -339,7 +314,7 @@ export default function ProfessionalPage() {
         </div>
       </section>
 
-      {erro && <div role="alert" className="flex flex-col justify-between gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error sm:flex-row sm:items-center"><span>{erro}</span><button type="button" onClick={() => window.location.reload()} className="self-start rounded-full border border-error/30 px-4 py-2 text-[10px] font-bold uppercase tracking-wider">Tentar novamente</button></div>}
+      {erro && <div ref={erroRef} role="alert" className="flex flex-col justify-between gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error sm:flex-row sm:items-center"><span>{erro}</span><button type="button" onClick={() => window.location.reload()} className="self-start rounded-full border border-error/30 px-4 py-2 text-[10px] font-bold uppercase tracking-wider">Tentar novamente</button></div>}
       {sucesso && <div role="status" className="flex items-center gap-3 rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-200"><BrandIcon name="check" size={19} /><span>{sucesso}</span></div>}
 
       {(carregandoBase || carregandoAgenda) && !dashboard ? <Skeleton /> : <>
@@ -370,21 +345,21 @@ export default function ProfessionalPage() {
 
         {aba === 'solicitacoes' && <section className="space-y-7" aria-labelledby="titulo-solicitacoes">
           <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Disponibilidade</p><h2 id="titulo-solicitacoes" className="mt-2 font-headline text-2xl sm:text-3xl">Solicitações</h2><p className="mt-2 text-sm text-on-surface-variant">Solicite uma folga ou período de férias. A agenda só será bloqueada após a aprovação da administração.</p></div>
-          <section className="glass-panel rounded-3xl border border-white/10 p-4 sm:p-6"><div className="flex items-start gap-3"><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="calendar" size={23} /></div><div><h3 className="font-headline text-xl">Nova solicitação</h3><p className="mt-1 text-xs text-on-surface-variant">Informe o período e o motivo para análise administrativa.</p></div></div><form onSubmit={enviarSolicitacao} className="mt-5"><fieldset disabled={salvando || removendoId !== null} className="grid gap-4 sm:grid-cols-2"><label className="text-xs text-on-surface-variant"><span className="mb-2 block">Tipo</span><select value={novaSolicitacao.tipo} onChange={(event) => setNovaSolicitacao((atual) => ({ ...atual, tipo: event.target.value }))} className="input-heritage py-3"><option value="FOLGA">Folga</option><option value="FERIAS">Férias</option></select></label><div className="text-xs text-on-surface-variant"><span className="mb-2 block">Data inicial</span><BrandedDatePicker id="solicitacao-profissional-inicio" value={novaSolicitacao.datainicio} min={hoje} onChange={(valor) => setNovaSolicitacao((atual) => ({ ...atual, datainicio: valor, datafim: !atual.datafim || atual.datafim < valor ? valor : atual.datafim }))} /></div><div className="text-xs text-on-surface-variant"><span className="mb-2 block">Data final</span><BrandedDatePicker id="solicitacao-profissional-fim" value={novaSolicitacao.datafim} min={novaSolicitacao.datainicio || hoje} onChange={(valor) => setNovaSolicitacao((atual) => ({ ...atual, datafim: valor }))} /></div><label className="text-xs text-on-surface-variant"><span className="mb-2 block">Motivo ou observação</span><input value={novaSolicitacao.motivo} maxLength="255" onChange={(event) => setNovaSolicitacao((atual) => ({ ...atual, motivo: event.target.value }))} placeholder="Ex.: compromisso pessoal" className="input-heritage py-3" /></label><button type="submit" disabled={!novaSolicitacao.datainicio || !novaSolicitacao.datafim || salvando} className="min-h-11 rounded-full bg-primary px-6 text-xs font-bold uppercase tracking-wider text-on-primary disabled:opacity-50 sm:col-span-2 sm:justify-self-start">{salvando ? 'Enviando...' : 'Enviar solicitação'}</button></fieldset></form></section>
-          <section className="space-y-4"><div className="flex items-end justify-between gap-3"><div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Acompanhamento</p><h3 className="mt-2 font-headline text-2xl">Minhas solicitações</h3></div><span className="text-xs text-on-surface-variant">{solicitacoes.length} registro(s)</span></div>{solicitacoes.length ? <div className="grid gap-4 md:grid-cols-2">{solicitacoes.map((item) => <article key={item.idsolicitacao} className="glass-panel rounded-2xl border border-white/10 p-5"><div className="flex flex-col items-start justify-between gap-4 sm:flex-row"><div className="min-w-0"><div className="flex flex-wrap gap-2"><Badge className="border-primary/25 bg-primary/10 text-primary">{item.tipo}</Badge><Badge className={STATUS_SOLICITACAO[item.status]}>{item.status}</Badge></div><p className="mt-4 font-headline text-xl capitalize">{formatarData(item.datainicio, false)} até {formatarData(item.datafim, false)}</p>{item.motivo && <p className="mt-2 text-sm text-on-surface-variant">{item.motivo}</p>}{item.resposta_administrador && <p className="mt-3 rounded-xl border border-white/10 bg-black/10 p-3 text-xs"><strong className="text-primary">Resposta da administração:</strong> {item.resposta_administrador}</p>}</div>{item.status === 'PENDENTE' && <button type="button" onClick={() => setSolicitacaoParaCancelar(item)} disabled={removendoId !== null || salvando} className="shrink-0 rounded-full border border-error/25 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-error hover:bg-error/10 disabled:opacity-40">Cancelar</button>}</div></article>)}</div> : <EstadoVazio titulo="Nenhuma solicitação enviada" descricao="Use o formulário acima quando precisar solicitar uma folga ou um período de férias." />}</section>
+          <FormularioSolicitacaoProfissional solicitacao={novaSolicitacao} aoAlterar={setNovaSolicitacao} aoEnviar={enviarSolicitacao} hoje={hoje} salvando={salvando} bloqueado={removendoId !== null} />
+          <SecaoSolicitacoesProfissional solicitacoes={solicitacoes} aoCancelar={setSolicitacaoParaCancelar} desabilitado={removendoId !== null || salvando} />
         </section>}
 
         {aba === 'escala' && <section className="space-y-7" aria-labelledby="titulo-ausencias">
           <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Disponibilidade</p><h2 id="titulo-ausencias" className="mt-2 font-headline text-2xl sm:text-3xl">Minha escala</h2><p className="mt-2 text-sm text-on-surface-variant">Consulte o expediente definido pela administração e solicite folgas ou férias para aprovação.</p></div>
           <div className="grid gap-5 xl:grid-cols-[.85fr_1.15fr]">
-            <section className="glass-panel rounded-3xl border border-white/10 p-4 sm:p-6"><div className="flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="clock" size={23} /></div><div><h3 className="font-headline text-xl">Expediente semanal</h3><p className="mt-1 text-xs text-on-surface-variant">Alterações são realizadas pela administração.</p></div></div><ul className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-1">{horarios.map((item) => <li key={item.dia_semana} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/10 p-3"><div><p className="text-sm font-semibold">{DIAS[item.dia_semana]}</p>{item.ativo ? <p className="mt-1 text-xs text-on-surface-variant">{item.hora_abertura} – {item.hora_fechamento}{item.intervalo_ativo && ` · intervalo ${item.hora_inicio_intervalo}–${item.hora_fim_intervalo}`}</p> : <p className="mt-1 text-xs text-error">Não trabalha</p>}</div><span className={`h-2.5 w-2.5 rounded-full ${item.ativo ? 'bg-emerald-400' : 'bg-white/20'}`} aria-label={item.ativo ? 'Dia trabalhado' : 'Dia fechado'} /></li>)}</ul></section>
+            <section className="glass-panel rounded-3xl border border-white/10 p-4 sm:p-6"><div className="flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="clock" size={23} /></div><div><h3 className="font-headline text-xl">Expediente semanal</h3><p className="mt-1 text-xs text-on-surface-variant">Alterações são realizadas pela administração.</p></div></div><ul className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-1">{horarios.map((item) => <li key={item.dia_semana} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/10 p-3"><div><p className="text-sm font-semibold">{DIAS[item.dia_semana]}</p>{item.ativo ? <p className="mt-1 text-xs text-on-surface-variant">{item.hora_abertura} – {item.hora_fechamento}{item.intervalo_ativo && ` · intervalo ${item.hora_inicio_intervalo}–${item.hora_fim_intervalo}`}</p> : <p className="mt-1 text-xs text-error">Não trabalha</p>}</div><span className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.ativo ? 'bg-emerald-400' : 'bg-red-400'}`} aria-label={item.ativo ? 'Trabalha neste dia' : 'Não trabalha neste dia'} /></li>)}</ul></section>
 
-            <section className="glass-panel rounded-3xl border border-white/10 p-4 sm:p-6"><div className="flex items-start gap-3"><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name="calendar" size={23} /></div><div><h3 className="font-headline text-xl">Solicitar folga ou férias</h3><p className="mt-1 text-xs text-on-surface-variant">O período será bloqueado somente após a aprovação da administração.</p></div></div><form onSubmit={enviarSolicitacao} className="mt-5"><fieldset disabled={salvando || removendoId !== null} className="grid gap-4 sm:grid-cols-2"><label className="text-xs text-on-surface-variant"><span className="mb-2 block">Tipo</span><select value={novaSolicitacao.tipo} onChange={(event) => setNovaSolicitacao((atual) => ({ ...atual, tipo: event.target.value }))} className="input-heritage py-3"><option value="FOLGA">Folga</option><option value="FERIAS">Férias</option></select></label><div className="text-xs text-on-surface-variant"><span className="mb-2 block">Data inicial</span><BrandedDatePicker id="solicitacao-profissional-inicio" value={novaSolicitacao.datainicio} min={hoje} onChange={(valor) => setNovaSolicitacao((atual) => ({ ...atual, datainicio: valor, datafim: !atual.datafim || atual.datafim < valor ? valor : atual.datafim }))} /></div><div className="text-xs text-on-surface-variant"><span className="mb-2 block">Data final</span><BrandedDatePicker id="solicitacao-profissional-fim" value={novaSolicitacao.datafim} min={novaSolicitacao.datainicio || hoje} onChange={(valor) => setNovaSolicitacao((atual) => ({ ...atual, datafim: valor }))} /></div><label className="text-xs text-on-surface-variant"><span className="mb-2 block">Motivo ou observação</span><input value={novaSolicitacao.motivo} maxLength="255" onChange={(event) => setNovaSolicitacao((atual) => ({ ...atual, motivo: event.target.value }))} placeholder="Ex.: compromisso pessoal" className="input-heritage py-3" /></label><button type="submit" disabled={!novaSolicitacao.datainicio || !novaSolicitacao.datafim || salvando} className="min-h-11 rounded-full bg-primary px-6 text-xs font-bold uppercase tracking-wider text-on-primary disabled:opacity-50 sm:col-span-2 sm:justify-self-start">{salvando ? 'Enviando...' : 'Enviar solicitação'}</button></fieldset></form></section>
+            <FormularioSolicitacaoProfissional solicitacao={novaSolicitacao} aoAlterar={setNovaSolicitacao} aoEnviar={enviarSolicitacao} hoje={hoje} salvando={salvando} bloqueado={removendoId !== null} titulo="Solicitar folga ou férias" descricao="O período será bloqueado somente após a aprovação da administração." />
           </div>
 
-          <section className="space-y-4"><div className="flex items-end justify-between gap-3"><div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Acompanhamento</p><h3 className="mt-2 font-headline text-2xl">Minhas solicitações</h3></div><span className="text-xs text-on-surface-variant">{solicitacoes.length} registro(s)</span></div>{solicitacoes.length ? <div className="grid gap-4 md:grid-cols-2">{solicitacoes.map((item) => <article key={item.idsolicitacao} className="glass-panel rounded-2xl border border-white/10 p-5"><div className="flex flex-col items-start justify-between gap-4 sm:flex-row"><div className="min-w-0"><div className="flex flex-wrap gap-2"><Badge className="border-primary/25 bg-primary/10 text-primary">{item.tipo}</Badge><Badge className={STATUS_SOLICITACAO[item.status]}>{item.status}</Badge></div><p className="mt-4 font-headline text-xl capitalize">{formatarData(item.datainicio, false)} até {formatarData(item.datafim, false)}</p>{item.motivo && <p className="mt-2 text-sm text-on-surface-variant">{item.motivo}</p>}{item.resposta_administrador && <p className="mt-3 rounded-xl border border-white/10 bg-black/10 p-3 text-xs"><strong className="text-primary">Resposta da administração:</strong> {item.resposta_administrador}</p>}</div>{item.status === 'PENDENTE' && <button type="button" onClick={() => setSolicitacaoParaCancelar(item)} disabled={removendoId !== null || salvando} className="shrink-0 rounded-full border border-error/25 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-error hover:bg-error/10 disabled:opacity-40">Cancelar</button>}</div></article>)}</div> : <EstadoVazio titulo="Nenhuma solicitação enviada" descricao="Use o formulário acima quando precisar solicitar uma folga ou um período de férias." />}</section>
+          <SecaoSolicitacoesProfissional solicitacoes={solicitacoes} aoCancelar={setSolicitacaoParaCancelar} desabilitado={removendoId !== null || salvando} />
 
-          <section className="space-y-4"><div className="flex items-end justify-between gap-3"><div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Aprovadas pela administração</p><h3 className="mt-2 font-headline text-2xl">Indisponibilidades confirmadas</h3></div><span className="text-xs text-on-surface-variant">{ausencias.length} registro(s)</span></div>{ausencias.length ? <div className="grid gap-4 md:grid-cols-2">{ausencias.map((item) => <article key={item.iddisponibilidade} className="glass-panel rounded-2xl border border-white/10 p-5"><Badge className="border-emerald-400/30 bg-emerald-500/10 text-emerald-200">{item.tipo}</Badge><p className="mt-4 font-headline text-xl capitalize">{formatarData(item.datainicio, false)} até {formatarData(item.datafim, false)}</p>{item.descricao && <p className="mt-2 text-sm text-on-surface-variant">{item.descricao}</p>}</article>)}</div> : <div className="glass-panel rounded-3xl border border-white/10 p-8 text-center"><BrandIcon name="check" size={30} className="mx-auto text-emerald-300" /><p className="mt-4 font-headline text-lg">Nenhuma indisponibilidade confirmada</p><p className="mt-2 text-sm text-on-surface-variant">Sua agenda segue o expediente definido pela administração.</p></div>}</section>
+          <SecaoAusenciasProfissional ausencias={ausencias} />
         </section>}
       </>}
     </main>

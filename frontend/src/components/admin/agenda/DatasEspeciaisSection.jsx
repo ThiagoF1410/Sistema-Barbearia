@@ -52,11 +52,11 @@ export default function DatasEspeciaisSection({ datas, feriados, novaData, dataM
                   </span>
                 </div>
                 <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto sm:shrink-0 pl-16 sm:pl-0">
-                  <button onClick={() => aoAlternar(dataAgenda.idagenda, dataAgenda.disponivel)}
+                  <button type="button" onClick={() => aoAlternar(dataAgenda.idagenda, dataAgenda.disponivel)}
                     className={`text-xs px-4 py-2 rounded-full border font-label font-bold uppercase tracking-widest transition-colors ${dataAgenda.disponivel ? 'bg-primary/10 text-primary hover:bg-error/10 hover:text-error' : 'bg-error/10 text-error hover:bg-primary/10 hover:text-primary'}`}>
                     {dataAgenda.disponivel ? 'Disponível' : 'Bloqueada'}
                   </button>
-                  <button onClick={() => aoExcluir(dataAgenda.idagenda)} disabled={dataAgenda.total_ativos > 0}
+                  <button type="button" onClick={() => aoExcluir(dataAgenda.idagenda)} disabled={dataAgenda.total_ativos > 0}
                     className="p-2.5 rounded-xl border border-white/10 text-on-surface-variant hover:border-error/30 hover:bg-error/10 hover:text-error transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-white/10 disabled:hover:bg-transparent disabled:hover:text-on-surface-variant"
                     title={dataAgenda.total_ativos > 0 ? 'Não é possível remover uma data com agendamentos ativos' : 'Remover data preservando o histórico cancelado'} aria-label="Remover data da agenda">
                     <BrandIcon name="trash" size={18} />

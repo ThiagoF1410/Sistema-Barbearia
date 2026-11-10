@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AdminLayout from '../../components/admin/AdminLayout'
 import BrandIcon from '../../components/ui/BrandIcon'
 import PasswordStrengthMeter from '../../components/ui/PasswordStrengthMeter'
+import useFeedbackFocus from '../../hooks/useFeedbackFocus'
 import {
   alterarStatusProfissional,
   atualizarProfissional,
@@ -60,7 +61,7 @@ function ModalProfissional({ profissional, salvando, erro, aoFechar, aoSalvar })
           <label className="text-xs text-on-surface-variant sm:col-span-2"><span className="mb-2 block font-bold uppercase tracking-wider">Nome completo</span><input ref={nomeRef} name="nome" value={form.nome} onChange={alterar} minLength="2" maxLength="100" required autoComplete="name" placeholder="Ex.: Lucas Barbeiro" className="w-full rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-white/25 focus:border-primary focus:outline-none" /></label>
           <label className="text-xs text-on-surface-variant"><span className="mb-2 block font-bold uppercase tracking-wider">E-mail de acesso</span><input name="email" type="email" value={form.email} onChange={alterar} maxLength="150" required autoComplete="email" placeholder="profissional@barbearia.com" className="w-full rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-white/25 focus:border-primary focus:outline-none" /></label>
           <label className="text-xs text-on-surface-variant"><span className="mb-2 block font-bold uppercase tracking-wider">Especialidade</span><input name="especialidade" value={form.especialidade} onChange={alterar} minLength="2" maxLength="100" required placeholder="Ex.: Corte e barba" className="w-full rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-white/25 focus:border-primary focus:outline-none" /></label>
-          <label className="text-xs text-on-surface-variant sm:col-span-2"><span className="mb-2 block font-bold uppercase tracking-wider">{editando ? 'Nova senha (opcional)' : 'Senha temporária'}</span><div className="relative"><BrandIcon name="lock" size={17} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" /><input name="password" type="password" value={form.password} onChange={alterar} minLength="8" maxLength="72" required={!editando} autoComplete="new-password" placeholder={editando ? 'Deixe em branco para manter a senha atual' : 'Mínimo de 8 caracteres'} className="w-full rounded-xl border border-outline-variant bg-surface py-3 pl-11 pr-4 text-sm text-on-surface placeholder:text-white/25 focus:border-primary focus:outline-none" /></div><small className="mt-2 block leading-relaxed text-white/40">{editando ? 'Ao definir uma nova senha, as sessões atuais desse profissional serão encerradas.' : 'O profissional utilizará este e-mail e esta senha para acessar o sistema.'}</small></label>
+          <label className="text-xs text-on-surface-variant sm:col-span-2"><span className="mb-2 block font-bold uppercase tracking-wider">{editando ? 'Nova senha (opcional)' : 'Senha temporária'}</span><div className="relative"><BrandIcon name="lock" size={17} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" /><input name="password" type="password" value={form.password} onChange={alterar} minLength="12" maxLength="72" required={!editando} autoComplete="new-password" placeholder={editando ? 'Deixe em branco para manter a senha atual' : 'Mínimo de 12 caracteres'} className="w-full rounded-xl border border-outline-variant bg-surface py-3 pl-11 pr-4 text-sm text-on-surface placeholder:text-white/25 focus:border-primary focus:outline-none" /></div><small className="mt-2 block leading-relaxed text-white/40">{editando ? 'Ao definir uma nova senha, as sessões atuais desse profissional serão encerradas.' : 'O profissional utilizará este e-mail e esta senha para acessar o sistema.'}</small></label>
         </div>
         {form.password && <PasswordStrengthMeter password={form.password} id="professional-password-strength" />}
         <div className="flex flex-col-reverse gap-3 border-t border-white/[0.07] pt-5 sm:flex-row sm:justify-end"><button type="button" onClick={aoFechar} disabled={salvando} className="rounded-full border border-white/10 px-5 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:border-primary/30 disabled:opacity-50">Cancelar</button><button type="submit" disabled={salvando} className="rounded-full bg-primary px-6 py-3 text-xs font-bold uppercase tracking-wider text-on-primary hover:bg-primary-container disabled:opacity-50">{salvando ? 'Salvando...' : editando ? 'Salvar alterações' : 'Cadastrar profissional'}</button></div>
@@ -91,6 +92,7 @@ export default function ProfissionaisAdminPage() {
   const [busca, setBusca] = useState('')
   const [filtro, setFiltro] = useState('todos')
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [sucesso, setSucesso] = useState('')
 
   useEffect(() => { carregar() }, [])
@@ -176,7 +178,7 @@ export default function ProfissionaisAdminPage() {
 
       <section aria-label="Resumo da equipe" className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">{resumo.map((item) => <article key={item.rotulo} className="glass-panel rounded-2xl border border-white/10 p-4 sm:p-5"><div className="flex items-start justify-between gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary"><BrandIcon name={item.icon} size={21} /></div><span className="font-headline text-2xl text-primary">{carregando ? '—' : item.valor}</span></div><p className="mt-4 text-xs font-bold">{item.rotulo}</p><p className="mt-1 text-[10px] text-on-surface-variant">{item.detalhe}</p></article>)}</section>
 
-      {erro && <div role="alert" className="flex items-start gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error"><BrandIcon name="alert" size={20} className="mt-0.5 shrink-0" /><span>{erro}</span></div>}
+      {erro && <div ref={erroRef} role="alert" className="flex items-start gap-3 rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error"><BrandIcon name="alert" size={20} className="mt-0.5 shrink-0" /><span>{erro}</span></div>}
       {sucesso && <div role="status" className="flex items-center gap-3 rounded-2xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-200"><BrandIcon name="check" size={20} className="shrink-0" />{sucesso}</div>}
 
       <section aria-labelledby="equipe-titulo" className="space-y-5">

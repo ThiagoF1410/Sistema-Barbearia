@@ -34,8 +34,8 @@ export function NavegacaoEtapas({ etapa, etapaLiberada, abrirEtapa }) {
                   <BrandIcon name={concluida ? 'check' : item.icon} size={17} />
                 </span>
                 <span>
-                  <span className="block text-[8px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">{concluida ? 'Concluído' : `Etapa ${indice + 1}`}</span>
-                  <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-wider lg:text-xs">{item.titulo}</span>
+                  <span className="block text-xs font-bold uppercase tracking-[0.16em] text-on-surface-variant">{concluida ? 'Concluído' : `Etapa ${indice + 1}`}</span>
+                  <span className="mt-0.5 block text-xs font-bold uppercase tracking-wider lg:text-xs">{item.titulo}</span>
                 </span>
               </span>
             </button>
@@ -68,7 +68,7 @@ export function EtapaServico({ servicos, selecionado, aoSelecionar }) {
                   <div className="mt-auto pt-5">
                     <p className="font-headline text-lg leading-tight sm:text-xl">{servico.nome}</p>
                     {servico.descricao && <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-on-surface-variant">{servico.descricao}</p>}
-                    <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-black/15 px-2.5 py-1 text-[10px] text-on-surface-variant"><BrandIcon name="clock" size={13} />{servico.duracao} minutos</span>
+                    <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-black/15 px-2.5 py-1 text-xs text-on-surface-variant"><BrandIcon name="clock" size={13} />{servico.duracao} minutos</span>
                   </div>
                 </div>
               </button>
@@ -116,12 +116,12 @@ export function ResumoEscolhas({ servico, profissional, data, horario }) {
 
   return (
     <div className="mt-7 rounded-2xl border border-primary/15 bg-primary/[0.035] p-4" aria-label="Resumo das escolhas">
-      <div className="mb-3 flex items-center gap-2 text-primary"><BrandIcon name="check" size={17} /><p className="text-[10px] font-bold uppercase tracking-[0.17em]">Resumo da seleção</p></div>
+      <div className="mb-3 flex items-center gap-2 text-primary"><BrandIcon name="check" size={17} /><p className="text-xs font-bold uppercase tracking-[0.17em]">Resumo da seleção</p></div>
       <div className="grid gap-3 text-xs text-on-surface-variant sm:grid-cols-2 lg:grid-cols-4">
-        {servico && <span><strong className="block text-[9px] uppercase tracking-wider text-on-surface-variant">Serviço</strong><span className="mt-1 block font-semibold text-on-surface">{servico.nome}</span></span>}
-        {profissional && <span><strong className="block text-[9px] uppercase tracking-wider text-on-surface-variant">Profissional</strong><span className="mt-1 block font-semibold text-on-surface">{profissional.nome}</span></span>}
-        {data && <span><strong className="block text-[9px] uppercase tracking-wider text-on-surface-variant">Data</strong><span className="mt-1 block font-semibold text-on-surface">{new Date(`${data.data}T12:00:00`).toLocaleDateString('pt-BR')}</span></span>}
-        {horario && <span><strong className="block text-[9px] uppercase tracking-wider text-on-surface-variant">Horário</strong><span className="mt-1 block font-semibold text-on-surface">{horario.inicio}</span></span>}
+        {servico && <span><strong className="block text-xs uppercase tracking-wider text-on-surface-variant">Serviço</strong><span className="mt-1 block font-semibold text-on-surface">{servico.nome}</span></span>}
+        {profissional && <span><strong className="block text-xs uppercase tracking-wider text-on-surface-variant">Profissional</strong><span className="mt-1 block font-semibold text-on-surface">{profissional.nome}</span></span>}
+        {data && <span><strong className="block text-xs uppercase tracking-wider text-on-surface-variant">Data</strong><span className="mt-1 block font-semibold text-on-surface">{new Date(`${data.data}T12:00:00`).toLocaleDateString('pt-BR')}</span></span>}
+        {horario && <span><strong className="block text-xs uppercase tracking-wider text-on-surface-variant">Horário</strong><span className="mt-1 block font-semibold text-on-surface">{horario.inicio}</span></span>}
       </div>
     </div>
   )

@@ -29,9 +29,28 @@ const ASSUNTOS = Object.freeze({
 
 function identificarAssunto(texto) {
   if (typeof texto !== 'string') return null
-  const correspondencia = texto.match(/(?:\[ATENDIMENTO:|ORN-)([A-Z_]+)\]?/i)
-  if (!correspondencia) return null
-  const codigo = correspondencia[1].toUpperCase()
+  const correspondenciaLegada = texto.match(/(?:\[ATENDIMENTO:|ORN-)([A-Z_]+)\]?/i)
+  let codigo = correspondenciaLegada?.[1]?.toUpperCase()
+
+  if (!codigo) {
+    const normalizado = texto
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toUpperCase()
+      .replace(/[^A-Z0-9:\n]+/g, ' ')
+    const tipo = normalizado.match(/TIPO DE ATENDIMENTO:\s*([^\n]+)/)?.[1]?.trim()
+    const marcadores = {
+      REEMBOLSO: 'REEMBOLSO',
+      REAGENDAMENTO: 'ALTERAR_AGENDAMENTO',
+      CANCELAMENTO: 'CANCELAR_AGENDAMENTO',
+      PAGAMENTO: 'DUVIDA_PAGAMENTO',
+      PEDIDO: 'DUVIDA_PEDIDO',
+      'OUTRO ASSUNTO': 'OUTRO',
+    }
+    codigo = marcadores[tipo]
+  }
+
+  if (!codigo) return null
   return ASSUNTOS[codigo] ? { codigo, ...ASSUNTOS[codigo] } : null
 }
 

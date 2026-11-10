@@ -9,15 +9,14 @@ import {
 import useCarrinho from "../hooks/useCarrinho";
 import BrandIcon from "../components/ui/BrandIcon";
 import PagamentoCountdown from "../components/PagamentoCountdown";
-import { consultarCheckout } from "../services/pagamentosService";
+import useCheckoutPolling from "../hooks/useCheckoutPolling";
+import useFeedbackFocus from "../hooks/useFeedbackFocus";
+import { ListaItensSacola, ResumoSacola } from "../components/loja/ConteudoSacola";
 import {
   abrirCheckoutEmNovaAba,
   fecharAbaPagamento,
   prepararAbaPagamento,
 } from "../utils/checkoutWindow";
-
-const dinheiro = (valor) =>
-  Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function SacolaPage() {
   const navigate = useNavigate();
@@ -28,46 +27,22 @@ export default function SacolaPage() {
   const [carregando, setCarregando] = useState(true);
   const [pagando, setPagando] = useState(false);
   const [erro, setErro] = useState("");
+  const erroRef = useFeedbackFocus(erro);
   const [confirmarLimpeza, setConfirmarLimpeza] = useState(false);
   const [formaPagamento, setFormaPagamento] = useState("ONLINE");
   const [checkoutPendente, setCheckoutPendente] = useState(null);
   const [statusPagamento, setStatusPagamento] = useState("");
   const cancelarLimpezaRef = useRef(null);
 
-  useEffect(() => {
-    const sessionId = checkoutPendente?.sessionId;
-    if (!sessionId || statusPagamento !== "PENDENTE") return undefined;
-    let ativo = true;
-    let temporizador;
-    const consultar = async () => {
-      if (document.visibilityState !== "visible") {
-        temporizador = window.setTimeout(consultar, 3000);
-        return;
-      }
-      try {
-        const resultado = await consultarCheckout(sessionId);
-        if (!ativo) return;
-        const status = String(resultado.statuspagamento || "").toUpperCase();
-        if (status === "CONFIRMADO") {
-          setStatusPagamento("CONFIRMADO");
-          esvaziar();
-          return;
-        }
-        if (["CANCELADO", "FALHOU"].includes(status)) {
-          setStatusPagamento(status);
-          return;
-        }
-      } catch {
-        // Mantém o acompanhamento após uma indisponibilidade temporária.
-      }
-      temporizador = window.setTimeout(consultar, 3000);
-    };
-    consultar();
-    return () => {
-      ativo = false;
-      window.clearTimeout(temporizador);
-    };
-  }, [checkoutPendente?.sessionId, esvaziar, statusPagamento]);
+  useCheckoutPolling({
+    sessionId: checkoutPendente?.sessionId,
+    status: statusPagamento,
+    aoConfirmar: () => {
+      setStatusPagamento("CONFIRMADO");
+      esvaziar();
+    },
+    aoEncerrar: setStatusPagamento,
+  });
 
   useEffect(() => {
     listarServicos()
@@ -160,6 +135,7 @@ export default function SacolaPage() {
               {user?.nome || user?.name}
             </span>
             <button
+              type="button"
               onClick={() => {
                 logout();
                 window.location.href = "/login";
@@ -194,7 +170,7 @@ export default function SacolaPage() {
           </div>
         </div>
         {erro && (
-          <div
+          <div ref={erroRef}
             role="alert"
             className="mt-6 rounded-2xl border border-error/30 bg-error/10 p-4 text-sm text-error"
           >
@@ -208,200 +184,21 @@ export default function SacolaPage() {
           </div>
         ) : itens.length ? (
           <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] gap-6 lg:gap-8 mt-8 items-start">
-            <section aria-labelledby="titulo-itens" className="space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <h2 id="titulo-itens" className="font-headline text-2xl">
-                  Produtos selecionados
-                </h2>
-                <button
-                  type="button"
-                  onClick={() => setConfirmarLimpeza(true)}
-                  className="text-xs font-bold text-error hover:underline underline-offset-4"
-                >
-                  Esvaziar sacola
-                </button>
-              </div>
-              {itens.map((item) => (
-                <article
-                  key={item.idservico}
-                  className="glass-panel rounded-2xl border border-white/10 p-4 sm:p-5"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3 min-w-0">
-                      <div className="hidden sm:flex w-12 h-12 shrink-0 rounded-xl border border-primary/20 bg-primary/10 items-center justify-center text-primary">
-                        <BrandIcon name="bottle" />
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="font-headline text-lg sm:text-xl">
-                          {item.nome}
-                        </h3>
-                        <p className="text-xs text-on-surface-variant mt-1 line-clamp-2">
-                          {item.descricao}
-                        </p>
-                        <p className="text-sm font-bold text-primary mt-2">
-                          {dinheiro(item.preco)}{" "}
-                          <span className="font-normal text-on-surface-variant">
-                            cada
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => remover(item.idservico)}
-                      className="w-10 h-10 shrink-0 rounded-full border border-error/20 text-error hover:bg-error/10 flex items-center justify-center"
-                      aria-label={`Remover ${item.nome} da sacola`}
-                      title="Remover produto"
-                    >
-                      <BrandIcon name="close" size={18} />
-                    </button>
-                  </div>
-                  <div className="mt-5 pt-4 border-t border-white/[0.07] flex items-center justify-between gap-4">
-                    <div className="flex items-center rounded-full border border-primary/25 p-1">
-                      <button
-                        type="button"
-                        onClick={() => alterarQuantidade(item.idservico, -1)}
-                        className="w-9 h-9 rounded-full hover:bg-white/5"
-                        aria-label={`Diminuir quantidade de ${item.nome}`}
-                      >
-                        −
-                      </button>
-                      <span
-                        className="w-9 text-center text-sm font-bold"
-                        aria-live="polite"
-                      >
-                        {item.quantidade}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => alterarQuantidade(item.idservico, 1)}
-                        className="w-9 h-9 rounded-full text-primary hover:bg-primary/10"
-                        aria-label={`Aumentar quantidade de ${item.nome}`}
-                      >
-                        +
-                      </button>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[9px] uppercase tracking-widest text-on-surface-variant">
-                        Subtotal
-                      </p>
-                      <p className="font-headline text-xl text-primary mt-1">
-                        {dinheiro(Number(item.preco) * item.quantidade)}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </section>
+            <ListaItensSacola
+              itens={itens}
+              aoEsvaziar={() => setConfirmarLimpeza(true)}
+              aoRemover={remover}
+              aoAlterarQuantidade={alterarQuantidade}
+            />
 
-            <aside className="lg:sticky lg:top-24 glass-panel rounded-3xl border border-primary/25 p-5 sm:p-6">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
-                Resumo do pedido
-              </p>
-              <dl className="mt-5 space-y-3 text-sm">
-                <div className="flex justify-between gap-4">
-                  <dt className="text-on-surface-variant">Produtos</dt>
-                  <dd>{quantidadeTotal}</dd>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <dt className="text-on-surface-variant">Retirada</dt>
-                  <dd className="text-right">Na barbearia</dd>
-                </div>
-                <div className="flex items-end justify-between gap-4 pt-4 border-t border-white/10">
-                  <dt>
-                    <span className="block text-xs text-on-surface-variant">
-                      Total
-                    </span>
-                    <span className="text-[10px] text-on-surface-variant">
-                      {formaPagamento === "ONLINE"
-                        ? "Pagamento seguro"
-                        : "Pagamento na retirada"}
-                    </span>
-                  </dt>
-                  <dd className="font-headline text-3xl text-primary">
-                    {dinheiro(total)}
-                  </dd>
-                </div>
-              </dl>
-              <fieldset className="mt-6">
-                <legend className="text-[10px] font-bold uppercase tracking-[0.16em] text-on-surface-variant">
-                  Forma de pagamento
-                </legend>
-                <div className="mt-3 grid gap-2">
-                  <label
-                    className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3 transition-colors ${formaPagamento === "ONLINE" ? "border-primary/55 bg-primary/[0.08]" : "border-white/10 hover:border-primary/25"}`}
-                  >
-                    <input
-                      type="radio"
-                      name="forma-pagamento"
-                      value="ONLINE"
-                      checked={formaPagamento === "ONLINE"}
-                      onChange={(event) =>
-                        setFormaPagamento(event.target.value)
-                      }
-                      className="sr-only"
-                    />
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      <BrandIcon name="card" size={21} />
-                    </span>
-                    <span>
-                      <strong className="block text-sm">
-                        Pagamento on-line
-                      </strong>
-                      <span className="text-[10px] text-on-surface-variant">
-                        Checkout seguro pelo Stripe
-                      </span>
-                    </span>
-                  </label>
-                  <label
-                    className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3 transition-colors ${formaPagamento === "DINHEIRO" ? "border-primary/55 bg-primary/[0.08]" : "border-white/10 hover:border-primary/25"}`}
-                  >
-                    <input
-                      type="radio"
-                      name="forma-pagamento"
-                      value="DINHEIRO"
-                      checked={formaPagamento === "DINHEIRO"}
-                      onChange={(event) =>
-                        setFormaPagamento(event.target.value)
-                      }
-                      className="sr-only"
-                    />
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      <BrandIcon name="money" size={21} />
-                    </span>
-                    <span>
-                      <strong className="block text-sm">Dinheiro</strong>
-                      <span className="text-[10px] text-on-surface-variant">
-                        Pague ao retirar na barbearia
-                      </span>
-                    </span>
-                  </label>
-                </div>
-              </fieldset>
-              <button
-                type="button"
-                onClick={finalizarCompra}
-                disabled={pagando}
-                className="w-full mt-6 rounded-full bg-primary px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-on-primary disabled:opacity-50"
-              >
-                {pagando
-                  ? formaPagamento === "ONLINE"
-                    ? "Abrindo pagamento..."
-                    : "Registrando pedido..."
-                  : formaPagamento === "ONLINE"
-                    ? "Pagar on-line"
-                    : "Confirmar pedido"}
-              </button>
-              <Link
-                to="/loja"
-                className="block mt-3 rounded-full border border-white/15 px-6 py-3 text-center text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:border-primary/35 hover:text-primary"
-              >
-                Continuar comprando
-              </Link>
-              <p className="text-[10px] text-center text-on-surface-variant mt-4">
-                Os produtos serão separados após a confirmação do pagamento.
-              </p>
-            </aside>
+            <ResumoSacola
+              quantidadeTotal={quantidadeTotal}
+              total={total}
+              formaPagamento={formaPagamento}
+              pagando={pagando}
+              aoAlterarFormaPagamento={setFormaPagamento}
+              aoFinalizar={finalizarCompra}
+            />
           </div>
         ) : (
           <section className="mt-8 glass-panel rounded-3xl border border-dashed border-white/15 px-5 py-12 text-center">

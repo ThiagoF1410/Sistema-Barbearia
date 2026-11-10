@@ -6,6 +6,7 @@ import BrandIcon from '../components/ui/BrandIcon'
 import Pagination from '../components/ui/Pagination'
 import logoImg from '../assets/Logo1.avif'
 import { abrirCheckoutEmNovaAba, fecharAbaPagamento, prepararAbaPagamento } from '../utils/checkoutWindow'
+import useFeedbackFocus from '../hooks/useFeedbackFocus'
 
 const STATUS = {
   AGENDADO: { texto: 'Agendado', classe: 'bg-emerald-500/10 text-emerald-300 border-emerald-400/25' },
@@ -120,6 +121,7 @@ export default function HistoricoPage() {
   const [filtro, setFiltro] = useState('TODOS')
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
+  const erroRef = useFeedbackFocus(erro)
   const [pagandoId, setPagandoId] = useState(null)
   const [tentativa, setTentativa] = useState(0)
   const [paginacao, setPaginacao] = useState(null)
@@ -229,7 +231,7 @@ export default function HistoricoPage() {
 
         <p className="sr-only" role="status" aria-live="polite">Filtro {filtro === 'TODOS' ? 'Todos' : STATUS[filtro]?.texto}: {exibidos.length} resultados.</p>
 
-        {erro && <div role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={tentarNovamente} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-error/10">Tentar novamente</button></div>}
+        {erro && <div ref={erroRef} role="alert" className="rounded-2xl border border-error/25 bg-error/10 px-4 py-4 text-sm text-error mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3"><span>{erro}</span><button type="button" onClick={tentarNovamente} className="self-start sm:self-auto rounded-full border border-error/35 px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-error/10">Tentar novamente</button></div>}
 
         {carregando ? <SkeletonHistorico /> : exibidos.length ? <div className="space-y-10">
           {grupos.proximos.length > 0 && <section aria-labelledby="titulo-proximos"><div className="mb-4 flex items-center gap-4"><div className="min-w-0"><p className="text-[9px] font-bold uppercase tracking-[0.18em] text-emerald-300">Sua agenda</p><h2 id="titulo-proximos" className="mt-1 font-headline text-2xl">Próximos agendamentos</h2></div><span aria-hidden="true" className="h-px flex-1 bg-white/[0.08]" /><span className="flex h-8 min-w-8 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2 text-xs font-bold text-emerald-300">{grupos.proximos.length}</span></div><div className="grid gap-4">{grupos.proximos.map((item) => <CartaoAgendamento key={item.idagendamento} item={item} pagandoId={pagandoId} onPagar={pagarAgendamento} />)}</div></section>}

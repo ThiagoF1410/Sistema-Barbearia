@@ -1,3 +1,4 @@
+const { registrarErro } = require('../utils/logger')
 const pool = require('../config/db')
 const { emailValido, normalizarEmail } = require('../utils/authUtils')
 const { idValido } = require('../utils/agendaUtils')
@@ -104,7 +105,7 @@ async function listarGestao(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar clientes para gestão:', err)
+    registrarErro('Erro ao listar clientes para gestão:', err)
     return res.status(500).json({ message: 'Não foi possível carregar os clientes agora.' })
   }
 }
@@ -164,7 +165,7 @@ async function atualizar(req, res) {
   } catch (err) {
     if (transacaoAtiva) await client.query('ROLLBACK')
     if (err.code === '23505') return res.status(409).json({ message: 'E-mail já cadastrado.' })
-    console.error('Erro ao atualizar cliente:', err)
+    registrarErro('Erro ao atualizar cliente:', err)
     return res.status(500).json({ message: 'Não foi possível atualizar o cliente agora.' })
   } finally {
     client.release()
@@ -204,7 +205,7 @@ async function listarAgendamentos(req, res) {
     )
     return res.status(200).json(result.rows)
   } catch (err) {
-    console.error('Erro ao listar histórico administrativo do cliente:', err)
+    registrarErro('Erro ao listar histórico administrativo do cliente:', err)
     return res.status(500).json({ message: 'Não foi possível carregar o histórico do cliente agora.' })
   }
 }

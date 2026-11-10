@@ -1,12 +1,13 @@
 # BAR-49 — Auditoria final de segurança
 
 **Data:** 04/09/2026  
+**Última revalidação:** 09/11/2026
 **Status:** concluída  
 **Escopo:** bcrypt, JWT, variáveis de ambiente, dependências, CORS, cabeçalhos HTTP, limites de entrada e proteção de rotas por perfil.
 
 ## Resultado executivo
 
-A auditoria foi concluída sem falhas pendentes de prioridade alta ou média. Os ataques controlados somaram **12/12 aprovações**, a suíte do backend encerrou com **75/75 testes aprovados** e o controle completo de perfis continuou com **30/30 aprovações**. Backend e frontend encerraram o `npm audit` com **0 vulnerabilidades conhecidas**.
+A auditoria foi concluída sem falhas pendentes de prioridade alta ou média. Os ataques controlados somaram **12/12 aprovações**, a suíte atual do backend encerrou com **109/109 testes aprovados**, o frontend com **33/33 testes aprovados** e o controle completo de perfis continuou com **30/30 aprovações**. Backend e frontend encerraram o `npm audit` com **0 vulnerabilidades conhecidas**.
 
 Nenhuma senha, chave privada, URL de banco ou segredo de webhook foi incluído nas evidências.
 
@@ -66,7 +67,8 @@ Observação operacional: tokens emitidos antes deste endurecimento deixam de se
 | --- | --- |
 | `npm audit` backend | 0 vulnerabilidades |
 | `npm audit` frontend | 0 vulnerabilidades |
-| Testes automatizados backend | 75/75 aprovados |
+| Testes automatizados backend | 109/109 aprovados |
+| Testes automatizados frontend | 33/33 aprovados |
 | Smoke de perfis e rotas | 30/30 aprovados |
 | ESLint frontend | aprovado |
 | Build Vite de produção | aprovado |
@@ -74,10 +76,15 @@ Observação operacional: tokens emitidos antes deste endurecimento deixam de se
 
 O build mantém somente um aviso não bloqueante: o pacote de exportação XLSX produz um chunk grande, mas ele já é carregado separadamente e não representa falha de segurança.
 
+## Correções posteriores à auditoria
+
+- O token de acesso deixou de ser persistido no `localStorage`; ele fica apenas em memória e é renovado por cookie `HttpOnly`, `Secure` em produção e `SameSite=Lax`.
+- As sessões passaram a possuir rotação do token de renovação, revogação no logout e troca de senha, inatividade por perfil e duração máxima absoluta.
+- O rate limit passou a utilizar contadores compartilhados no PostgreSQL em produção, mantendo a memória apenas para desenvolvimento, testes e contingência.
+- A versão publicada ainda deve configurar a CSP também como cabeçalho HTTP no provedor de hospedagem.
+
 ## Riscos residuais aceitos
 
-- O JWT permanece em `localStorage`. Não foram encontrados usos de `dangerouslySetInnerHTML`, `eval` ou `document.write`; ainda assim, uma evolução futura pode migrar a autenticação para cookie `HttpOnly`, `Secure` e `SameSite`, acompanhada de proteção CSRF.
-- O limitador de requisições é suficiente para a execução local/instância única do TCC. Em implantação horizontal, o contador deve migrar para um armazenamento compartilhado, como Redis.
 - Alertas de dependências precisam ser repetidos antes de cada entrega, pois novas vulnerabilidades podem ser publicadas após esta auditoria.
 
 Esses itens são melhorias futuras de endurecimento e não impedem a homologação atual.
