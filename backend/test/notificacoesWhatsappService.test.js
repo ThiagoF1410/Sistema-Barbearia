@@ -85,6 +85,18 @@ test('remove controles e limita campos antes de montar a mensagem', () => {
   assert.equal(campoMensagem('', 'não informado'), 'não informado')
 })
 
+test('inclui os produtos vinculados ao agendamento na confirmação', () => {
+  const mensagem = mensagemConfirmacao({
+    cliente: 'Ana Silva',
+    servico: 'Corte social',
+    data: '10/11/2026',
+    horario: '17:30',
+    profissional: 'Thiago Francisco',
+    produtos: '1× Balm para barba, 2× Shampoo anticaspa',
+  })
+  assert.match(mensagem, /🛍️ \*Produtos:\* 1× Balm para barba, 2× Shampoo anticaspa/)
+})
+
 test('reivindica e envia uma notificação pendente uma única vez', async () => {
   const db = criarDbFake()
   const whatsapp = clienteFake()

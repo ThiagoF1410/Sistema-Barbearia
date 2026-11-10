@@ -75,10 +75,11 @@ function criarNotificacoesWhatsappService({
     registrarFalha,
   })
   async function processarPendentes() {
-    if (processandoLote || !disponivel()) return
+    if (processandoLote) return
     processandoLote = true
     try {
       if (env.WHATSAPP_REMINDERS_ENABLED === 'true') await enfileirarLembretes(db)
+      if (!disponivel()) return
       const pendentes = await db.query(
         `SELECT agendamento_idagendamento, pedido_idpedido
          FROM public.whatsapp_notificacao

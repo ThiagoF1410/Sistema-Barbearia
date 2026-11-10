@@ -6,6 +6,11 @@ import barbeariaImg from '../assets/TelaCadastro.avif'
 import BrandIcon from '../components/ui/BrandIcon'
 import PasswordStrengthMeter from '../components/ui/PasswordStrengthMeter'
 import { analisarSenha } from '../utils/passwordStrength'
+import {
+  atualizarRascunhoCadastro,
+  limparRascunhoCadastro,
+  obterRascunhoCadastro,
+} from '../utils/registerDraft'
 
 // Máscara de telefone brasileiro: (00) 00000-0000
 function maskPhone(value) {
@@ -20,14 +25,7 @@ export default function RegisterPage() {
   const navigate = useNavigate()
   const { register: authRegister } = useAuth()
 
-  const [form, setForm] = useState({
-    nome: '',
-    email: '',
-    telefone: '',
-    password: '',
-    confirm_password: '',
-    terms: false,
-  })
+  const [form, setForm] = useState(obterRascunhoCadastro)
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -40,7 +38,11 @@ export default function RegisterPage() {
         ? checked
         : value
 
-    setForm(prev => ({ ...prev, [name]: newValue }))
+    setForm(prev => {
+      const nextForm = { ...prev, [name]: newValue }
+      atualizarRascunhoCadastro(nextForm)
+      return nextForm
+    })
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }))
   }
 
@@ -86,6 +88,7 @@ export default function RegisterPage() {
     setLoading(true)
     try {
       const user = await authRegister(form)
+      limparRascunhoCadastro()
       navigate(user.role === 'admin' ? '/admin' : '/dashboard')
     } catch (err) {
       const message = err.response?.data?.message || 'Não foi possível criar sua conta. Tente novamente.'

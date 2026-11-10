@@ -17,7 +17,17 @@ test('12h só para reserva com menos de 24h de antecedência', () => {
   assert.equal(lembreteValido(curto,agora),true)
   assert.equal(lembreteValido({...curto,lembrete_reservado_em:new Date(agora-30*h)},agora),false)
 })
+test('usa a janela de 12h como contingência quando o aviso de 24h não foi enviado', () => {
+  const contingencia = {
+    ...item(),
+    tipo: 'LEMBRETE_ATENDIMENTO_1789056000_12H',
+    inicio_atendimento: new Date(agora + 12*h),
+    lembrete_inicio: new Date(agora + 12*h),
+    lembrete_reservado_em: new Date(agora - 30*h),
+  }
+  assert.equal(lembreteValido(contingencia, agora), true)
+})
 test('mensagem inclui informações, horário de Brasília e link', () => {
-  const msg=mensagemLembreteAtendimento({cliente:'Ana Silva',data:'11/09/2026',horario:'09:00',servico:'Corte',profissional:'Lucas'},'https://example.com/')
-  assert.match(msg,/Ana/);assert.match(msg,/Brasília/);assert.match(msg,/https:\/\/example.com\/historico/)
+  const msg=mensagemLembreteAtendimento({cliente:'Ana Silva',data:'11/09/2026',horario:'09:00',servico:'Corte',profissional:'Lucas',produtos:'1× Balm, 2× Shampoo'},'https://example.com/')
+  assert.match(msg,/Ana/);assert.match(msg,/Brasília/);assert.match(msg,/1× Balm/);assert.match(msg,/https:\/\/example.com\/historico/)
 })

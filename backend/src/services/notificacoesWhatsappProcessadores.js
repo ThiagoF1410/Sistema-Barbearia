@@ -62,6 +62,14 @@ function criarProcessadoresNotificacoes({
                 pg.statuspagamento, pg.metodo, pg.valor,
                 pg.stripe_checkout_session_id,
                 pg.checkout_expira_em,
+                COALESCE((
+                  SELECT STRING_AGG(
+                    pi.quantidade || '× ' || pi.nome_snapshot,
+                    ', ' ORDER BY pi.idpedidoitem
+                  )
+                  FROM public.pedido_item pi
+                  WHERE pi.pedido_idpedido = pg.pedido_idpedido
+                ), '') AS produtos,
                 TO_CHAR(pg.checkout_expira_em AT TIME ZONE 'America/Sao_Paulo', 'HH24:MI') AS limite
          FROM public.whatsapp_notificacao n
          JOIN public.agendamento a
